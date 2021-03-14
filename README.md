@@ -23,7 +23,7 @@ See [Ramiel.app](https://ramiel.app) for a list of FAQs.
 W.I.P - Come back soon
 
 # Issues
-If you run into any bugs or issues with Rameil, please [open an issue](https://github.com/MatthewPierson/Ramiel/issues) using the included templates. Please check for any similar issues that have already been opened before creating a new issue.
+If you run into any bugs or issues with Ramiel, please [open an issue](https://github.com/MatthewPierson/Ramiel/issues) using the included templates. Please check for any similar issues that have already been opened before creating a new issue.
 
 # Credits 
 See [Ramiel.app](https://ramiel.app)'s credits section.
