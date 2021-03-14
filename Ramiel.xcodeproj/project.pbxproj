@@ -1,0 +1,809 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		480F8ADA25F09438002373CD /* APNonceSetterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480F8AD925F09438002373CD /* APNonceSetterViewController.m */; };
+		480F8BFA25F310AD002373CD /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 480F8BF925F310AD002373CD /* libpng16.16.dylib */; };
+		480F8BFB25F310AD002373CD /* libpng16.16.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 480F8BF925F310AD002373CD /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		480F8C4525F3161A002373CD /* ibootim.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C3F25F3161A002373CD /* ibootim.h */; };
+		480F8C4625F3161A002373CD /* lzss.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C4025F3161A002373CD /* lzss.c */; };
+		480F8C4725F3161A002373CD /* ibootimmain.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C4125F3161A002373CD /* ibootimmain.c */; };
+		480F8C4825F3161A002373CD /* ibootim_LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 480F8C4225F3161A002373CD /* ibootim_LICENSE */; };
+		480F8C4925F3161A002373CD /* lzss.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C4325F3161A002373CD /* lzss.h */; };
+		480F8C4A25F3161A002373CD /* ibootim.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C4425F3161A002373CD /* ibootim.c */; };
+		480F8C6925F31722002373CD /* instructions.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C5825F31722002373CD /* instructions.c */; };
+		480F8C6A25F31722002373CD /* kairos.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C5925F31722002373CD /* kairos.c */; };
+		480F8C6B25F31722002373CD /* kairos_LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 480F8C5A25F31722002373CD /* kairos_LICENSE */; };
+		480F8C6C25F31722002373CD /* newpatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C5C25F31722002373CD /* newpatch.h */; };
+		480F8C6D25F31722002373CD /* decoders.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C5D25F31722002373CD /* decoders.h */; };
+		480F8C6E25F31722002373CD /* patchfinder64.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C5E25F31722002373CD /* patchfinder64.h */; };
+		480F8C6F25F31722002373CD /* mach-o_nlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C5F25F31722002373CD /* mach-o_nlist.h */; };
+		480F8C7025F31722002373CD /* mac_policy.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C6025F31722002373CD /* mac_policy.h */; };
+		480F8C7125F31722002373CD /* instructions.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C6125F31722002373CD /* instructions.h */; };
+		480F8C7225F31722002373CD /* mach-o_loader.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C6225F31722002373CD /* mach-o_loader.h */; };
+		480F8C7325F31722002373CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 480F8C6325F31722002373CD /* README.md */; };
+		480F8C7425F31722002373CD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 480F8C6425F31722002373CD /* .gitignore */; };
+		480F8C7525F31722002373CD /* newpatch.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C6525F31722002373CD /* newpatch.c */; };
+		480F8C7625F31722002373CD /* kairos.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C6625F31722002373CD /* kairos.h */; };
+		480F8C7725F31722002373CD /* patchfinder64.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C6725F31722002373CD /* patchfinder64.c */; };
+		480F8C7825F31722002373CD /* decoders.c in Sources */ = {isa = PBXBuildFile; fileRef = 480F8C6825F31722002373CD /* decoders.c */; };
+		4815A3F424F88072009F462E /* shsh in Resources */ = {isa = PBXBuildFile; fileRef = 4815A3F324F88072009F462E /* shsh */; };
+		48213D50250F8CB60031CFAD /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48213D4C250F833F0031CFAD /* libusb-1.0.0.dylib */; };
+		48213D51250F8CB60031CFAD /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 48213D4C250F833F0031CFAD /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4825C41825031F8600045B0F /* SettingsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4825C41625031F8600045B0F /* SettingsView.h */; };
+		4825C41925031F8600045B0F /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4825C41725031F8600045B0F /* SettingsView.m */; };
+		4847691C24FBA597006E8089 /* Pods_Ramiel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDEB699C7CAC6F820C9092B /* Pods_Ramiel.framework */; };
+		484E07C125E254B200374EB0 /* SHSHDumperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 484E07C025E254B200374EB0 /* SHSHDumperViewController.m */; };
+		48540B6525D24A0D004A3D87 /* Device.h in Sources */ = {isa = PBXBuildFile; fileRef = 48540B6425D24A0D004A3D87 /* Device.h */; };
+		48540B6725D24F10004A3D87 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 48540B6625D24F10004A3D87 /* Device.m */; };
+		48540C6825D278D9004A3D87 /* IPSW.m in Sources */ = {isa = PBXBuildFile; fileRef = 48540C6725D278D9004A3D87 /* IPSW.m */; };
+		4862C25025F46E1B005F5A21 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4862C24F25F46E1B005F5A21 /* CreditsViewController.m */; };
+		4881DE8B25FB213000222048 /* DependenciesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4881DE8A25FB213000222048 /* DependenciesViewController.m */; };
+		4883F6E925A072CD0066257E /* SHSHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4883F6E825A072CD0066257E /* SHSHViewController.m */; };
+		4883FA2525B7ECD50066257E /* bootlogo.im4p in Resources */ = {isa = PBXBuildFile; fileRef = 4883FA2425B7ECD50066257E /* bootlogo.im4p */; };
+		48AD63E024DFA50A00F89A9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AD63DF24DFA50A00F89A9C /* AppDelegate.m */; };
+		48AD63E324DFA50A00F89A9C /* RamielView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AD63E224DFA50A00F89A9C /* RamielView.m */; };
+		48AD63E524DFA50D00F89A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48AD63E424DFA50D00F89A9C /* Assets.xcassets */; };
+		48AD63E824DFA50D00F89A9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48AD63E624DFA50D00F89A9C /* Main.storyboard */; };
+		48AD63EB24DFA50D00F89A9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AD63EA24DFA50D00F89A9C /* main.m */; };
+		48AD640A24DFA9A800F89A9C /* plist.h in Headers */ = {isa = PBXBuildFile; fileRef = 48AD63FA24DFA75400F89A9C /* plist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48B143B0250B98E3001945A5 /* libirecovery-1.0.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B143AF250B98E3001945A5 /* libirecovery-1.0.3.dylib */; };
+		48B143B1250B98E3001945A5 /* libirecovery-1.0.3.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 48B143AF250B98E3001945A5 /* libirecovery-1.0.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		48BAA60F2557D97600F08EA4 /* FileMDHash.h in Headers */ = {isa = PBXBuildFile; fileRef = 48BAA60D2557D97600F08EA4 /* FileMDHash.h */; };
+		48BAA6102557D97600F08EA4 /* FileMDHash.c in Sources */ = {isa = PBXBuildFile; fileRef = 48BAA60E2557D97600F08EA4 /* FileMDHash.c */; };
+		48CB56F72564F75300A15FAC /* ssh in Resources */ = {isa = PBXBuildFile; fileRef = 48CB56F62564F75300A15FAC /* ssh */; };
+		48CC896124DFF8E3009B5DCC /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 48CC895424DFF8E3009B5DCC /* Base.lproj */; };
+		48D06AE12549246E0044E77C /* Exploits in Resources */ = {isa = PBXBuildFile; fileRef = 48D06AE02549246E0044E77C /* Exploits */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		48213D52250F8CB60031CFAD /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				48213D51250F8CB60031CFAD /* libusb-1.0.0.dylib in Embed Libraries */,
+				480F8BFB25F310AD002373CD /* libpng16.16.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4847691E24FBA597006E8089 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Frameworks;
+			dstSubfolderSpec = 1;
+			files = (
+				48B143B1250B98E3001945A5 /* libirecovery-1.0.3.dylib in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1CDEB699C7CAC6F820C9092B /* Pods_Ramiel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ramiel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		480F8AD925F09438002373CD /* APNonceSetterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APNonceSetterViewController.m; sourceTree = "<group>"; };
+		480F8ADB25F09444002373CD /* APNonceSetterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APNonceSetterViewController.h; sourceTree = "<group>"; };
+		480F8BF925F310AD002373CD /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../usr/local/Cellar/libpng/1.6.37/lib/libpng16.16.dylib; sourceTree = "<group>"; };
+		480F8C3F25F3161A002373CD /* ibootim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ibootim.h; sourceTree = "<group>"; };
+		480F8C4025F3161A002373CD /* lzss.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzss.c; sourceTree = "<group>"; };
+		480F8C4125F3161A002373CD /* ibootimmain.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ibootimmain.c; sourceTree = "<group>"; };
+		480F8C4225F3161A002373CD /* ibootim_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ibootim_LICENSE; sourceTree = "<group>"; };
+		480F8C4325F3161A002373CD /* lzss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzss.h; sourceTree = "<group>"; };
+		480F8C4425F3161A002373CD /* ibootim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ibootim.c; sourceTree = "<group>"; };
+		480F8C5825F31722002373CD /* instructions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = instructions.c; sourceTree = "<group>"; };
+		480F8C5925F31722002373CD /* kairos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kairos.c; sourceTree = "<group>"; };
+		480F8C5A25F31722002373CD /* kairos_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kairos_LICENSE; sourceTree = "<group>"; };
+		480F8C5C25F31722002373CD /* newpatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newpatch.h; sourceTree = "<group>"; };
+		480F8C5D25F31722002373CD /* decoders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decoders.h; sourceTree = "<group>"; };
+		480F8C5E25F31722002373CD /* patchfinder64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = patchfinder64.h; sourceTree = "<group>"; };
+		480F8C5F25F31722002373CD /* mach-o_nlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mach-o_nlist.h"; sourceTree = "<group>"; };
+		480F8C6025F31722002373CD /* mac_policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_policy.h; sourceTree = "<group>"; };
+		480F8C6125F31722002373CD /* instructions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = instructions.h; sourceTree = "<group>"; };
+		480F8C6225F31722002373CD /* mach-o_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mach-o_loader.h"; sourceTree = "<group>"; };
+		480F8C6325F31722002373CD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		480F8C6425F31722002373CD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		480F8C6525F31722002373CD /* newpatch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = newpatch.c; sourceTree = "<group>"; };
+		480F8C6625F31722002373CD /* kairos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kairos.h; sourceTree = "<group>"; };
+		480F8C6725F31722002373CD /* patchfinder64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patchfinder64.c; sourceTree = "<group>"; };
+		480F8C6825F31722002373CD /* decoders.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decoders.c; sourceTree = "<group>"; };
+		480F8C7C25F3177C002373CD /* ibootimMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ibootimMain.h; sourceTree = "<group>"; };
+		4815A38E24F5006C009F462E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4815A38F24F50092009F462E /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		4815A3F324F88072009F462E /* shsh */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shsh; sourceTree = "<group>"; };
+		48213D4C250F833F0031CFAD /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusb-1.0.0.dylib"; path = "../../../../../usr/local/Cellar/libusb/1.0.23/lib/libusb-1.0.0.dylib"; sourceTree = "<group>"; };
+		4825C41625031F8600045B0F /* SettingsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
+		4825C41725031F8600045B0F /* SettingsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
+		484CE6DD24E100850073A5F3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		484E07C025E254B200374EB0 /* SHSHDumperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHSHDumperViewController.m; sourceTree = "<group>"; };
+		484E07C225E254C200374EB0 /* SHSHDumperViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHSHDumperViewController.h; sourceTree = "<group>"; };
+		48540B6425D24A0D004A3D87 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		48540B6625D24F10004A3D87 /* Device.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Device.m; sourceTree = "<group>"; };
+		48540C6725D278D9004A3D87 /* IPSW.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPSW.m; sourceTree = "<group>"; };
+		48540C6925D278E6004A3D87 /* IPSW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPSW.h; sourceTree = "<group>"; };
+		4856E06325CA364C00AFA0A2 /* libimobiledevice-1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libimobiledevice-1.0.6.dylib"; path = "../../../../../usr/local/Cellar/libimobiledevice/1.3.0/lib/libimobiledevice-1.0.6.dylib"; sourceTree = "<group>"; };
+		4861526825DDB954009F4A08 /* libplist-2.0.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libplist-2.0.3.dylib"; path = "../../../../../usr/local/Cellar/libplist/2.2.0/lib/libplist-2.0.3.dylib"; sourceTree = "<group>"; };
+		4861526B25DDB990009F4A08 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../usr/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		4861526E25DDB9BA009F4A08 /* libfragmentzip.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfragmentzip.0.dylib; path = ../../../../../usr/local/lib/libfragmentzip.0.dylib; sourceTree = "<group>"; };
+		4861527125DDBABC009F4A08 /* libimobiledevice-1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libimobiledevice-1.0.6.dylib"; path = "../../../../../usr/local/lib/libimobiledevice-1.0.6.dylib"; sourceTree = "<group>"; };
+		4862C24F25F46E1B005F5A21 /* CreditsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
+		4862C25125F46E25005F5A21 /* CreditsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
+		4862C2D425F579EE005F5A21 /* libimg4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libimg4.a; path = "../../../Downloads/img4lib-2020-10-27 2/apple/libimg4.a"; sourceTree = "<group>"; };
+		4881DE8A25FB213000222048 /* DependenciesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DependenciesViewController.m; sourceTree = "<group>"; };
+		4881DE8C25FB213B00222048 /* DependenciesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DependenciesViewController.h; sourceTree = "<group>"; };
+		4883F6E825A072CD0066257E /* SHSHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHSHViewController.m; sourceTree = "<group>"; };
+		4883F6EA25A072DC0066257E /* SHSHViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHSHViewController.h; sourceTree = "<group>"; };
+		4883FA2425B7ECD50066257E /* bootlogo.im4p */ = {isa = PBXFileReference; lastKnownFileType = file; path = bootlogo.im4p; sourceTree = "<group>"; };
+		48AD63DB24DFA50A00F89A9C /* Ramiel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ramiel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48AD63DE24DFA50A00F89A9C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		48AD63DF24DFA50A00F89A9C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		48AD63E124DFA50A00F89A9C /* RamielView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RamielView.h; sourceTree = "<group>"; };
+		48AD63E224DFA50A00F89A9C /* RamielView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RamielView.m; sourceTree = "<group>"; };
+		48AD63E424DFA50D00F89A9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		48AD63E724DFA50D00F89A9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		48AD63E924DFA50D00F89A9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48AD63EA24DFA50D00F89A9C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		48AD63F924DFA73A00F89A9C /* plist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = plist; path = ../../../../../usr/local/Cellar/libplist/2.2.0/include/plist; sourceTree = "<group>"; };
+		48AD63FA24DFA75400F89A9C /* plist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = plist.h; path = ../../../../../usr/local/Cellar/libplist/2.2.0/include/plist/plist.h; sourceTree = "<group>"; };
+		48B143AF250B98E3001945A5 /* libirecovery-1.0.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libirecovery-1.0.3.dylib"; path = "../../../../../usr/local/Cellar/libirecovery/git0/lib/libirecovery-1.0.3.dylib"; sourceTree = "<group>"; };
+		48BAA60D2557D97600F08EA4 /* FileMDHash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileMDHash.h; sourceTree = "<group>"; };
+		48BAA60E2557D97600F08EA4 /* FileMDHash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FileMDHash.c; sourceTree = "<group>"; };
+		48CB56F62564F75300A15FAC /* ssh */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ssh; sourceTree = "<group>"; };
+		48CC895424DFF8E3009B5DCC /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
+		48CC897A24E01919009B5DCC /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		48D06AE02549246E0044E77C /* Exploits */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Exploits; sourceTree = "<group>"; };
+		48F75CBC251AB20B00C9F5DE /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		5695A2824185F05384FB80A6 /* Pods-Ramiel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ramiel.debug.xcconfig"; path = "Target Support Files/Pods-Ramiel/Pods-Ramiel.debug.xcconfig"; sourceTree = "<group>"; };
+		6F163D5DAE91831C9C65AE07 /* Pods-Ramiel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ramiel.release.xcconfig"; path = "Target Support Files/Pods-Ramiel/Pods-Ramiel.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48AD63D824DFA50A00F89A9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48213D50250F8CB60031CFAD /* libusb-1.0.0.dylib in Frameworks */,
+				4847691C24FBA597006E8089 /* Pods_Ramiel.framework in Frameworks */,
+				48B143B0250B98E3001945A5 /* libirecovery-1.0.3.dylib in Frameworks */,
+				480F8BFA25F310AD002373CD /* libpng16.16.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		480F8C3E25F3161A002373CD /* ibootim */ = {
+			isa = PBXGroup;
+			children = (
+				480F8C3F25F3161A002373CD /* ibootim.h */,
+				480F8C4025F3161A002373CD /* lzss.c */,
+				480F8C4125F3161A002373CD /* ibootimmain.c */,
+				480F8C4225F3161A002373CD /* ibootim_LICENSE */,
+				480F8C4325F3161A002373CD /* lzss.h */,
+				480F8C4425F3161A002373CD /* ibootim.c */,
+				480F8C7C25F3177C002373CD /* ibootimMain.h */,
+			);
+			path = ibootim;
+			sourceTree = SOURCE_ROOT;
+		};
+		480F8C5725F31722002373CD /* kairos */ = {
+			isa = PBXGroup;
+			children = (
+				480F8C5825F31722002373CD /* instructions.c */,
+				480F8C5925F31722002373CD /* kairos.c */,
+				480F8C5A25F31722002373CD /* kairos_LICENSE */,
+				480F8C5B25F31722002373CD /* include */,
+				480F8C6325F31722002373CD /* README.md */,
+				480F8C6425F31722002373CD /* .gitignore */,
+				480F8C6525F31722002373CD /* newpatch.c */,
+				480F8C6625F31722002373CD /* kairos.h */,
+				480F8C6725F31722002373CD /* patchfinder64.c */,
+				480F8C6825F31722002373CD /* decoders.c */,
+			);
+			path = kairos;
+			sourceTree = SOURCE_ROOT;
+		};
+		480F8C5B25F31722002373CD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				480F8C5C25F31722002373CD /* newpatch.h */,
+				480F8C5D25F31722002373CD /* decoders.h */,
+				480F8C5E25F31722002373CD /* patchfinder64.h */,
+				480F8C5F25F31722002373CD /* mach-o_nlist.h */,
+				480F8C6025F31722002373CD /* mac_policy.h */,
+				480F8C6125F31722002373CD /* instructions.h */,
+				480F8C6225F31722002373CD /* mach-o_loader.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		48AD63D224DFA50A00F89A9C = {
+			isa = PBXGroup;
+			children = (
+				48AD63DD24DFA50A00F89A9C /* Ramiel */,
+				48AD63DC24DFA50A00F89A9C /* Products */,
+				48AD63F824DFA73A00F89A9C /* Frameworks */,
+				D19A65BC11697CC8A2597C19 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		48AD63DC24DFA50A00F89A9C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48AD63DB24DFA50A00F89A9C /* Ramiel.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48AD63DD24DFA50A00F89A9C /* Ramiel */ = {
+			isa = PBXGroup;
+			children = (
+				480F8C5725F31722002373CD /* kairos */,
+				480F8C3E25F3161A002373CD /* ibootim */,
+				4883FA2425B7ECD50066257E /* bootlogo.im4p */,
+				48CB56F62564F75300A15FAC /* ssh */,
+				48D06AE02549246E0044E77C /* Exploits */,
+				4815A3F324F88072009F462E /* shsh */,
+				48CC895424DFF8E3009B5DCC /* Base.lproj */,
+				48AD63DE24DFA50A00F89A9C /* AppDelegate.h */,
+				48AD63DF24DFA50A00F89A9C /* AppDelegate.m */,
+				48540B6425D24A0D004A3D87 /* Device.h */,
+				48540B6625D24F10004A3D87 /* Device.m */,
+				48540C6925D278E6004A3D87 /* IPSW.h */,
+				48540C6725D278D9004A3D87 /* IPSW.m */,
+				48AD63E124DFA50A00F89A9C /* RamielView.h */,
+				48AD63E224DFA50A00F89A9C /* RamielView.m */,
+				48AD63E424DFA50D00F89A9C /* Assets.xcassets */,
+				48AD63E624DFA50D00F89A9C /* Main.storyboard */,
+				4825C41625031F8600045B0F /* SettingsView.h */,
+				4825C41725031F8600045B0F /* SettingsView.m */,
+				48AD63E924DFA50D00F89A9C /* Info.plist */,
+				48AD63EA24DFA50D00F89A9C /* main.m */,
+				48BAA60D2557D97600F08EA4 /* FileMDHash.h */,
+				48BAA60E2557D97600F08EA4 /* FileMDHash.c */,
+				4883F6E825A072CD0066257E /* SHSHViewController.m */,
+				4883F6EA25A072DC0066257E /* SHSHViewController.h */,
+				484E07C025E254B200374EB0 /* SHSHDumperViewController.m */,
+				484E07C225E254C200374EB0 /* SHSHDumperViewController.h */,
+				480F8AD925F09438002373CD /* APNonceSetterViewController.m */,
+				480F8ADB25F09444002373CD /* APNonceSetterViewController.h */,
+				4862C24F25F46E1B005F5A21 /* CreditsViewController.m */,
+				4862C25125F46E25005F5A21 /* CreditsViewController.h */,
+				4881DE8A25FB213000222048 /* DependenciesViewController.m */,
+				4881DE8C25FB213B00222048 /* DependenciesViewController.h */,
+			);
+			path = Ramiel;
+			sourceTree = "<group>";
+		};
+		48AD63F824DFA73A00F89A9C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4862C2D425F579EE005F5A21 /* libimg4.a */,
+				480F8BF925F310AD002373CD /* libpng16.16.dylib */,
+				4861527125DDBABC009F4A08 /* libimobiledevice-1.0.6.dylib */,
+				4861526E25DDB9BA009F4A08 /* libfragmentzip.0.dylib */,
+				4861526B25DDB990009F4A08 /* libcurl.4.dylib */,
+				4861526825DDB954009F4A08 /* libplist-2.0.3.dylib */,
+				4856E06325CA364C00AFA0A2 /* libimobiledevice-1.0.6.dylib */,
+				48F75CBC251AB20B00C9F5DE /* libz.1.dylib */,
+				48213D4C250F833F0031CFAD /* libusb-1.0.0.dylib */,
+				48B143AF250B98E3001945A5 /* libirecovery-1.0.3.dylib */,
+				4815A38F24F50092009F462E /* libiconv.tbd */,
+				4815A38E24F5006C009F462E /* libz.tbd */,
+				484CE6DD24E100850073A5F3 /* CoreFoundation.framework */,
+				48CC897A24E01919009B5DCC /* IOKit.framework */,
+				48AD63FA24DFA75400F89A9C /* plist.h */,
+				48AD63F924DFA73A00F89A9C /* plist */,
+				1CDEB699C7CAC6F820C9092B /* Pods_Ramiel.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D19A65BC11697CC8A2597C19 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5695A2824185F05384FB80A6 /* Pods-Ramiel.debug.xcconfig */,
+				6F163D5DAE91831C9C65AE07 /* Pods-Ramiel.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		48AD640924DFA97E00F89A9C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				480F8C7625F31722002373CD /* kairos.h in Headers */,
+				480F8C4925F3161A002373CD /* lzss.h in Headers */,
+				480F8C7125F31722002373CD /* instructions.h in Headers */,
+				48BAA60F2557D97600F08EA4 /* FileMDHash.h in Headers */,
+				480F8C6D25F31722002373CD /* decoders.h in Headers */,
+				480F8C7225F31722002373CD /* mach-o_loader.h in Headers */,
+				480F8C6C25F31722002373CD /* newpatch.h in Headers */,
+				48AD640A24DFA9A800F89A9C /* plist.h in Headers */,
+				480F8C4525F3161A002373CD /* ibootim.h in Headers */,
+				480F8C7025F31722002373CD /* mac_policy.h in Headers */,
+				480F8C6F25F31722002373CD /* mach-o_nlist.h in Headers */,
+				4825C41825031F8600045B0F /* SettingsView.h in Headers */,
+				480F8C6E25F31722002373CD /* patchfinder64.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		48AD63DA24DFA50A00F89A9C /* Ramiel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48AD63EF24DFA50D00F89A9C /* Build configuration list for PBXNativeTarget "Ramiel" */;
+			buildPhases = (
+				2ABCC85100A79673AA729CBB /* [CP] Check Pods Manifest.lock */,
+				48AD640924DFA97E00F89A9C /* Headers */,
+				48AD63D724DFA50A00F89A9C /* Sources */,
+				48AD63D824DFA50A00F89A9C /* Frameworks */,
+				48AD63D924DFA50A00F89A9C /* Resources */,
+				3F9E5FC9871FB2F677C70132 /* [CP] Embed Pods Frameworks */,
+				4847691E24FBA597006E8089 /* Embed Frameworks */,
+				48213D52250F8CB60031CFAD /* Embed Libraries */,
+				4836383325E504F4002C5CE7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ramiel;
+			productName = Ramiel;
+			productReference = 48AD63DB24DFA50A00F89A9C /* Ramiel.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48AD63D324DFA50A00F89A9C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				ORGANIZATIONNAME = moski;
+				TargetAttributes = {
+					48AD63DA24DFA50A00F89A9C = {
+						CreatedOnToolsVersion = 11.6;
+					};
+				};
+			};
+			buildConfigurationList = 48AD63D624DFA50A00F89A9C /* Build configuration list for PBXProject "Ramiel" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48AD63D224DFA50A00F89A9C;
+			productRefGroup = 48AD63DC24DFA50A00F89A9C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48AD63DA24DFA50A00F89A9C /* Ramiel */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48AD63D924DFA50A00F89A9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48CB56F72564F75300A15FAC /* ssh in Resources */,
+				48AD63E524DFA50D00F89A9C /* Assets.xcassets in Resources */,
+				480F8C7325F31722002373CD /* README.md in Resources */,
+				4815A3F424F88072009F462E /* shsh in Resources */,
+				480F8C7425F31722002373CD /* .gitignore in Resources */,
+				48D06AE12549246E0044E77C /* Exploits in Resources */,
+				480F8C4825F3161A002373CD /* ibootim_LICENSE in Resources */,
+				4883FA2525B7ECD50066257E /* bootlogo.im4p in Resources */,
+				480F8C6B25F31722002373CD /* kairos_LICENSE in Resources */,
+				48CC896124DFF8E3009B5DCC /* Base.lproj in Resources */,
+				48AD63E824DFA50D00F89A9C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2ABCC85100A79673AA729CBB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Ramiel-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3F9E5FC9871FB2F677C70132 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ramiel/Pods-Ramiel-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ramiel/Pods-Ramiel-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ramiel/Pods-Ramiel-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4836383325E504F4002C5CE7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7001\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8003\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/iPwnder32\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64Patcher\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherA\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherB\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48AD63D724DFA50A00F89A9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				480F8C4725F3161A002373CD /* ibootimmain.c in Sources */,
+				480F8C4A25F3161A002373CD /* ibootim.c in Sources */,
+				480F8C6A25F31722002373CD /* kairos.c in Sources */,
+				480F8ADA25F09438002373CD /* APNonceSetterViewController.m in Sources */,
+				484E07C125E254B200374EB0 /* SHSHDumperViewController.m in Sources */,
+				4825C41925031F8600045B0F /* SettingsView.m in Sources */,
+				480F8C7525F31722002373CD /* newpatch.c in Sources */,
+				48540B6525D24A0D004A3D87 /* Device.h in Sources */,
+				4881DE8B25FB213000222048 /* DependenciesViewController.m in Sources */,
+				48AD63E324DFA50A00F89A9C /* RamielView.m in Sources */,
+				48540C6825D278D9004A3D87 /* IPSW.m in Sources */,
+				480F8C7825F31722002373CD /* decoders.c in Sources */,
+				4862C25025F46E1B005F5A21 /* CreditsViewController.m in Sources */,
+				480F8C7725F31722002373CD /* patchfinder64.c in Sources */,
+				480F8C6925F31722002373CD /* instructions.c in Sources */,
+				4883F6E925A072CD0066257E /* SHSHViewController.m in Sources */,
+				48AD63EB24DFA50D00F89A9C /* main.m in Sources */,
+				48540B6725D24F10004A3D87 /* Device.m in Sources */,
+				48BAA6102557D97600F08EA4 /* FileMDHash.c in Sources */,
+				48AD63E024DFA50A00F89A9C /* AppDelegate.m in Sources */,
+				480F8C4625F3161A002373CD /* lzss.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		48AD63E624DFA50D00F89A9C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				48AD63E724DFA50D00F89A9C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		48AD63ED24DFA50D00F89A9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		48AD63EE24DFA50D00F89A9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		48AD63F024DFA50D00F89A9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5695A2824185F05384FB80A6 /* Pods-Ramiel.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = Ramiel/Ramiel.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 5NRC38Y2QJ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/usr/local/Cellar/libimobiledevice/HEAD-333eb1a/lib",
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/lib,
+					/usr/local/Cellar/libirecovery/git0/lib,
+				);
+				INFOPLIST_FILE = Ramiel/Info.plist;
+				INSTALL_PATH = /Applications;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libraries/",
+					"$(inherited)",
+					"$(PROJECT_DIR)/libraries",
+					/usr/local/Cellar/libirecovery/git0/lib,
+					/usr/local/Cellar/libusb/1.0.23/lib,
+					/usr/local/Cellar/libimobiledevice/1.3.0/lib,
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/lib/,
+					"$(PROJECT_DIR)",
+					/usr/local/Cellar/libpng/1.6.37/lib,
+					"$(PROJECT_DIR)/img4lib/",
+					"$(PROJECT_DIR)/img4lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"iconv\"",
+					"-l\"z\"",
+					"-framework",
+					"\"SSZipArchive\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-l\"compression\"",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.moski.Ramiel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYMROOT = build;
+				USER_HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/libimobiledevice/HEAD-333eb1a/lib",
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/include,
+					/usr/local/lib,
+					/usr/local/Cellar/libirecovery/git0/lib,
+				);
+			};
+			name = Debug;
+		};
+		48AD63F124DFA50D00F89A9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F163D5DAE91831C9C65AE07 /* Pods-Ramiel.release.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = Ramiel/RamielRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 5NRC38Y2QJ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libraries",
+					"$(inherited)",
+					"/usr/local/Cellar/libimobiledevice/HEAD-333eb1a/lib",
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/lib,
+					/usr/local/Cellar/libirecovery/git0/lib,
+				);
+				INFOPLIST_FILE = Ramiel/Info.plist;
+				INSTALL_PATH = /Applications;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libraries/",
+					"$(inherited)",
+					"$(PROJECT_DIR)/libraries",
+					/usr/local/Cellar/libirecovery/git0/lib,
+					/usr/local/Cellar/libusb/1.0.23/lib,
+					/usr/local/Cellar/libimobiledevice/1.3.0/lib,
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/lib/,
+					"$(PROJECT_DIR)",
+					/usr/local/Cellar/libpng/1.6.37/lib,
+					"$(PROJECT_DIR)/img4lib/",
+					"$(PROJECT_DIR)/img4lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"iconv\"",
+					"-l\"z\"",
+					"-framework",
+					"\"SSZipArchive\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-l\"compression\"",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.moski.Ramiel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYMROOT = build;
+				USER_HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/libimobiledevice/HEAD-333eb1a/lib",
+					/usr/local/Cellar/libplist/2.2.0/lib,
+					/usr/local/include,
+					/usr/local/lib,
+					/usr/local/Cellar/libirecovery/git0/lib,
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48AD63D624DFA50A00F89A9C /* Build configuration list for PBXProject "Ramiel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48AD63ED24DFA50D00F89A9C /* Debug */,
+				48AD63EE24DFA50D00F89A9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48AD63EF24DFA50D00F89A9C /* Build configuration list for PBXNativeTarget "Ramiel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48AD63F024DFA50D00F89A9C /* Debug */,
+				48AD63F124DFA50D00F89A9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 48AD63D324DFA50A00F89A9C /* Project object */;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../Ramiel/AnyConv.com__MazzardM-Bold.ttf">
+   </FileRef>
+   <FileRef
+      location = "group:../Ramiel/AnyConv.com__MazzardM-Medium.ttf">
+   </FileRef>
+   <Group
+      location = "group:../Ramiel/Fonts"
+      name = "Fonts">
+      <FileRef
+         location = "group:MazzardM-Bold.otf">
+      </FileRef>
+      <FileRef
+         location = "group:MazzardM-Medium.otf">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "self:Ramiel.xcodeproj">
+   </FileRef>
+</Workspace>
