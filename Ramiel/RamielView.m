@@ -172,12 +172,20 @@ IPSW *userIPSW;
 
 - (void)installBinaries {
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSStoryboard *storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-        NSViewController *yourViewController = [storyboard instantiateControllerWithIdentifier:@"aa"];
-        [self.view.window.contentViewController presentViewControllerAsSheet:yourViewController];
-    });
-    return;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (!([fm fileExistsAtPath:@"/usr/local/bin/iproxy"] &&
+          [fm fileExistsAtPath:[NSString stringWithFormat:@"%@/Exploits/ipwndfu/ipwndfu",
+                                                          [[NSBundle mainBundle] resourcePath]]] &&
+          [fm fileExistsAtPath:[NSString
+                                   stringWithFormat:@"%@/Exploits/Fugu/Fugu", [[NSBundle mainBundle] resourcePath]]] &&
+          [fm fileExistsAtPath:@"/usr/local/bin/img4"] && [fm fileExistsAtPath:@"/usr/local/bin/img4tool"])) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSStoryboard *storyboard = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+            NSViewController *yourViewController = [storyboard instantiateControllerWithIdentifier:@"aa"];
+            [self.view.window.contentViewController presentViewControllerAsSheet:yourViewController];
+        });
+        return;
+    }
 }
 
 - (void)deviceStuff {

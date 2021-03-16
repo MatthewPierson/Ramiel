@@ -9,6 +9,7 @@
 #import "DependenciesViewController.h"
 #import "../Pods/SSZipArchive/SSZipArchive/SSZipArchive.h"
 #import "RamielView.h"
+#include <sys/sysctl.h>
 
 @implementation DependenciesViewController
 
@@ -259,7 +260,14 @@
     }
     NSString *brewPath;
     if (@available(macOS 11.0, *)) {
-        brewPath = @"/opt/homebrew/bin/brew";
+        int ret = 0;
+        size_t size = sizeof(ret);
+        sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0);
+        if (ret == 1) {
+            brewPath = @"/opt/homebrew/bin/brew"; // We are running on arm64 via rosetta2
+        } else {
+            brewPath = @"/usr/local/bin/brew"; // We are running on x86_64 on intel
+        }
     } else {
         brewPath = @"/usr/local/bin/brew";
     }
