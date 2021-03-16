@@ -235,10 +235,23 @@
     [exploitTask setStandardOutput:pipe];
     NSFileHandle *file = [pipe fileHandleForReading];
     [exploitTask launch];
-
+    int time = 0;
+    int pass = 0;
+    while ([exploitTask isRunning]) {
+        if (time > 30) {
+            pass = 1;
+            [exploitTask terminate];
+            break;
+        }
+        sleep(1);
+        time++;
+    }
+    if (pass == 1) {
+        [RamielView errorHandler:@"Failed to exploit device, reason: TIMEOUT":@"Please reboot device and re-enter DFU mode.":@"Exploit took to long to PWN device, assuming exploit hung somewhere unfixable."];
+        return 1;
+    }
     NSData *data = [file readDataToEndOfFile];
     NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
     if ([cpid containsString:@"8015"] && [output containsString:pwnCheck]) {
         flags = @"--patch";
         pwnCheck = @"and debug the next boot stages";
@@ -275,7 +288,7 @@
         }
         return ret;
     } else {
-        [RamielView errorHandler:@"Failed to exploit device":@"Please reboot device and re-enter DFU mode.":output];
+        [RamielView errorHandler:@"Failed to exploit device, reason: EXPLOIT FAILED":@"Please reboot device and re-enter DFU mode.":output];
         return 1;
     }
 }

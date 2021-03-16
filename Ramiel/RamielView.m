@@ -35,17 +35,28 @@ IPSW *userIPSW;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Check if an update is available
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSAlert *welcomeAlert = [[NSAlert alloc] init];
-    if ([version containsString:@"beta"]) {
-        [welcomeAlert setMessageText:@"Welcome to Ramiel!\nThank you for testing the "
-                                     @"beta for me, it's very much appreciated!"];
-        [welcomeAlert setInformativeText:@"You will likely find many bugs, please just DM me on twitter or "
-                                         @"however you contact me and I'll try get them fixed :)"];
-        welcomeAlert.window.titlebarAppearsTransparent = true;
-        [welcomeAlert runModal];
+    NSData *updateData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://ramiel.app/latest"]];
+    if (updateData) {
+        NSString *latestVersion = [[[NSString alloc] initWithData:updateData encoding:NSASCIIStringEncoding] componentsSeparatedByString:@"\n"][0];
+        NSString *updateURL = [[[NSString alloc] initWithData:updateData encoding:NSASCIIStringEncoding] componentsSeparatedByString:@"\n"][1];
+        if ([latestVersion compare:version options:NSNumericSearch] == NSOrderedDescending) {
+            NSAlert *updateAvailable = [[NSAlert alloc] init];
+            [updateAvailable setMessageText:[NSString stringWithFormat:@"Update to version %@ is available!", latestVersion]];
+            [updateAvailable setInformativeText:[NSString stringWithFormat:@"An update is not required but is highly encouraged to ensure that Ramiel has the latest bug-fixes and feature updates that it can get.\nYou are currently running version %@", version]];
+            updateAvailable.window.titlebarAppearsTransparent = TRUE;
+            [updateAvailable addButtonWithTitle:@"Exit and Download Update"];
+            [updateAvailable addButtonWithTitle:@"Ignore"];
+            NSModalResponse choice = [updateAvailable runModal];
+            if (choice == NSAlertFirstButtonReturn) {
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:updateURL]];
+                exit(0);
+            }
+            // If user chooses to ignore the update we just continue to Ramiel and prompt again on next launch
+        }
     }
-
+    
     [self installBinaries];
 
     [self->_bootProgBar setHidden:TRUE];
@@ -2499,7 +2510,7 @@ IPSW *userIPSW;
         errorAlert.window.titlebarAppearsTransparent = true;
         NSModalResponse choice = [errorAlert runModal];
         if (choice != NSAlertFirstButtonReturn) {
-            NSURL *url = [[NSURL alloc] initWithString:@"https://github.com/MatthewPierson/Ramiel/issues/new"];
+            NSURL *url = [[NSURL alloc] initWithString:@"https://github.com/MatthewPierson/Ramiel/issues/new?assignees=&labels=bug%2C+help+wanted&template=bug_report.md&title=%5BBug%5D"];
             [[NSWorkspace sharedWorkspace] openURL:url];
         }
     }
