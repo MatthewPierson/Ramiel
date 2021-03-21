@@ -33,9 +33,6 @@
                                  stringWithFormat:@"%@/Exploits/ipwndfu", [[NSBundle mainBundle] resourcePath]]]) {
         [neededTools addObject:@"ipwndfu"];
     }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/local/bin/iproxy"]) {
-        [neededTools addObject:@"iproxy"];
-    }
 
     NSString *text = @"";
     for (int i = 0; i < neededTools.count; i++) {
@@ -258,52 +255,6 @@
             [fail runModal];
         }
     }
-    NSString *brewPath;
-    if (@available(macOS 11.0, *)) {
-        int ret = 0;
-        size_t size = sizeof(ret);
-        sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0);
-        if (ret == 1) {
-            brewPath = @"/opt/homebrew/bin/brew"; // We are running on arm64 via rosetta2
-        } else {
-            brewPath = @"/usr/local/bin/brew"; // We are running on x86_64 on intel
-        }
-    } else {
-        brewPath = @"/usr/local/bin/brew";
-    }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:brewPath]) {
-        NSAlert *exiting = [[NSAlert alloc] init];
-        [exiting setMessageText:@"Please install Homebrew from \"https://brew.sh\", as it is required to install some "
-                                @"dependencies (usbmuxd/iproxy) but must be done manually."];
-        [exiting setInformativeText:@"Once you have done this, please reopen Ramiel."];
-        exiting.window.titlebarAppearsTransparent = true;
-        [exiting addButtonWithTitle:@"Open brew.sh"];
-        [exiting addButtonWithTitle:@"Exit"];
-        NSModalResponse dlChoice = [exiting runModal];
-        if (dlChoice != NSAlertFirstButtonReturn) {
-            exit(0);
-        } else {
-            NSURL *url = [[NSURL alloc] initWithString:@"https://brew.sh"];
-            [[NSWorkspace sharedWorkspace] openURL:url];
-            exit(0);
-        }
-    }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/local/bin/iproxy"]) {
-        [self->_neededToolsLabel
-            setStringValue:@"Installing libimobiledevice via Brew... (This may take a few minutes)"];
-        NSTask *task = [[NSTask alloc] init];
-        [task setLaunchPath:@"/bin/bash"];
-        [task setArguments:@[@"-c", [NSString stringWithFormat:@"%@ install libimobiledevice", brewPath]]];
-        [task launch];
-        [task waitUntilExit];
-        int status = [task terminationStatus];
-        if (status != 0) {
-            NSAlert *fail = [[NSAlert alloc] init];
-            [fail setMessageText:@"Install Failed: Failed to install libimobiledevice with Brew"];
-            fail.window.titlebarAppearsTransparent = TRUE;
-            [fail runModal];
-        }
-    }
     NSString *prefix;
     if (@available(macOS 11.0, *)) {
         if (![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/python3"]) {
@@ -331,11 +282,11 @@
     NSData *dataRead = [read readDataToEndOfFile];
     NSString *stringRead = [[NSString alloc] initWithData:dataRead encoding:NSUTF8StringEncoding];
     if (![stringRead containsString:@"paramiko"]) {
+        [self->_neededToolsLabel setStringValue:@"Installing paramiko..."];
         [RamielView otherCMD:[NSString stringWithFormat:@"%@/pip3 install --user paramiko", prefix]];
     }
     NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:@"/usr/local/bin/iproxy"] &&
-        [fm fileExistsAtPath:[NSString stringWithFormat:@"%@/Exploits/ipwndfu/ipwndfu",
+    if ([fm fileExistsAtPath:[NSString stringWithFormat:@"%@/Exploits/ipwndfu/ipwndfu",
                                                         [[NSBundle mainBundle] resourcePath]]] &&
         [fm fileExistsAtPath:[NSString
                                  stringWithFormat:@"%@/Exploits/Fugu/Fugu", [[NSBundle mainBundle] resourcePath]]] &&

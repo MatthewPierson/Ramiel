@@ -480,23 +480,27 @@ Device *dumpDevice;
                             [urlData writeToFile:filePath atomically:YES];
                         }
                     }
-                    [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/gtar -x --no-overwrite-dir -f "
+                    [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/gtar -x --no-overwrite-dir -f "
                                                                     @"%@/ssh/ssh.tar -C /tmp/RamielMount/",
+                                                                    [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath]]];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_label setStringValue:@"Adding entitlements..."];
                         [self->_prog incrementBy:14.28];
                     });
-                    [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -S%@/ssh/dd_ent.xml "
+                    [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -S%@/ssh/dd_ent.xml "
                                                                     @"/tmp/RamielMount/bin/dd",
+                                                                    [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath]]];
 
                     sleep(1);
-                    [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M -S%@/ssh/ent.xml "
+                    [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M -S%@/ssh/ent.xml "
                                                                     @"/tmp/RamielMount/sbin/mount",
+                                                                    [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath]]];
-                    [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M -S%@/ssh/ent.xml "
+                    [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M -S%@/ssh/ent.xml "
                                                                     @"/tmp/RamielMount/sbin/umount",
+                                                                    [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath]]];
                     // Maybe other sign other stuff??
 
@@ -504,40 +508,45 @@ Device *dumpDevice;
                                                                                        error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/bin/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
                     bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/bin/"
                                                                               error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/usr/bin/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
                     bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/sbin/"
                                                                               error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/usr/sbin/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
                     bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/local/bin/"
                                                                               error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/usr/local/bin/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
                     bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/local/sbin/"
                                                                               error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/usr/local/sbin/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
 
@@ -546,9 +555,10 @@ Device *dumpDevice;
                                             error:nil];
 
                     for (int i = 0; i < [bin count]; i++) {
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/local/bin/ldid2 -M -S%@/ssh/ent.xml "
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/ssh/ldid2 -M -S%@/ssh/ent.xml "
                                                                         @"/tmp/RamielMount/System/Library/Filesystems/"
                                                                         @"apfs.fs/%@",
+                                                                        [[NSBundle mainBundle] resourcePath],
                                                                         [[NSBundle mainBundle] resourcePath], bin[i]]];
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -627,7 +637,10 @@ Device *dumpDevice;
 
                     NSTask *task = [[NSTask alloc] init];
                     [task setLaunchPath:@"/bin/bash"];
-                    [task setArguments:@[@"-c", @"/usr/local/bin/iproxy 2222 44"]];
+                    [task setArguments:@[
+                        @"-c",
+                        [NSString stringWithFormat:@"%@/ssh/iproxy 2222 44", [[NSBundle mainBundle] resourcePath]]
+                    ]];
                     [task launch];
                     NSString *prefix;
                     if (@available(macOS 11.0, *)) {

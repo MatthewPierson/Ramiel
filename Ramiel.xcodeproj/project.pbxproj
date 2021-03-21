@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		480F8ADA25F09438002373CD /* APNonceSetterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 480F8AD925F09438002373CD /* APNonceSetterViewController.m */; };
 		480F8BFA25F310AD002373CD /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 480F8BF925F310AD002373CD /* libpng16.16.dylib */; };
 		480F8BFB25F310AD002373CD /* libpng16.16.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 480F8BF925F310AD002373CD /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		480F8C4525F3161A002373CD /* ibootim.h in Headers */ = {isa = PBXBuildFile; fileRef = 480F8C3F25F3161A002373CD /* ibootim.h */; };
@@ -42,6 +41,13 @@
 		48540B6525D24A0D004A3D87 /* Device.h in Sources */ = {isa = PBXBuildFile; fileRef = 48540B6425D24A0D004A3D87 /* Device.h */; };
 		48540B6725D24F10004A3D87 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 48540B6625D24F10004A3D87 /* Device.m */; };
 		48540C6825D278D9004A3D87 /* IPSW.m in Sources */ = {isa = PBXBuildFile; fileRef = 48540C6725D278D9004A3D87 /* IPSW.m */; };
+		486040662601739B0088F33E /* libplist-2.0.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4861526825DDB954009F4A08 /* libplist-2.0.3.dylib */; };
+		486040672601739B0088F33E /* libplist-2.0.3.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4861526825DDB954009F4A08 /* libplist-2.0.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4860406C260173C70088F33E /* libusbmuxd-2.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4860406B260173C70088F33E /* libusbmuxd-2.0.6.dylib */; };
+		4860406D260173C70088F33E /* libusbmuxd-2.0.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4860406B260173C70088F33E /* libusbmuxd-2.0.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4860407826017B010088F33E /* libcrypto.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4860407726017B010088F33E /* libcrypto.1.1.dylib */; };
+		4860407926017B010088F33E /* libcrypto.1.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4860407726017B010088F33E /* libcrypto.1.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		48604082260186A70088F33E /* APNonceSetterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48604081260186A70088F33E /* APNonceSetterViewController.m */; };
 		4862C25025F46E1B005F5A21 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4862C24F25F46E1B005F5A21 /* CreditsViewController.m */; };
 		4881DE8B25FB213000222048 /* DependenciesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4881DE8A25FB213000222048 /* DependenciesViewController.m */; };
 		4883F6E925A072CD0066257E /* SHSHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4883F6E825A072CD0066257E /* SHSHViewController.m */; };
@@ -68,8 +74,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4860406D260173C70088F33E /* libusbmuxd-2.0.6.dylib in Embed Libraries */,
 				48213D51250F8CB60031CFAD /* libusb-1.0.0.dylib in Embed Libraries */,
 				480F8BFB25F310AD002373CD /* libpng16.16.dylib in Embed Libraries */,
+				4860407926017B010088F33E /* libcrypto.1.1.dylib in Embed Libraries */,
+				486040672601739B0088F33E /* libplist-2.0.3.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,8 +98,6 @@
 
 /* Begin PBXFileReference section */
 		1CDEB699C7CAC6F820C9092B /* Pods_Ramiel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ramiel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		480F8AD925F09438002373CD /* APNonceSetterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APNonceSetterViewController.m; sourceTree = "<group>"; };
-		480F8ADB25F09444002373CD /* APNonceSetterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APNonceSetterViewController.h; sourceTree = "<group>"; };
 		480F8BF925F310AD002373CD /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../usr/local/Cellar/libpng/1.6.37/lib/libpng16.16.dylib; sourceTree = "<group>"; };
 		480F8C3F25F3161A002373CD /* ibootim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ibootim.h; sourceTree = "<group>"; };
 		480F8C4025F3161A002373CD /* lzss.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzss.c; sourceTree = "<group>"; };
@@ -129,6 +136,10 @@
 		48540C6725D278D9004A3D87 /* IPSW.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPSW.m; sourceTree = "<group>"; };
 		48540C6925D278E6004A3D87 /* IPSW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPSW.h; sourceTree = "<group>"; };
 		4856E06325CA364C00AFA0A2 /* libimobiledevice-1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libimobiledevice-1.0.6.dylib"; path = "../../../../../usr/local/Cellar/libimobiledevice/1.3.0/lib/libimobiledevice-1.0.6.dylib"; sourceTree = "<group>"; };
+		4860406B260173C70088F33E /* libusbmuxd-2.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusbmuxd-2.0.6.dylib"; path = "../../../../../usr/local/Cellar/libusbmuxd/2.0.2/lib/libusbmuxd-2.0.6.dylib"; sourceTree = "<group>"; };
+		4860407726017B010088F33E /* libcrypto.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.1.dylib; path = "../../../../../usr/local/Cellar/openssl@1.1/1.1.1j/lib/libcrypto.1.1.dylib"; sourceTree = "<group>"; };
+		48604080260186A70088F33E /* APNonceSetterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APNonceSetterViewController.h; sourceTree = "<group>"; };
+		48604081260186A70088F33E /* APNonceSetterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APNonceSetterViewController.m; sourceTree = "<group>"; };
 		4861526825DDB954009F4A08 /* libplist-2.0.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libplist-2.0.3.dylib"; path = "../../../../../usr/local/Cellar/libplist/2.2.0/lib/libplist-2.0.3.dylib"; sourceTree = "<group>"; };
 		4861526B25DDB990009F4A08 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../usr/lib/libcurl.4.dylib; sourceTree = "<group>"; };
 		4861526E25DDB9BA009F4A08 /* libfragmentzip.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfragmentzip.0.dylib; path = ../../../../../usr/local/lib/libfragmentzip.0.dylib; sourceTree = "<group>"; };
@@ -169,9 +180,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4860406C260173C70088F33E /* libusbmuxd-2.0.6.dylib in Frameworks */,
 				48213D50250F8CB60031CFAD /* libusb-1.0.0.dylib in Frameworks */,
+				4860407826017B010088F33E /* libcrypto.1.1.dylib in Frameworks */,
 				4847691C24FBA597006E8089 /* Pods_Ramiel.framework in Frameworks */,
 				48B143B0250B98E3001945A5 /* libirecovery-1.0.3.dylib in Frameworks */,
+				486040662601739B0088F33E /* libplist-2.0.3.dylib in Frameworks */,
 				480F8BFA25F310AD002373CD /* libpng16.16.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,10 +266,18 @@
 				48D06AE02549246E0044E77C /* Exploits */,
 				4815A3F324F88072009F462E /* shsh */,
 				48CC895424DFF8E3009B5DCC /* Base.lproj */,
+				48604080260186A70088F33E /* APNonceSetterViewController.h */,
+				48604081260186A70088F33E /* APNonceSetterViewController.m */,
 				48AD63DE24DFA50A00F89A9C /* AppDelegate.h */,
 				48AD63DF24DFA50A00F89A9C /* AppDelegate.m */,
+				4862C24F25F46E1B005F5A21 /* CreditsViewController.m */,
+				4862C25125F46E25005F5A21 /* CreditsViewController.h */,
 				48540B6425D24A0D004A3D87 /* Device.h */,
 				48540B6625D24F10004A3D87 /* Device.m */,
+				4881DE8A25FB213000222048 /* DependenciesViewController.m */,
+				4881DE8C25FB213B00222048 /* DependenciesViewController.h */,
+				48BAA60D2557D97600F08EA4 /* FileMDHash.h */,
+				48BAA60E2557D97600F08EA4 /* FileMDHash.c */,
 				48540C6925D278E6004A3D87 /* IPSW.h */,
 				48540C6725D278D9004A3D87 /* IPSW.m */,
 				48AD63E124DFA50A00F89A9C /* RamielView.h */,
@@ -266,18 +288,10 @@
 				4825C41725031F8600045B0F /* SettingsView.m */,
 				48AD63E924DFA50D00F89A9C /* Info.plist */,
 				48AD63EA24DFA50D00F89A9C /* main.m */,
-				48BAA60D2557D97600F08EA4 /* FileMDHash.h */,
-				48BAA60E2557D97600F08EA4 /* FileMDHash.c */,
 				4883F6E825A072CD0066257E /* SHSHViewController.m */,
 				4883F6EA25A072DC0066257E /* SHSHViewController.h */,
 				484E07C025E254B200374EB0 /* SHSHDumperViewController.m */,
 				484E07C225E254C200374EB0 /* SHSHDumperViewController.h */,
-				480F8AD925F09438002373CD /* APNonceSetterViewController.m */,
-				480F8ADB25F09444002373CD /* APNonceSetterViewController.h */,
-				4862C24F25F46E1B005F5A21 /* CreditsViewController.m */,
-				4862C25125F46E25005F5A21 /* CreditsViewController.h */,
-				4881DE8A25FB213000222048 /* DependenciesViewController.m */,
-				4881DE8C25FB213B00222048 /* DependenciesViewController.h */,
 			);
 			path = Ramiel;
 			sourceTree = "<group>";
@@ -285,6 +299,8 @@
 		48AD63F824DFA73A00F89A9C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4860407726017B010088F33E /* libcrypto.1.1.dylib */,
+				4860406B260173C70088F33E /* libusbmuxd-2.0.6.dylib */,
 				4862C2D425F579EE005F5A21 /* libimg4.a */,
 				480F8BF925F310AD002373CD /* libpng16.16.dylib */,
 				4861527125DDBABC009F4A08 /* libimobiledevice-1.0.6.dylib */,
@@ -473,7 +489,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7001\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8003\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/iPwnder32\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64Patcher\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherA\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherB\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa7001\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8000\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/eclipsa8003\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/Exploits/iPwnder32\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64Patcher\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherA\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/Kernel64PatcherB\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/iproxy\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/gtar\"\ncodesign --force --options=runtime --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/ssh/ldid2\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -485,7 +501,6 @@
 				480F8C4725F3161A002373CD /* ibootimmain.c in Sources */,
 				480F8C4A25F3161A002373CD /* ibootim.c in Sources */,
 				480F8C6A25F31722002373CD /* kairos.c in Sources */,
-				480F8ADA25F09438002373CD /* APNonceSetterViewController.m in Sources */,
 				484E07C125E254B200374EB0 /* SHSHDumperViewController.m in Sources */,
 				4825C41925031F8600045B0F /* SettingsView.m in Sources */,
 				480F8C7525F31722002373CD /* newpatch.c in Sources */,
@@ -496,6 +511,7 @@
 				480F8C7825F31722002373CD /* decoders.c in Sources */,
 				4862C25025F46E1B005F5A21 /* CreditsViewController.m in Sources */,
 				480F8C7725F31722002373CD /* patchfinder64.c in Sources */,
+				48604082260186A70088F33E /* APNonceSetterViewController.m in Sources */,
 				480F8C6925F31722002373CD /* instructions.c in Sources */,
 				4883F6E925A072CD0066257E /* SHSHViewController.m in Sources */,
 				48AD63EB24DFA50D00F89A9C /* main.m in Sources */,
@@ -675,9 +691,11 @@
 					/usr/local/Cellar/libpng/1.6.37/lib,
 					"$(PROJECT_DIR)/img4lib/",
 					"$(PROJECT_DIR)/img4lib",
+					/usr/local/Cellar/libusbmuxd/2.0.2/lib,
+					"/usr/local/Cellar/openssl@1.1/1.1.1j/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -751,9 +769,11 @@
 					/usr/local/Cellar/libpng/1.6.37/lib,
 					"$(PROJECT_DIR)/img4lib/",
 					"$(PROJECT_DIR)/img4lib",
+					/usr/local/Cellar/libusbmuxd/2.0.2/lib,
+					"/usr/local/Cellar/openssl@1.1/1.1.1j/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -180,7 +180,6 @@
     }
 }
 - (int)runCheckm8 {
-    int ret = 0;
     NSString *binaryName, *flags, *pwnCheck, *cpid;
     cpid = [self getCpid];
     if ([cpid containsString:@"7000"]) {
@@ -247,7 +246,10 @@
         time++;
     }
     if (pass == 1) {
-        [RamielView errorHandler:@"Failed to exploit device, reason: TIMEOUT":@"Please reboot device and re-enter DFU mode.":@"Exploit took to long to PWN device, assuming exploit hung somewhere unfixable."];
+        [RamielView errorHandler:
+            @"Failed to exploit device, reason: TIMEOUT":
+                @"Please reboot device and re-enter DFU mode.":
+                    @"Exploit took to long to PWN device, assuming exploit hung somewhere unfixable."];
         return 1;
     }
     NSData *data = [file readDataToEndOfFile];
@@ -286,9 +288,10 @@
             irecv_open_with_ecid_and_attempts(&temp, (uint64_t)[self getEcid], 5);
             [self setIRECVClient:temp];
         }
-        return ret;
+        return 0;
     } else {
-        [RamielView errorHandler:@"Failed to exploit device, reason: EXPLOIT FAILED":@"Please reboot device and re-enter DFU mode.":output];
+        [RamielView errorHandler:
+            @"Failed to exploit device, reason: EXPLOIT FAILED":@"Please reboot device and re-enter DFU mode.":output];
         return 1;
     }
 }

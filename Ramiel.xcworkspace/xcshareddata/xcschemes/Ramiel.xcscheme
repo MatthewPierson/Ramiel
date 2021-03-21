@@ -87,24 +87,5 @@
    <ArchiveAction
       buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
-      <PostActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;echo &quot;Fixing dylib stuff :)&quot;&#10;install_name_tool -change /usr/local/opt/libirecovery/lib/libirecovery-1.0.3.dylib @rpath/libirecovery-1.0.3.dylib ~/Documents/Github/Ramiel/build/Ramiel/Build/Products/Release/Ramiel.app/Contents/MacOS/Ramiel&#10;install_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @rpath/libusb-1.0.0.dylib ~/Documents/Github/Ramiel/build/Ramiel/Build/Products/Release/Ramiel.app/Contents/MacOS/Ramiel&#10;&#10;"
-               shellToInvoke = "/bin/sh">
-               <EnvironmentBuildable>
-                  <BuildableReference
-                     BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "48AD63DA24DFA50A00F89A9C"
-                     BuildableName = "Ramiel.app"
-                     BlueprintName = "Ramiel"
-                     ReferencedContainer = "container:Ramiel.xcodeproj">
-                  </BuildableReference>
-               </EnvironmentBuildable>
-            </ActionContent>
-         </ExecutionAction>
-      </PostActions>
    </ArchiveAction>
 </Scheme>
