@@ -52,6 +52,7 @@
 		4881DE8B25FB213000222048 /* DependenciesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4881DE8A25FB213000222048 /* DependenciesViewController.m */; };
 		4883F6E925A072CD0066257E /* SHSHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4883F6E825A072CD0066257E /* SHSHViewController.m */; };
 		4883FA2525B7ECD50066257E /* bootlogo.im4p in Resources */ = {isa = PBXBuildFile; fileRef = 4883FA2425B7ECD50066257E /* bootlogo.im4p */; };
+		48A671B3261010EB001A208A /* FirmwareKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A671B2261010EB001A208A /* FirmwareKeys.m */; };
 		48AD63E024DFA50A00F89A9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AD63DF24DFA50A00F89A9C /* AppDelegate.m */; };
 		48AD63E324DFA50A00F89A9C /* RamielView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AD63E224DFA50A00F89A9C /* RamielView.m */; };
 		48AD63E524DFA50D00F89A9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48AD63E424DFA50D00F89A9C /* Assets.xcassets */; };
@@ -152,6 +153,8 @@
 		4883F6E825A072CD0066257E /* SHSHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHSHViewController.m; sourceTree = "<group>"; };
 		4883F6EA25A072DC0066257E /* SHSHViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHSHViewController.h; sourceTree = "<group>"; };
 		4883FA2425B7ECD50066257E /* bootlogo.im4p */ = {isa = PBXFileReference; lastKnownFileType = file; path = bootlogo.im4p; sourceTree = "<group>"; };
+		48A671B2261010EB001A208A /* FirmwareKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirmwareKeys.m; sourceTree = "<group>"; };
+		48A671B426101103001A208A /* FirmwareKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirmwareKeys.h; sourceTree = "<group>"; };
 		48AD63DB24DFA50A00F89A9C /* Ramiel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ramiel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48AD63DE24DFA50A00F89A9C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		48AD63DF24DFA50A00F89A9C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 				4883F6EA25A072DC0066257E /* SHSHViewController.h */,
 				484E07C025E254B200374EB0 /* SHSHDumperViewController.m */,
 				484E07C225E254C200374EB0 /* SHSHDumperViewController.h */,
+				48A671B2261010EB001A208A /* FirmwareKeys.m */,
+				48A671B426101103001A208A /* FirmwareKeys.h */,
 			);
 			path = Ramiel;
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 				48540B6725D24F10004A3D87 /* Device.m in Sources */,
 				48BAA6102557D97600F08EA4 /* FileMDHash.c in Sources */,
 				48AD63E024DFA50A00F89A9C /* AppDelegate.m in Sources */,
+				48A671B3261010EB001A208A /* FirmwareKeys.m in Sources */,
 				480F8C4625F3161A002373CD /* lzss.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

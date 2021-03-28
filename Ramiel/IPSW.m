@@ -36,20 +36,8 @@
 - (NSString *)getIbssName {
     return self.ibssName;
 };
-- (NSString *)getIbssIV {
-    return self.ibssIV;
-};
-- (NSString *)getIbssKEY {
-    return self.ibssKEY;
-};
 - (NSString *)getIbecName {
     return self.ibecName;
-};
-- (NSString *)getIbecIV {
-    return self.ibecIV;
-};
-- (NSString *)getIbecKEY {
-    return self.ibecKEY;
 };
 - (NSString *)getDeviceTreeName {
     return self.deviceTreeName;
@@ -87,11 +75,7 @@
     [self setSupportedModels:NULL];
     [self setReleaseBuild:(BOOL)NULL];
     [self setIbssName:NULL];
-    [self setIbssIV:NULL];
-    [self setIbssKEY:NULL];
     [self setIbecName:NULL];
-    [self setIbecIV:NULL];
-    [self setIbecKEY:NULL];
     [self setDeviceTreeName:NULL];
     [self setTrustCacheName:NULL];
     [self setKernelName:NULL];
