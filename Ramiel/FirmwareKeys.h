@@ -20,6 +20,10 @@
 @property (nonatomic, readwrite) NSString *kernelKEY;
 @property (nonatomic, readwrite) NSString *devicetreeIV;
 @property (nonatomic, readwrite) NSString *devicetreeKEY;
+@property (nonatomic, readwrite) NSString *restoreRamdiskIV;
+@property (nonatomic, readwrite) NSString *restoreRamdiskKEY;
+@property (nonatomic, readwrite) NSString *ibootIV;
+@property (nonatomic, readwrite) NSString *ibootKEY;
 @property (nonatomic, readwrite) Boolean isUsingLocalKeys;
 // Init //
 - (id)initFirmwareKeysID;
@@ -32,6 +36,10 @@
 - (NSString *)getKernelKEY;
 - (NSString *)getDevicetreeIV;
 - (NSString *)getDevicetreeKEY;
+- (NSString *)getRestoreRamdiskIV;
+- (NSString *)getRestoreRamdiskKEY;
+- (NSString *)getIbootIV;
+- (NSString *)getIbootKEY;
 - (Boolean)getUsingLocalKeys;
 // Setters //
 - (void)setIbssIV:(NSString *)ibssIV;
@@ -42,7 +50,10 @@
 - (void)setKernelKEY:(NSString *)kernelKEY;
 - (void)setDevicetreeIV:(NSString *)devicetreeIV;
 - (void)setDevicetreeKEY:(NSString *)devicetreeKEY;
-- (void)setLocalKeysPath:(NSString *)localKeysPath;
+- (void)setRestoreRamdiskIV:(NSString *)restoreRamdiskIV;
+- (void)setRestoreRamdiskKEY:(NSString *)restoreRamdiskKEY;
+- (void)setIbootIV:(NSString *)ibootIV;
+- (void)setIbootKEY:(NSString *)ibootKEY;
 - (void)setIsUsingLocalKeys:(Boolean)isUsingLocalKeys;
 // Other Methods //
 - (Boolean)checkLocalKeys:(Device *)device
@@ -51,8 +62,7 @@
                                   :(IPSW *)ipsw;
 - (Boolean)readFirmwareKeysFromFile:(Device *)device
                                    :(IPSW *)ipsw;
-- (void)backupAllKeysForModel:(Device *)device
-                                :(IPSW *)ipsw;
+- (void)backupAllKeysForModel:(Device *)device;
 - (Boolean)fetchKeysFromWiki:(Device *)device
                                 :(IPSW *)ipsw
                                 :(NSDictionary *)manifest;

@@ -22,7 +22,7 @@
 #include "kairos.h"
 #include "newpatch.h"
 
-int patchIBXX(char* in, char* out, char* bootArgsInput) {
+int patchIBXX(char* in, char* out, char* bootArgsInput, int flag) {
 	
 	char* inFile = in;
 	char* outFile = out;
@@ -65,6 +65,21 @@ int patchIBXX(char* in, char* out, char* bootArgsInput) {
 		if(bootArgs) {
 			LOG("Patching boot-args...\n");
 			patch_boot_args64(&iboot_in,bootArgs);
+            if (flag == 1) {
+                LOG("iOS 7/8/9 detected, only patching boot-args...\n");
+                fp = fopen(outFile,"wb+");
+                if(!fp) {
+                    printf("Error opening %s for writing\n",outFile);
+                    free(iboot_in.buf);
+                    return -1;
+                }
+                fwrite(iboot_in.buf,1,iboot_in.len,fp);
+                fflush(fp);
+                fclose(fp);
+                free(iboot_in.buf);
+                LOG("Wrote patched image to %s\n",outFile);
+                return 0;
+            }
 		}
 		LOG("Enabling kernel debug...\n");
 		ret = enable_kernel_debug(&iboot_in);

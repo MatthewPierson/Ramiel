@@ -39,6 +39,9 @@
 - (NSString *)getIbecName {
     return self.ibecName;
 };
+- (NSString *)getIbootName {
+    return self.ibootName;
+};
 - (NSString *)getDeviceTreeName {
     return self.deviceTreeName;
 };
@@ -76,6 +79,7 @@
     [self setReleaseBuild:(BOOL)NULL];
     [self setIbssName:NULL];
     [self setIbecName:NULL];
+    [self setIbootName:NULL];
     [self setDeviceTreeName:NULL];
     [self setTrustCacheName:NULL];
     [self setKernelName:NULL];

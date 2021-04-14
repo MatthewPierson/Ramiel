@@ -360,7 +360,7 @@ int apnoncecon = 0;
 
                 int ret;
                 sleep(1);
-                ret = patchIBXX((char *)ibssPath, (char *)ibssPwnPath, (char *)args);
+                ret = patchIBXX((char *)ibssPath, (char *)ibssPwnPath, (char *)args, 0);
 
                 if (ret != 0) {
                     dispatch_queue_t mainQueue = dispatch_get_main_queue();
@@ -379,7 +379,7 @@ int apnoncecon = 0;
                     const char *ibecPwnPath =
                         [[NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn",
                                                     [[NSBundle mainBundle] resourcePath]] UTF8String];
-                    ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args);
+                    ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args, 0);
 
                     if (ret != 0) {
                         dispatch_queue_t mainQueue = dispatch_get_main_queue();
