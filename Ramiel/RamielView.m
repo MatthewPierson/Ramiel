@@ -11,11 +11,12 @@
 #import "../Pods/SSZipArchive/SSZipArchive/SSZipArchive.h"
 #import "Device.h"
 #import "FileMDHash.h"
-#import "IPSW.h"
 #import "FirmwareKeys.h"
+#import "IPSW.h"
 #include "kairos.h"
 #include "libirecovery.h"
 #include "libusb-1.0/libusb.h"
+#include "partial.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <Network/Network.h>
 
@@ -33,10 +34,21 @@ int con = 0;
 
 Device *userDevice;
 IPSW *userIPSW;
-FirmwareKeys* userKeys;
+FirmwareKeys *userKeys;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Ensure we are running from /Applications, as running Ramiel from somewhere else can cause issues
+    if ([[[NSBundle mainBundle] resourcePath] containsString:@"/Applications/"] &&
+        ![[[NSBundle mainBundle] resourcePath] containsString:@"build/Ramiel/Build"]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"Error: Ramiel is not running from the \"Applications\" folder."];
+        [alert setInformativeText:@"Please move \"Ramiel.app\" into \"/Applcations\" then run Ramiel again."];
+        [alert addButtonWithTitle:@"Exit"];
+        alert.window.titlebarAppearsTransparent = TRUE;
+        [alert runModal];
+        exit(0);
+    }
     // Check if an update is available
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSData *updateData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://ramiel.app/latest"]];
@@ -559,7 +571,7 @@ FirmwareKeys* userKeys;
         }
         ret = 0;
         while (ret == 0) {
-            
+
             if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
                 [[userIPSW getIosVersion] containsString:@"7."]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -579,7 +591,8 @@ FirmwareKeys* userKeys;
                 NSString *ibec = [NSString stringWithFormat:@"%@/ibec.img4", [[NSBundle mainBundle] resourcePath]];
                 ret = [userDevice sendImage:ibec];
                 sleep(3);
-                if ([[userDevice getCpid] isEqualToString:@"0x8010"] || [[userDevice getCpid] isEqualToString:@"0x8011"] ||
+                if ([[userDevice getCpid] isEqualToString:@"0x8010"] ||
+                    [[userDevice getCpid] isEqualToString:@"0x8011"] ||
                     [[userDevice getCpid] isEqualToString:@"0x8015"]) {
                     ret = [userDevice sendImage:ibec];
                     sleep(1);
@@ -606,8 +619,8 @@ FirmwareKeys* userKeys;
 
                 NSString *logo;
                 if ([[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString
-                                             stringWithFormat:@"%@/ramdisk.img4", [[NSBundle mainBundle] resourcePath]]]) {
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
+                                                                    [[NSBundle mainBundle] resourcePath]]]) {
                     logo = [NSString stringWithFormat:@"%@/sshLogo.img4", [[NSBundle mainBundle] resourcePath]];
                 } else {
                     if ([[NSFileManager defaultManager]
@@ -636,7 +649,8 @@ FirmwareKeys* userKeys;
                     [self->_bootProgBar incrementBy:12.5];
                     [self->_infoLabel setStringValue:@"Sending DeviceTree..."];
                 });
-                NSString *dtree = [NSString stringWithFormat:@"%@/devicetree.img4", [[NSBundle mainBundle] resourcePath]];
+                NSString *dtree =
+                    [NSString stringWithFormat:@"%@/devicetree.img4", [[NSBundle mainBundle] resourcePath]];
                 err = @"send Devicetree";
                 ret = [userDevice sendImage:dtree];
 
@@ -668,8 +682,8 @@ FirmwareKeys* userKeys;
 
                 if ([userIPSW getAopfwName] != NULL &&
                     ![[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString
-                                             stringWithFormat:@"%@/ramdisk.img4", [[NSBundle mainBundle] resourcePath]]]) {
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
+                                                                    [[NSBundle mainBundle] resourcePath]]]) {
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_infoLabel setStringValue:@"Sending AOPFW..."];
@@ -684,13 +698,14 @@ FirmwareKeys* userKeys;
 
                 if ([userIPSW getCallanName] != NULL &&
                     ![[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString
-                                             stringWithFormat:@"%@/ramdisk.img4", [[NSBundle mainBundle] resourcePath]]]) {
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
+                                                                    [[NSBundle mainBundle] resourcePath]]]) {
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_infoLabel setStringValue:@"Sending Callan..."];
                     });
-                    NSString *callan = [NSString stringWithFormat:@"%@/callan.img4", [[NSBundle mainBundle] resourcePath]];
+                    NSString *callan =
+                        [NSString stringWithFormat:@"%@/callan.img4", [[NSBundle mainBundle] resourcePath]];
                     ret = [userDevice sendImage:callan];
 
                     if (ret != 1) {
@@ -700,8 +715,8 @@ FirmwareKeys* userKeys;
 
                 if ([userIPSW getIspName] != NULL &&
                     ![[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString
-                                             stringWithFormat:@"%@/ramdisk.img4", [[NSBundle mainBundle] resourcePath]]]) {
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
+                                                                    [[NSBundle mainBundle] resourcePath]]]) {
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_infoLabel setStringValue:@"Sending ISP..."];
@@ -713,7 +728,8 @@ FirmwareKeys* userKeys;
                         ret = [userDevice sendCMD:trustCMD];
                     }
                 }
-                if ([[userIPSW getIosVersion] containsString:@"14."] || [[userIPSW getIosVersion] containsString:@"13."] ||
+                if ([[userIPSW getIosVersion] containsString:@"14."] ||
+                    [[userIPSW getIosVersion] containsString:@"13."] ||
                     ([[userDevice getCpid] containsString:@"8015"] && [userIPSW getBootRamdisk])) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_infoLabel setStringValue:@"Sending SSH Ramdisk..."];
@@ -839,7 +855,7 @@ FirmwareKeys* userKeys;
             if ([RamielView debugCheck])
                 NSLog(@"Unzipping IPSW From Path: %@\nto path: %@", [userIPSW getIpswPath], extractPath);
             if ([[[NSFileManager defaultManager] attributesOfItemAtPath:[userIPSW getIpswPath] error:nil] fileSize] <
-                1677721600.00) { // If the IPSW is less then 1.5GB then its likely incomplete
+                1400000000.00) { // If the IPSW is less then 1.3GB then its likely incomplete
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [RamielView errorHandler:
                         @"Downloaded IPSW is corrupt":
@@ -903,7 +919,7 @@ FirmwareKeys* userKeys;
                 if ([RamielView debugCheck])
                     NSLog(@"Unzipping IPSW From Path: %@\nto path: %@", [userIPSW getIpswPath], extractPath);
                 if ([[[NSFileManager defaultManager] attributesOfItemAtPath:[userIPSW getIpswPath] error:nil]
-                        fileSize] < 1677721600.00) { // If the IPSW is less then 1.5GB then its likely incomplete
+                        fileSize] < 1400000000.00) { // If the IPSW is less then 1.5GB then its likely incomplete
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [RamielView errorHandler:
                             @"Downloaded IPSW is corrupt":
@@ -960,23 +976,6 @@ FirmwareKeys* userKeys;
             NSDictionary *manifestData = [NSDictionary
                 dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/BuildManifest.plist", extractPath]];
             [userIPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]]; // Get IPSW's iOS version
-            if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
-                [[userIPSW getIosVersion] containsString:@"7."]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSAlert *versionWarning = [[NSAlert alloc] init];
-                    [versionWarning
-                        setMessageText:
-                            [NSString stringWithFormat:@"Warning: %@ is not offically supported at this time, however "
-                                                       @"Ramiel will still attempt to properly boot your device.",
-                                                       [userIPSW getIosVersion]]];
-                    [versionWarning
-                        setInformativeText:
-                            @"Your device may fail to boot, if this occurs then please open an issue on GitHub."];
-                    versionWarning.window.titlebarAppearsTransparent = TRUE;
-                    [versionWarning runModal];
-                });
-            }
-
             [userIPSW
                 setSupportedModels:[manifestData objectForKey:@"SupportedProductTypes"]]; // Get supported devices list
             int supported = 0;
@@ -1017,7 +1016,8 @@ FirmwareKeys* userKeys;
                                                                     [userDevice getModel], [userIPSW getIosVersion]]];
                 NSURLRequest *request = [NSURLRequest requestWithURL:ipswMD5SUM];
                 NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-
+                // NSURLSessionDataTask *test = [[NSURLSession init] dataTaskWithRequest:request];
+                //[test resume];
                 NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 
                 if ([RamielView debugCheck])
@@ -1163,7 +1163,8 @@ FirmwareKeys* userKeys;
                                 toPath:[NSString stringWithFormat:@"%@/RamielFiles/touch.im4p", resourcesFolder]
                                  error:nil];
                 }
-                if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                    [[userIPSW getIosVersion] containsString:@"8."] ||
                     [[userIPSW getIosVersion] containsString:@"7."]) {
                     [[NSFileManager defaultManager]
                         moveItemAtPath:[NSString stringWithFormat:@"%@/%@", extractPath, [userIPSW getIbootName]]
@@ -1177,17 +1178,17 @@ FirmwareKeys* userKeys;
                     [self->_bootProgBar incrementBy:16.66];
                     [self->_infoLabel setStringValue:@"Grabbing Firmware Keys..."];
                 });
-                if ([userKeys checkLocalKeys:userDevice :userIPSW]) {
-                    [userKeys readFirmwareKeysFromFile:userDevice :userIPSW];
+                if ([userKeys checkLocalKeys:userDevice:userIPSW]) {
+                    [userKeys readFirmwareKeysFromFile:userDevice:userIPSW];
                 } else {
-                    if (![userKeys fetchKeysFromWiki:userDevice :userIPSW :manifestData]) {
+                    if (![userKeys fetchKeysFromWiki:userDevice:userIPSW:manifestData]) {
                         // Show error message here
                         [self refreshInfo:NULL];
                         return;
                     }
                 }
                 if (![userKeys getUsingLocalKeys]) {
-                    if (![userKeys writeFirmwareKeysToFile:userDevice :userIPSW]) {
+                    if (![userKeys writeFirmwareKeysToFile:userDevice:userIPSW]) {
                         // Failed to write to file
                         // Show error message here
                     }
@@ -1203,17 +1204,16 @@ FirmwareKeys* userKeys;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [RamielView errorHandler:
                             @"Received malformed keys":
-                                [NSString stringWithFormat:
-                                              @"Expected string lengths of 64 & 32 but got %lu, %lu & %lu, %lu",
-                                              (unsigned long)[userKeys getIbssKEY].length,
-                                              (unsigned long)[userKeys getIbssIV].length,
-                                              (unsigned long)[userKeys getIbecKEY].length,
-                                              (unsigned long)[userKeys getIbecIV].length
-                        ]:[NSString
-                                stringWithFormat:
-                                    @"Key Information:\n\niBSS Key: %@\niBSS IVs: %@\niBEC Key: %@\niBEC IVs: %@",
-                                    [userKeys getIbssKEY], [userKeys getIbssIV], [userKeys getIbecKEY],
-                                    [userKeys getIbecIV]]];
+                                [NSString
+                                    stringWithFormat:@"Expected string lengths of 64 & 32 but got %lu, %lu & %lu, %lu",
+                                                     (unsigned long)[userKeys getIbssKEY].length,
+                                                     (unsigned long)[userKeys getIbssIV].length,
+                                                     (unsigned long)[userKeys getIbecKEY].length,
+                                                     (unsigned long)[userKeys getIbecIV].length
+                        ]:[NSString stringWithFormat:
+                                        @"Key Information:\n\niBSS Key: %@\niBSS IVs: %@\niBEC Key: %@\niBEC IVs: %@",
+                                        [userKeys getIbssKEY], [userKeys getIbssIV], [userKeys getIbecKEY],
+                                        [userKeys getIbecIV]]];
 
                         [self refreshInfo:NULL];
                         return;
@@ -1239,20 +1239,22 @@ FirmwareKeys* userKeys;
                 // restored with on hand.
 
                 if ([[userIPSW getIosVersion] containsString:@"14."] ||
-                    ([[userDevice getCpid] containsString:@"8015"] ||
-                     [[userDevice getCpid] containsString:@"8010"])) {
+                    ([[userDevice getCpid] containsString:@"8015"] || [[userDevice getCpid] containsString:@"8010"])) {
                     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                     NSString *documentsDirectory = [paths objectAtIndex:0];
-                    [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh", documentsDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
+                    [[NSFileManager defaultManager]
+                              createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh", documentsDirectory]
+                        withIntermediateDirectories:YES
+                                         attributes:nil
+                                              error:nil];
                     if ([[NSFileManager defaultManager]
                             fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh",
                                                                         documentsDirectory,
                                                                         (uint64_t)[userDevice getEcid],
                                                                         [userIPSW getIosVersion]]]) {
 
-                        shshPath = [NSString
-                            stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh", documentsDirectory,
-                                             (uint64_t)[userDevice getEcid], [userIPSW getIosVersion]];
+                        shshPath = [NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh", documentsDirectory,
+                                                              (uint64_t)[userDevice getEcid], [userIPSW getIosVersion]];
 
                     } else {
                         // Inform user we need to dump SHSH
@@ -1263,10 +1265,9 @@ FirmwareKeys* userKeys;
                                     [NSString stringWithFormat:
                                                   @"Warning: Ramiel needs to dump your devices SHSH to boot iOS %@",
                                                   [userIPSW getIosVersion]]];
-                            [dumpInform
-                                setInformativeText:@"This process will take a minute or so to complete, and "
-                                                   @"will require you to manually re-enter DFU mode to "
-                                                   @"continue. This will only need to be done once."];
+                            [dumpInform setInformativeText:@"This process will take a minute or so to complete, and "
+                                                           @"will require you to manually re-enter DFU mode to "
+                                                           @"continue. This will only need to be done once."];
                             dumpInform.window.titlebarAppearsTransparent = true;
                             [dumpInform runModal];
                             con = 1;
@@ -1282,15 +1283,16 @@ FirmwareKeys* userKeys;
                         con = 0;
                         // Create SSH Ramdisk
                         [userIPSW setBootRamdisk:TRUE];
-                        NSString *returnString = [RamielView
-                            img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ramdisk.dmg "
-                                                                   @"%@/RamielFiles/ramdisk.im4p",
-                                                                   [[NSBundle mainBundle] resourcePath],
-                                                                   [[NSBundle mainBundle] resourcePath]]];
+                        NSString *returnString =
+                            [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ramdisk.dmg "
+                                                                               @"%@/RamielFiles/ramdisk.im4p",
+                                                                               [[NSBundle mainBundle] resourcePath],
+                                                                               [[NSBundle mainBundle] resourcePath]]];
                         if ([returnString containsString:@"failed"]) {
                             [RamielView errorHandler:
-                                @"Failed to extract ramdisk DMG.":
-                                    [NSString stringWithFormat:@"img4tool returned output: %@", returnString
+                                @"Failed to extract ramdisk DMG.":[NSString
+                                                                      stringWithFormat:@"img4tool returned output: %@",
+                                                                                       returnString
                             ]:returnString];
                             [self refreshInfo:NULL];
                             return;
@@ -1307,25 +1309,23 @@ FirmwareKeys* userKeys;
                             [self->_infoLabel setStringValue:@"Adding files to Ramdisk..."];
                             [self->_bootProgBar incrementBy:14.28];
                         });
-                        [RamielView
-                            otherCMD:[NSString stringWithFormat:@"/usr/bin/hdiutil attach -mountpoint "
-                                                                @"/tmp/RamielMount %@/RamielFiles/ramdisk.dmg",
-                                                                [[NSBundle mainBundle] resourcePath]]];
+                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/bin/hdiutil attach -mountpoint "
+                                                                        @"/tmp/RamielMount %@/RamielFiles/ramdisk.dmg",
+                                                                        [[NSBundle mainBundle] resourcePath]]];
 
                         // Download SSH.tar
                         // https://github.com/MatthewPierson/sshTar/blob/main/ssh.tar?raw=true
                         if (![[NSFileManager defaultManager]
-                                fileExistsAtPath:[NSString
-                                                     stringWithFormat:@"%@/ssh/ssh.tar",
-                                                                      [[NSBundle mainBundle] resourcePath]]]) {
+                                fileExistsAtPath:[NSString stringWithFormat:@"%@/ssh/ssh.tar",
+                                                                            [[NSBundle mainBundle] resourcePath]]]) {
                             NSString *stringURL =
                                 @"https://github.com/MatthewPierson/sshTar/blob/main/ssh.tar?raw=true";
                             NSURL *url = [NSURL URLWithString:stringURL];
                             NSData *urlData = [NSData dataWithContentsOfURL:url];
                             if (urlData) {
 
-                                NSString *filePath = [NSString
-                                    stringWithFormat:@"%@/ssh/ssh.tar", [[NSBundle mainBundle] resourcePath]];
+                                NSString *filePath =
+                                    [NSString stringWithFormat:@"%@/ssh/ssh.tar", [[NSBundle mainBundle] resourcePath]];
                                 [urlData writeToFile:filePath atomically:YES];
                             }
                         }
@@ -1353,9 +1353,8 @@ FirmwareKeys* userKeys;
                                                                         [[NSBundle mainBundle] resourcePath]]];
                         // Maybe other sign other stuff??
 
-                        NSArray *bin =
-                            [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/bin"
-                                                                                error:nil];
+                        NSArray *bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/bin"
+                                                                                           error:nil];
 
                         for (int i = 0; i < [bin count]; i++) {
                             [RamielView
@@ -1374,9 +1373,8 @@ FirmwareKeys* userKeys;
                                                                     [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath], bin[i]]];
                         }
-                        bin =
-                            [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/sbin/"
-                                                                                error:nil];
+                        bin = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/sbin/"
+                                                                                  error:nil];
 
                         for (int i = 0; i < [bin count]; i++) {
                             [RamielView
@@ -1385,9 +1383,9 @@ FirmwareKeys* userKeys;
                                                                     [[NSBundle mainBundle] resourcePath],
                                                                     [[NSBundle mainBundle] resourcePath], bin[i]]];
                         }
-                        bin = [[NSFileManager defaultManager]
-                            contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/local/bin/"
-                                                error:nil];
+                        bin =
+                            [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/tmp/RamielMount/usr/local/bin/"
+                                                                                error:nil];
 
                         for (int i = 0; i < [bin count]; i++) {
                             [RamielView
@@ -1425,7 +1423,12 @@ FirmwareKeys* userKeys;
                             [self->_bootProgBar incrementBy:14.28];
                         });
                         [RamielView otherCMD:@"/usr/bin/hdiutil detach -force /tmp/RamielMount"];
-                        [RamielView otherCMD:[NSString stringWithFormat:@"/usr/bin/hdiutil resize -sectors min %@/RamielFiles/ramdisk.dmg", [[NSBundle mainBundle] resourcePath]]]; // Shrink dmg to smallest it will go, only needs to be larger while we add files to it
+                        [RamielView
+                            otherCMD:[NSString stringWithFormat:
+                                                   @"/usr/bin/hdiutil resize -sectors min %@/RamielFiles/ramdisk.dmg",
+                                                   [[NSBundle mainBundle]
+                                                       resourcePath]]]; // Shrink dmg to smallest it will go, only needs
+                                                                        // to be larger while we add files to it
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self->_infoLabel setStringValue:@"Packing back to IM4P/IMG4..."];
                             [self->_bootProgBar incrementBy:14.28];
@@ -1450,13 +1453,12 @@ FirmwareKeys* userKeys;
                             shshPath = [ramielPrefs objectForKey:@"customSHSHPath"];
                         } else {
                             if ([[NSFileManager defaultManager]
-                                    fileExistsAtPath:[NSString
-                                                         stringWithFormat:@"%@/shsh/%@.shsh",
-                                                                          [[NSBundle mainBundle] resourcePath],
-                                                                          [userDevice getCpid]]]) {
-                                shshPath = [NSString stringWithFormat:@"%@/shsh/%@.shsh",
-                                                                      [[NSBundle mainBundle] resourcePath],
-                                                                      [userDevice getCpid]];
+                                    fileExistsAtPath:[NSString stringWithFormat:@"%@/shsh/%@.shsh",
+                                                                                [[NSBundle mainBundle] resourcePath],
+                                                                                [userDevice getCpid]]]) {
+                                shshPath =
+                                    [NSString stringWithFormat:@"%@/shsh/%@.shsh", [[NSBundle mainBundle] resourcePath],
+                                                               [userDevice getCpid]];
                             } else {
                                 shshPath = [NSString
                                     stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
@@ -1505,8 +1507,8 @@ FirmwareKeys* userKeys;
                         NSTask *task = [[NSTask alloc] init];
                         [task setLaunchPath:@"/bin/bash"];
                         [task setArguments:@[
-                            @"-c", [NSString stringWithFormat:@"%@/ssh/iproxy 2222 44",
-                                                              [[NSBundle mainBundle] resourcePath]]
+                            @"-c",
+                            [NSString stringWithFormat:@"%@/ssh/iproxy 2222 44", [[NSBundle mainBundle] resourcePath]]
                         ]];
                         [task launch];
                         NSString *prefix;
@@ -1526,8 +1528,7 @@ FirmwareKeys* userKeys;
                         [RamielView
                             img4toolCMD:[NSString
                                             stringWithFormat:@"--convert -s %@/Ramiel/shsh/%llu_%@.shsh /tmp/dump.raw",
-                                                             documentsDirectory,
-                                                             (uint64_t)[userDevice getEcid],
+                                                             documentsDirectory, (uint64_t)[userDevice getEcid],
                                                              [userIPSW getIosVersion]]];
 
                         if ([[NSFileManager defaultManager]
@@ -1668,7 +1669,8 @@ FirmwareKeys* userKeys;
                                                                    [[NSBundle mainBundle] resourcePath],
                                                                    [userKeys getIbecIV], [userKeys getIbecKEY],
                                                                    [[NSBundle mainBundle] resourcePath]]];
-                if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                    [[userIPSW getIosVersion] containsString:@"8."] ||
                     [[userIPSW getIosVersion] containsString:@"7."]) {
                     [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/iboot.raw --iv %@ "
                                                                        @"--key %@ %@/RamielFiles/iboot.im4p",
@@ -1681,18 +1683,17 @@ FirmwareKeys* userKeys;
                     stringWithFormat:@"%@/RamielFiles/ibss.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
                 const char *ibssPwnPath = [[NSString
                     stringWithFormat:@"%@/RamielFiles/ibss.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                const char *ibecPath =
-                    [[NSString stringWithFormat:@"%@/RamielFiles/ibec.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                const char *ibecPwnPath =
-                    [[NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                const char *ibootPath =
-                    [[NSString stringWithFormat:@"%@/RamielFiles/iboot.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                const char *ibootArgsPath =
-                    [[NSString stringWithFormat:@"%@/RamielFiles/iboot.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
+                const char *ibecPath = [[NSString
+                    stringWithFormat:@"%@/RamielFiles/ibec.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
+                const char *ibecPwnPath = [[NSString
+                    stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
+                const char *ibootPath = [[NSString
+                    stringWithFormat:@"%@/RamielFiles/iboot.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
+                const char *ibootArgsPath = [[NSString
+                    stringWithFormat:@"%@/RamielFiles/iboot.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
                 const char *args = [[NSString stringWithFormat:@"%@", [userIPSW getBootargs]] UTF8String];
                 if (![[ramielPrefs objectForKey:@"dualbootDiskNum"] isEqual:@(0)]) {
-                    if (![[NSString stringWithFormat:@"%@", [userIPSW getBootargs]]
-                            containsString:@"rd=disk0s1s"]) {
+                    if (![[NSString stringWithFormat:@"%@", [userIPSW getBootargs]] containsString:@"rd=disk0s1s"]) {
                         [userIPSW
                             setBootargs:[NSString stringWithFormat:@"%@ rd=disk0s1s%@", [userIPSW getBootargs],
                                                                    [ramielPrefs objectForKey:@"dualbootDiskNum"]]];
@@ -1700,11 +1701,23 @@ FirmwareKeys* userKeys;
                     args = [[NSString stringWithFormat:@"%@", [userIPSW getBootargs]] UTF8String];
                 }
                 int ret;
-                // Somewhere here we need to figure out a way to get an iOS 12 iBSS, patch it, then get iOS 7/8/9 iBoot and patch it's boot-args
-                // Rest of the code works fine for booting iOS 7/8/9 devices, just need that iOS 12 iBSS :(
-                if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                    [[userIPSW getIosVersion] containsString:@"8."] ||
                     [[userIPSW getIosVersion] containsString:@"7."]) {
-                    [RamielView otherCMD:[NSString stringWithFormat:@"%@/iPatcher %s %s" ,[[NSBundle mainBundle] resourcePath], ibssPath, ibssPwnPath]];
+                    if ([self downloadiBSS] != 0) {
+                        dispatch_queue_t mainQueue = dispatch_get_main_queue();
+                        dispatch_sync(mainQueue, ^{
+                            [RamielView errorHandler:@"Failed to download iBSS":@"Please try again.":@"N/A"];
+                            [self->_bootProgBar setHidden:TRUE];
+                            [self refreshInfo:NULL];
+                            return;
+                        });
+                    }
+                    patchIBXX((char *)[[NSString stringWithFormat:@"%@/RamielFiles/ibss.raw",
+                                                                  [[NSBundle mainBundle] resourcePath]] UTF8String],
+                              (char *)[[NSString stringWithFormat:@"%@/RamielFiles/ibss.pwn",
+                                                                  [[NSBundle mainBundle] resourcePath]] UTF8String],
+                              (char *)args, 0);
                 } else {
                     sleep(1);
                     ret = patchIBXX((char *)ibssPath, (char *)ibssPwnPath, (char *)args, 0);
@@ -1721,31 +1734,43 @@ FirmwareKeys* userKeys;
                         });
                     }
                 }
-                if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                    [[userIPSW getIosVersion] containsString:@"8."] ||
                     [[userIPSW getIosVersion] containsString:@"7."]) {
-                    if ([[ramielPrefs objectForKey:@"amfi"] isEqual:@(1)]) {
-                        args = [[NSString stringWithFormat:@"%s amfi=0xff cs_enforcement_disable=1 amfi_get_out_of_my_way=1", args] UTF8String]; // Older iOS versions don't need kernel patches for AMFI, just boot args
+                    if ([[ramielPrefs objectForKey:@"amfi"] isEqual:@(1)] &&
+                        ![[userIPSW getIosVersion] containsString:@"9."]) {
+                        args = [[NSString
+                            stringWithFormat:@"%s amfi=0xff cs_enforcement_disable=1 amfi_get_out_of_my_way=1", args]
+                            UTF8String]; // Older iOS versions don't need kernel patches for AMFI, just boot args
+                    }
+                    if ([[userIPSW getIosVersion] containsString:@"9."] &&
+                        [[ramielPrefs objectForKey:@"amfi"] isEqual:@(1)]) {
+                        dispatch_queue_t mainQueue = dispatch_get_main_queue();
+                        dispatch_sync(mainQueue, ^{
+                            NSAlert *alert = [[NSAlert alloc] init];
+                            [alert setMessageText:@"Warning: iOS 9.x currently doesn't support AMFI patches"];
+                            alert.window.titlebarAppearsTransparent = TRUE;
+                            [alert runModal];
+                        });
                     }
                     patchIBXX((char *)ibootPath, (char *)ibootArgsPath, (char *)args, 1);
                     [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/iboot.patched -t "
                                                                        @"ibec %@/RamielFiles/iboot.pwn",
                                                                        [[NSBundle mainBundle] resourcePath],
                                                                        [[NSBundle mainBundle] resourcePath]]];
-                    NSString *lowSignSHSH =  [NSString stringWithFormat:@"%@/shsh/%@.shsh", [[NSBundle mainBundle] resourcePath], [userDevice getCpid]];
+                    NSString *lowSignSHSH =
+                        [NSString stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
                     [RamielView
                         img4toolCMD:[NSString
                                         stringWithFormat:@"-c %@/iboot.img4 -p %@/RamielFiles/iboot.patched -s %@",
                                                          [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         lowSignSHSH]];
-                    
+                                                         [[NSBundle mainBundle] resourcePath], lowSignSHSH]];
+
                 } else {
-                    const char *ibecPath =
-                        [[NSString stringWithFormat:@"%@/RamielFiles/ibec.raw",
-                                                    [[NSBundle mainBundle] resourcePath]] UTF8String];
-                    const char *ibecPwnPath =
-                        [[NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn",
-                                                    [[NSBundle mainBundle] resourcePath]] UTF8String];
+                    const char *ibecPath = [[NSString
+                        stringWithFormat:@"%@/RamielFiles/ibec.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
+                    const char *ibecPwnPath = [[NSString
+                        stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
                     ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args, 0);
 
                     if (ret != 0) {
@@ -1761,10 +1786,10 @@ FirmwareKeys* userKeys;
                     }
                     // Check irecovery -s or serial output to see the effect of these :p
 
-                    NSString *ibecRawPath = [NSString
-                        stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]];
-                    NSString *ibssRawPath = [NSString
-                        stringWithFormat:@"%@/RamielFiles/ibss.pwn", [[NSBundle mainBundle] resourcePath]];
+                    NSString *ibecRawPath =
+                        [NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]];
+                    NSString *ibssRawPath =
+                        [NSString stringWithFormat:@"%@/RamielFiles/ibss.pwn", [[NSBundle mainBundle] resourcePath]];
                     NSData *moskiPatch = [@"Moski" dataUsingEncoding:NSUTF8StringEncoding];
                     NSData *ramielBooterPatch = [@"DoPeopleEvenReadThis?" dataUsingEncoding:NSUTF8StringEncoding];
                     int offset = 640;
@@ -1797,9 +1822,7 @@ FirmwareKeys* userKeys;
                                                                    options:NSDataReadingUncached
                                                                      error:NULL];
                             NSData *pattern = [@"T!=2" dataUsingEncoding:NSASCIIStringEncoding];
-                            NSRange range = [data0 rangeOfData:pattern
-                                                       options:0
-                                                         range:NSMakeRange(0, data0.length)];
+                            NSRange range = [data0 rangeOfData:pattern options:0 range:NSMakeRange(0, data0.length)];
                             int offset = (int)(range.location + 6);
 
                             NSFileHandle *fHandle = [NSFileHandle fileHandleForWritingAtPath:filepath];
@@ -1812,11 +1835,10 @@ FirmwareKeys* userKeys;
                                                                       [[NSBundle mainBundle] resourcePath]];
                                 if ([[userIPSW getIosVersion] containsString:@"14"]) {
                                     [RamielView
-                                        img4toolCMD:[NSString
-                                                        stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw "
-                                                                         @"%@/RamielFiles/devicetree.im4p",
-                                                                         [[NSBundle mainBundle] resourcePath],
-                                                                         [[NSBundle mainBundle] resourcePath]]];
+                                        img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw "
+                                                                               @"%@/RamielFiles/devicetree.im4p",
+                                                                               [[NSBundle mainBundle] resourcePath],
+                                                                               [[NSBundle mainBundle] resourcePath]]];
                                     filepath = [NSString stringWithFormat:@"%@/RamielFiles/devicetree.raw",
                                                                           [[NSBundle mainBundle] resourcePath]];
                                 }
@@ -1843,102 +1865,92 @@ FirmwareKeys* userKeys;
 
                                 if ([[userIPSW getIosVersion] containsString:@"14"]) {
                                     [RamielView
-                                        img4toolCMD:[NSString
-                                                        stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
-                                                                         @"dtre %@/RamielFiles/devicetree.raw",
-                                                                         [[NSBundle mainBundle] resourcePath],
-                                                                         [[NSBundle mainBundle] resourcePath]]];
+                                        img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
+                                                                               @"dtre %@/RamielFiles/devicetree.raw",
+                                                                               [[NSBundle mainBundle] resourcePath],
+                                                                               [[NSBundle mainBundle] resourcePath]]];
                                 }
                             }
                         }
                     }
                 }
-                [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibss.%@.patched -t "
-                                                                   @"ibss %@/RamielFiles/ibss.pwn",
-                                                                   [[NSBundle mainBundle] resourcePath],
-                                                                   [userDevice getModel],
-                                                                   [[NSBundle mainBundle] resourcePath]]];
+                [RamielView
+                    img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibss.%@.patched -t "
+                                                           @"ibss %@/RamielFiles/ibss.pwn",
+                                                           [[NSBundle mainBundle] resourcePath], [userDevice getModel],
+                                                           [[NSBundle mainBundle] resourcePath]]];
 
-                [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibec.%@.patched -t "
-                                                                   @"ibec %@/RamielFiles/ibec.pwn",
-                                                                   [[NSBundle mainBundle] resourcePath],
-                                                                   [userDevice getModel],
-                                                                   [[NSBundle mainBundle] resourcePath]]];
+                [RamielView
+                    img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibec.%@.patched -t "
+                                                           @"ibec %@/RamielFiles/ibec.pwn",
+                                                           [[NSBundle mainBundle] resourcePath], [userDevice getModel],
+                                                           [[NSBundle mainBundle] resourcePath]]];
                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                 NSString *documentsDirectory = [paths objectAtIndex:0];
                 if ([[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh",
-                                          documentsDirectory,
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh", documentsDirectory,
                                                                     (uint64_t)[userDevice getEcid],
                                                                     [userIPSW getIosVersion]]]) {
 
-                    shshPath = [NSString
-                        stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh", documentsDirectory,
-                                         (uint64_t)[userDevice getEcid], [userIPSW getIosVersion]];
+                    shshPath = [NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh", documentsDirectory,
+                                                          (uint64_t)[userDevice getEcid], [userIPSW getIosVersion]];
 
                 } else {
                     if (![[ramielPrefs objectForKey:@"customSHSHPath"] containsString:@"N/A"]) {
                         if ([RamielView debugCheck])
-                            NSLog(@"Using user-provided SHSH from: %@",
-                                  [ramielPrefs objectForKey:@"customSHSHPath"]);
+                            NSLog(@"Using user-provided SHSH from: %@", [ramielPrefs objectForKey:@"customSHSHPath"]);
                         shshPath = [ramielPrefs objectForKey:@"customSHSHPath"];
                     } else if ([[NSFileManager defaultManager]
-                                   fileExistsAtPath:[NSString
-                                                        stringWithFormat:@"%@/shsh/%@.shsh",
-                                                                         [[NSBundle mainBundle] resourcePath],
-                                                                         [userDevice getCpid]]]) {
-                        shshPath =
-                            [NSString stringWithFormat:@"%@/shsh/%@.shsh", [[NSBundle mainBundle] resourcePath],
-                                                       [userDevice getCpid]];
+                                   fileExistsAtPath:[NSString stringWithFormat:@"%@/shsh/%@.shsh",
+                                                                               [[NSBundle mainBundle] resourcePath],
+                                                                               [userDevice getCpid]]]) {
+                        shshPath = [NSString stringWithFormat:@"%@/shsh/%@.shsh", [[NSBundle mainBundle] resourcePath],
+                                                              [userDevice getCpid]];
                     } else {
-                        shshPath = [NSString
-                            stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
+                        shshPath =
+                            [NSString stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
                     }
                 }
-                if ([RamielView debugCheck]) NSLog(@"shshPath is set to: %@", shshPath);
+                if ([RamielView debugCheck])
+                    NSLog(@"shshPath is set to: %@", shshPath);
                 [RamielView
-                    img4toolCMD:[NSString
-                                    stringWithFormat:@"-c %@/ibss.img4 -p %@/RamielFiles/ibss.%@.patched -s %@",
-                                                     [[NSBundle mainBundle] resourcePath],
-                                                     [[NSBundle mainBundle] resourcePath],
-                                                     [userDevice getModel], shshPath]];
+                    img4toolCMD:[NSString stringWithFormat:@"-c %@/ibss.img4 -p %@/RamielFiles/ibss.%@.patched -s %@",
+                                                           [[NSBundle mainBundle] resourcePath],
+                                                           [[NSBundle mainBundle] resourcePath], [userDevice getModel],
+                                                           shshPath]];
 
                 [RamielView
-                    img4toolCMD:[NSString
-                                    stringWithFormat:@"-c %@/ibec.img4 -p %@/RamielFiles/ibec.%@.patched -s %@",
-                                                     [[NSBundle mainBundle] resourcePath],
-                                                     [[NSBundle mainBundle] resourcePath],
-                                                     [userDevice getModel], shshPath]];
+                    img4toolCMD:[NSString stringWithFormat:@"-c %@/ibec.img4 -p %@/RamielFiles/ibec.%@.patched -s %@",
+                                                           [[NSBundle mainBundle] resourcePath],
+                                                           [[NSBundle mainBundle] resourcePath], [userDevice getModel],
+                                                           shshPath]];
 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self->_bootProgBar incrementBy:16.66];
                     [self->_infoLabel setStringValue:@"Preparing Bootchain Files..."];
                 });
-                if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                    [[userIPSW getIosVersion] containsString:@"8."] ||
                     [[userIPSW getIosVersion] containsString:@"7."]) {
-                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw --iv %@ "
-                                                                       @"--key %@ %@/RamielFiles/devicetree.im4p",
-                                                                       [[NSBundle mainBundle] resourcePath],
-                                                                       [userKeys getDevicetreeIV],
-                                                                       [userKeys getDevicetreeKEY],
-                                                                       [[NSBundle mainBundle] resourcePath]]];
                     [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
-                                                         @"dtre %@/RamielFiles/devicetree.raw",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath]]];
-                    
+                        img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw --iv %@ "
+                                                               @"--key %@ %@/RamielFiles/devicetree.im4p",
+                                                               [[NSBundle mainBundle] resourcePath],
+                                                               [userKeys getDevicetreeIV], [userKeys getDevicetreeKEY],
+                                                               [[NSBundle mainBundle] resourcePath]]];
+                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
+                                                                       @"dtre %@/RamielFiles/devicetree.raw",
+                                                                       [[NSBundle mainBundle] resourcePath],
+                                                                       [[NSBundle mainBundle] resourcePath]]];
                 }
                 [RamielView img4toolCMD:[NSString stringWithFormat:@"-o %@/RamielFiles/devicetree.im4pp -n "
                                                                    @"rdtr %@/RamielFiles/devicetree.im4p",
                                                                    [[NSBundle mainBundle] resourcePath],
                                                                    [[NSBundle mainBundle] resourcePath]]];
-                [RamielView
-                    img4toolCMD:[NSString stringWithFormat:@"-c %@/devicetree.img4 -p "
-                                                           @"%@/RamielFiles/devicetree.im4pp -s %@",
-                                                           [[NSBundle mainBundle] resourcePath],
-                                                           [[NSBundle mainBundle] resourcePath], shshPath]];
+                [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/devicetree.img4 -p "
+                                                                   @"%@/RamielFiles/devicetree.im4pp -s %@",
+                                                                   [[NSBundle mainBundle] resourcePath],
+                                                                   [[NSBundle mainBundle] resourcePath], shshPath]];
 
                 if ([[NSFileManager defaultManager]
                         fileExistsAtPath:[NSString stringWithFormat:@"%@/RamielFiles/trustcache.im4p",
@@ -1948,11 +1960,10 @@ FirmwareKeys* userKeys;
                                                                        @"rtsc %@/RamielFiles/trustcache.im4p",
                                                                        [[NSBundle mainBundle] resourcePath],
                                                                        [[NSBundle mainBundle] resourcePath]]];
-                    [RamielView
-                        img4toolCMD:[NSString stringWithFormat:@"-c %@/trustcache.img4 -p "
-                                                               @"%@/RamielFiles/trustcache.im4pp -s %@",
-                                                               [[NSBundle mainBundle] resourcePath],
-                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
+                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/trustcache.img4 -p "
+                                                                       @"%@/RamielFiles/trustcache.im4pp -s %@",
+                                                                       [[NSBundle mainBundle] resourcePath],
+                                                                       [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
 
                 if ([[NSFileManager defaultManager]
@@ -1960,89 +1971,85 @@ FirmwareKeys* userKeys;
                                                                     [[NSBundle mainBundle] resourcePath]]]) {
 
                     [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/RamielFiles/customLogo.im4p -t logo %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [NSString stringWithFormat:@"%@/customLogo.ibootim",
-                                                                                    [[NSBundle mainBundle]
-                                                                                        resourcePath]]]];
-                    [RamielView
-                        img4toolCMD:[NSString stringWithFormat:@"-c %@/customLogo.img4 -p "
-                                                               @"%@/RamielFiles/customLogo.im4p -s %@",
+                        img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/customLogo.im4p -t logo %@",
                                                                [[NSBundle mainBundle] resourcePath],
-                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
+                                                               [NSString stringWithFormat:@"%@/customLogo.ibootim",
+                                                                                          [[NSBundle mainBundle]
+                                                                                              resourcePath]]]];
+                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/customLogo.img4 -p "
+                                                                       @"%@/RamielFiles/customLogo.im4p -s %@",
+                                                                       [[NSBundle mainBundle] resourcePath],
+                                                                       [[NSBundle mainBundle] resourcePath], shshPath]];
                 } else {
-                    [RamielView
-                        img4toolCMD:[NSString stringWithFormat:@"-c %@/bootlogo.img4 -p "
-                                                               @"%@/bootlogo.im4p -s %@",
-                                                               [[NSBundle mainBundle] resourcePath],
-                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
+                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/bootlogo.img4 -p "
+                                                                       @"%@/bootlogo.im4p -s %@",
+                                                                       [[NSBundle mainBundle] resourcePath],
+                                                                       [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
 
                 if ([[NSFileManager defaultManager]
                         fileExistsAtPath:[NSString stringWithFormat:@"%@/RamielFiles/callan.im4p",
                                                                     [[NSBundle mainBundle] resourcePath]]]) {
                     [RamielView
-                        img4toolCMD:
-                            [NSString stringWithFormat:@"-c %@/callan.img4 -p %@/RamielFiles/callan.im4p -s %@",
-                                                       [[NSBundle mainBundle] resourcePath],
-                                                       [[NSBundle mainBundle] resourcePath], shshPath]];
+                        img4toolCMD:[NSString stringWithFormat:@"-c %@/callan.img4 -p %@/RamielFiles/callan.im4p -s %@",
+                                                               [[NSBundle mainBundle] resourcePath],
+                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
                 if ([[NSFileManager defaultManager]
                         fileExistsAtPath:[NSString stringWithFormat:@"%@/RamielFiles/aop.im4p",
                                                                     [[NSBundle mainBundle] resourcePath]]]) {
                     [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/aop.img4 -p %@/RamielFiles/aop.im4p -s %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath], shshPath]];
+                        img4toolCMD:[NSString stringWithFormat:@"-c %@/aop.img4 -p %@/RamielFiles/aop.im4p -s %@",
+                                                               [[NSBundle mainBundle] resourcePath],
+                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
                 if ([[NSFileManager defaultManager]
                         fileExistsAtPath:[NSString stringWithFormat:@"%@/RamielFiles/isp.im4p",
                                                                     [[NSBundle mainBundle] resourcePath]]]) {
                     [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/isp.img4 -p %@/RamielFiles/isp.im4p -s %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath], shshPath]];
+                        img4toolCMD:[NSString stringWithFormat:@"-c %@/isp.img4 -p %@/RamielFiles/isp.im4p -s %@",
+                                                               [[NSBundle mainBundle] resourcePath],
+                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
                 if ([[NSFileManager defaultManager]
                         fileExistsAtPath:[NSString stringWithFormat:@"%@/RamielFiles/touch.im4p",
                                                                     [[NSBundle mainBundle] resourcePath]]]) {
                     [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/touch.img4 -p %@/RamielFiles/touch.im4p -s %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath], shshPath]];
+                        img4toolCMD:[NSString stringWithFormat:@"-c %@/touch.img4 -p %@/RamielFiles/touch.im4p -s %@",
+                                                               [[NSBundle mainBundle] resourcePath],
+                                                               [[NSBundle mainBundle] resourcePath], shshPath]];
                 }
                 if ([[ramielPrefs objectForKey:@"amfi"] isEqual:@(1)]) {
-                    if (!([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
-                        [[userIPSW getIosVersion] containsString:@"7."])) {
+                    if (!([[userIPSW getIosVersion] containsString:@"9."] ||
+                          [[userIPSW getIosVersion] containsString:@"8."] ||
+                          [[userIPSW getIosVersion] containsString:@"7."])) {
                         [self kernelAMFIPatches];
                     }
                 } else {
-                    if ([[userIPSW getIosVersion] containsString:@"9."] || [[userIPSW getIosVersion] containsString:@"8."] ||
+                    if ([[userIPSW getIosVersion] containsString:@"9."] ||
+                        [[userIPSW getIosVersion] containsString:@"8."] ||
                         [[userIPSW getIosVersion] containsString:@"7."]) {
                         [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -s %@ -m %@/RamielFiles/IM4M", shshPath,
-                                                 [[NSBundle mainBundle] resourcePath]]];
+                                                                           [[NSBundle mainBundle] resourcePath]]];
                         [RamielView
-                            otherCMD:[NSString stringWithFormat:@"/usr/local/bin/img4 -i %@/RamielFiles/kernel.im4p -o "
-                                                                @"%@/kernel.img4 -k %@%@ -M %@/RamielFiles/IM4M -T rkrn -D",
-                                                                [[NSBundle mainBundle] resourcePath], [[NSBundle mainBundle] resourcePath],
-                                                                [userKeys getKernelIV], [userKeys getKernelKEY], [[NSBundle mainBundle] resourcePath]]];
-                         
-                        
+                            otherCMD:[NSString
+                                         stringWithFormat:@"/usr/local/bin/img4 -i %@/RamielFiles/kernel.im4p -o "
+                                                          @"%@/kernel.img4 -k %@%@ -M %@/RamielFiles/IM4M -T rkrn -D",
+                                                          [[NSBundle mainBundle] resourcePath],
+                                                          [[NSBundle mainBundle] resourcePath], [userKeys getKernelIV],
+                                                          [userKeys getKernelKEY],
+                                                          [[NSBundle mainBundle] resourcePath]]];
+
                     } else {
+                        [RamielView img4toolCMD:[NSString stringWithFormat:@"-o %@/RamielFiles/kernel.im4pp -n rkrn "
+                                                                           @"%@/RamielFiles/kernel.im4p",
+                                                                           [[NSBundle mainBundle] resourcePath],
+                                                                           [[NSBundle mainBundle] resourcePath]]];
                         [RamielView
-                            img4toolCMD:[NSString stringWithFormat:@"-o %@/RamielFiles/kernel.im4pp -n rkrn "
-                                                                   @"%@/RamielFiles/kernel.im4p",
-                                                                   [[NSBundle mainBundle] resourcePath],
-                                                                   [[NSBundle mainBundle] resourcePath]]];
-                        [RamielView
-                            img4toolCMD:[NSString stringWithFormat:
-                                                      @"-c %@/kernel.img4 -p %@/RamielFiles/kernel.im4pp -s %@",
-                                                      [[NSBundle mainBundle] resourcePath],
-                                                      [[NSBundle mainBundle] resourcePath], shshPath]];
+                            img4toolCMD:[NSString
+                                            stringWithFormat:@"-c %@/kernel.img4 -p %@/RamielFiles/kernel.im4pp -s %@",
+                                                             [[NSBundle mainBundle] resourcePath],
+                                                             [[NSBundle mainBundle] resourcePath], shshPath]];
                     }
                 }
 
@@ -2055,7 +2062,7 @@ FirmwareKeys* userKeys;
 
                     [self bootDevice:NULL];
                 });
-                
+
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [RamielView errorHandler:
@@ -2247,12 +2254,7 @@ FirmwareKeys* userKeys;
         NSArray *firmwares = parsedThing[@"firmwares"];
         int dictSize = (int)firmwares.count;
         for (int i = 0; i < dictSize; i++) {
-            NSString *compare = [NSString stringWithFormat:@"%@", firmwares[i][@"version"]];
-            if ([compare containsString:@"9."] || [compare containsString:@"8."] || [compare containsString:@"7."]) {
-                // Do nothing
-            } else {
-                [firmwaresToPickFrom addObject:(NSString *)[NSString stringWithFormat:@"%@", firmwares[i][@"version"]]];
-            }
+            [firmwaresToPickFrom addObject:(NSString *)[NSString stringWithFormat:@"%@", firmwares[i][@"version"]]];
         }
     }
 
@@ -2477,6 +2479,48 @@ FirmwareKeys* userKeys;
         return 1;
     }
 }
+- (int)downloadiBSS {
+
+    NSURL *IPSWURL = [NSURL
+        URLWithString:[NSString stringWithFormat:@"https://api.ipsw.me/v2.1/%@/12.4/url", [userDevice getModel]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:IPSWURL];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSString *outPath = [NSString stringWithFormat:@"%@/RamielFiles/ibss.im4p", [[NSBundle mainBundle] resourcePath]];
+    NSString *outPathManifest =
+        [NSString stringWithFormat:@"%@/RamielFiles/ios12Manifest.plist", [[NSBundle mainBundle] resourcePath]];
+
+    [RamielView downloadFileFromIPSW:dataString:@"BuildManifest.plist":outPathManifest];
+    NSDictionary *manifestData = [NSDictionary dictionaryWithContentsOfFile:outPathManifest];
+    if (manifestData == NULL) {
+        return 1;
+    }
+    NSString *path;
+    NSArray *buildID = [manifestData objectForKey:@"BuildIdentities"];
+    for (int i = 0; i < [buildID count]; i++) {
+
+        if ([buildID[i][@"ApChipID"] isEqual:[userDevice getCpid]]) {
+
+            if ([buildID[i][@"Info"][@"DeviceClass"] isEqual:[userDevice getHardware_model]]) {
+
+                path = buildID[i][@"Manifest"][@"iBSS"][@"Info"][@"Path"];
+            }
+        }
+    }
+    [RamielView downloadFileFromIPSW:dataString:path:outPath];
+    FirmwareKeys *ios12Keys = [[FirmwareKeys alloc] initFirmwareKeysID];
+    IPSW *ios12IPSW = [[IPSW alloc] initIPSWID];
+    [ios12IPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]];
+    [ios12Keys fetchKeysFromWiki:userDevice:ios12IPSW:manifestData];
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibss.raw --iv %@ "
+                                                       @"--key %@ %@/RamielFiles/ibss.im4p",
+                                                       [[NSBundle mainBundle] resourcePath], [ios12Keys getIbssIV],
+                                                       [ios12Keys getIbssKEY], [[NSBundle mainBundle] resourcePath]]];
+    return 0;
+}
++ (int)downloadFileFromIPSW:(NSString *)url:(NSString *)path:(NSString *)outpath {
+    return partialzip_download_file([url UTF8String], [path UTF8String], [outpath UTF8String]);
+}
 + (irecv_client_t)getClientExternal {
     return [userDevice getIRECVClient];
 }
@@ -2514,9 +2558,16 @@ FirmwareKeys* userKeys;
         currentTime = [currentTime stringByReplacingOccurrencesOfString:@" " withString:@"."];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *fileName = [NSString stringWithFormat:@"%@/Ramiel/Error_Logs/Ramiel_Error_Log_%@.txt", documentsDirectory, currentTime];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Error_Logs/", documentsDirectory] isDirectory:(BOOL * _Nullable) TRUE]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/Error_Logs/", documentsDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
+        NSString *fileName = [NSString
+            stringWithFormat:@"%@/Ramiel/Error_Logs/Ramiel_Error_Log_%@.txt", documentsDirectory, currentTime];
+        if (![[NSFileManager defaultManager]
+                fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Error_Logs/", documentsDirectory]
+                     isDirectory:(BOOL * _Nullable) TRUE]) {
+            [[NSFileManager defaultManager]
+                      createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/Error_Logs/", documentsDirectory]
+                withIntermediateDirectories:YES
+                                 attributes:nil
+                                      error:nil];
         }
         detailedMessage = [NSString stringWithFormat:@"Device Information:\n\nModel: %@\niOS Version: "
                                                      @"%@\nBootargs: \"%@\"\n\nOther Error "

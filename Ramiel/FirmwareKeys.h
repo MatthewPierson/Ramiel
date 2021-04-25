@@ -6,9 +6,9 @@
 //  Copyright © 2021 moski. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Device.h"
 #import "IPSW.h"
+#import <Foundation/Foundation.h>
 
 @interface FirmwareKeys : NSObject
 // FirmwareKeys Object Properties //
@@ -56,16 +56,11 @@
 - (void)setIbootKEY:(NSString *)ibootKEY;
 - (void)setIsUsingLocalKeys:(Boolean)isUsingLocalKeys;
 // Other Methods //
-- (Boolean)checkLocalKeys:(Device *)device
-                         :(IPSW *)ipsw;
-- (Boolean)writeFirmwareKeysToFile:(Device *)device
-                                  :(IPSW *)ipsw;
-- (Boolean)readFirmwareKeysFromFile:(Device *)device
-                                   :(IPSW *)ipsw;
+- (Boolean)checkLocalKeys:(Device *)device:(IPSW *)ipsw;
+- (Boolean)writeFirmwareKeysToFile:(Device *)device:(IPSW *)ipsw;
+- (Boolean)readFirmwareKeysFromFile:(Device *)device:(IPSW *)ipsw;
 - (void)backupAllKeysForModel:(Device *)device;
-- (Boolean)fetchKeysFromWiki:(Device *)device
-                                :(IPSW *)ipsw
-                                :(NSDictionary *)manifest;
+- (Boolean)fetchKeysFromWiki:(Device *)device:(IPSW *)ipsw:(NSDictionary *)manifest;
 // Teardown //
 - (void)teardown;
 // Instance //

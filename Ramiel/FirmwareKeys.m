@@ -71,24 +71,37 @@
 - (Boolean)getUsingLocalKeys {
     return self.isUsingLocalKeys;
 }
-- (Boolean)checkLocalKeys:(Device *)device
-                         :(IPSW *)ipsw{
+- (Boolean)checkLocalKeys:(Device *)device:(IPSW *)ipsw {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     BOOL isDir;
-    [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model] isDirectory:&isDir];
+    [[NSFileManager defaultManager]
+        fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/", documentsDirectory,
+                                                    ipsw.getIosVersion, device.getModel, device.getHardware_model]
+             isDirectory:&isDir];
     if (isDir) {
         return TRUE;
     }
     return FALSE;
 }
-- (Boolean)writeFirmwareKeysToFile:(Device *)device
-                                  :(IPSW *)ipsw {
+- (Boolean)writeFirmwareKeysToFile:(Device *)device:(IPSW *)ipsw {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model] withIntermediateDirectories:YES attributes:nil error:nil];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model]]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model] error:nil];
+    [[NSFileManager defaultManager]
+              createDirectoryAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@", documentsDirectory,
+                                                               ipsw.getIosVersion, device.getModel,
+                                                               device.getHardware_model]
+        withIntermediateDirectories:YES
+                         attributes:nil
+                              error:nil];
+    if ([[NSFileManager defaultManager]
+            fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory,
+                                                        ipsw.getIosVersion, device.getModel,
+                                                        device.getHardware_model]]) {
+        [[NSFileManager defaultManager]
+            removeItemAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory,
+                                                        ipsw.getIosVersion, device.getModel, device.getHardware_model]
+                       error:nil];
     }
     NSMutableDictionary *dataToWrite = [[NSMutableDictionary alloc] initWithCapacity:8];
     [dataToWrite setObject:self.getIbssIV forKey:@"iBSS_IV"];
@@ -103,14 +116,22 @@
     [dataToWrite setObject:self.getRestoreRamdiskKEY forKey:@"Ramdisk_KEY"];
     [dataToWrite setObject:self.getIbootIV forKey:@"iBoot_IV"];
     [dataToWrite setObject:self.getIbootKEY forKey:@"iBoot_KEY"];
-    return [dataToWrite writeToFile:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model] atomically:YES];
+    return [dataToWrite
+        writeToFile:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory,
+                                               ipsw.getIosVersion, device.getModel, device.getHardware_model]
+         atomically:YES];
 }
-- (Boolean)readFirmwareKeysFromFile:(Device *)device
-                                   :(IPSW *)ipsw {
+- (Boolean)readFirmwareKeysFromFile:(Device *)device:(IPSW *)ipsw {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model]]) {
-        NSDictionary *keysFile = [NSDictionary dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model]];
+    if ([[NSFileManager defaultManager]
+            fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory,
+                                                        ipsw.getIosVersion, device.getModel,
+                                                        device.getHardware_model]]) {
+        NSDictionary *keysFile = [NSDictionary
+            dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys",
+                                                                    documentsDirectory, ipsw.getIosVersion,
+                                                                    device.getModel, device.getHardware_model]];
         [self setIbssIV:[keysFile objectForKey:@"iBSS_IV"]];
         [self setIbssKEY:[keysFile objectForKey:@"iBSS_KEY"]];
         [self setIbecIV:[keysFile objectForKey:@"iBEC_IV"]];
@@ -138,13 +159,19 @@
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&wikiError];
     if (wikiError) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [RamielView errorHandler:@"Error: Got an error while requesting Firmare_Codenames page." :[NSString stringWithFormat:@"Error message: %@", wikiError.localizedDescription] :[NSString stringWithFormat:@"%@", wikiError]];
+            [RamielView errorHandler:
+                @"Error: Got an error while requesting Firmare_Codenames page.":
+                    [NSString stringWithFormat:@"Error message: %@", wikiError.localizedDescription
+            ]:[NSString stringWithFormat:@"%@", wikiError]];
         });
         return;
     }
     if (data != NULL) {
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSString *test = [NSArray arrayWithObject:[dataString componentsSeparatedByString:@"<span class=\"mw-headline\" id=\"iOS.2FiPadOS\">iOS/iPadOS</span>"]][0][1];
+        NSString *test = [NSArray
+            arrayWithObject:[dataString
+                                componentsSeparatedByString:
+                                    @"<span class=\"mw-headline\" id=\"iOS.2FiPadOS\">iOS/iPadOS</span>"]][0][1];
         test = [test componentsSeparatedByString:@"<span id=\"iOS_(Apple_TV)\"></span>"][0];
         test = [test componentsSeparatedByString:@"<span class=\"mw-headline\" id=\"7.x\">7.x</span>"][1];
         NSArray *codeNames = [test componentsSeparatedByString:@"<tr>"];
@@ -161,12 +188,17 @@
                 }
                 NSString *buildname;
                 if ([cringe[3] containsString:@"<td>"]) {
-                    buildname = [[cringe[3] componentsSeparatedByString:@"<td>"][1] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    buildname =
+                        [[cringe[3] componentsSeparatedByString:@"<td>"][1] stringByReplacingOccurrencesOfString:@"\n"
+                                                                                                      withString:@""];
                     [finalCodeNames addObject:buildname];
                     [finalCodeNamesVersion addObject:version];
                 } else {
-                    buildname = [[cringe[3] componentsSeparatedByString:@"\">"][1] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                    int rowCount = [[[cringe[3] componentsSeparatedByString:@"\">"][0] componentsSeparatedByString:@"=\""][1] intValue];
+                    buildname =
+                        [[cringe[3] componentsSeparatedByString:@"\">"][1] stringByReplacingOccurrencesOfString:@"\n"
+                                                                                                     withString:@""];
+                    int rowCount = [[[cringe[3] componentsSeparatedByString:@"\">"][0]
+                        componentsSeparatedByString:@"=\""][1] intValue];
                     [finalCodeNames addObject:buildname];
                     [finalCodeNamesVersion addObject:version];
                     for (int k = 0; k < (rowCount - 1); k++) {
@@ -180,7 +212,8 @@
                     }
                 }
             } else {
-                if (!([codeNames[i] containsString:@"Version"] || [codeNames[i] containsString:@"<small>"])) { // Make sure
+                if (!([codeNames[i] containsString:@"Version"] ||
+                      [codeNames[i] containsString:@"<small>"])) { // Make sure
                     NSArray *cringe = [codeNames[i] componentsSeparatedByString:@"\n"];
                     NSString *version = [cringe[1] stringByReplacingOccurrencesOfString:@"<td>" withString:@""];
                     NSString *buildname = [cringe[3] stringByReplacingOccurrencesOfString:@"<td>" withString:@""];
@@ -223,15 +256,15 @@
                 }
             }
             if (buildid != nil) {
-                NSDictionary *manifest = @{
-                        @"codename" : finalCodeNames[i],
-                        @"buildid" : buildid
-                };
+                NSDictionary *manifest = @{@"codename": finalCodeNames[i], @"buildid": buildid};
                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                 NSString *documentsDirectory = [paths objectAtIndex:0];
-                if (![[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys", documentsDirectory, ipsw.getIosVersion, device.getModel, device.getHardware_model]]) {
-                    if ([self fetchKeysFromWiki:device :ipsw :manifest]) {
-                        if ([self writeFirmwareKeysToFile:device :ipsw]) {
+                if (![[NSFileManager defaultManager]
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/Firmware_Keys/%@/%@/%@/keys",
+                                                                    documentsDirectory, ipsw.getIosVersion,
+                                                                    device.getModel, device.getHardware_model]]) {
+                    if ([self fetchKeysFromWiki:device:ipsw:manifest]) {
+                        if ([self writeFirmwareKeysToFile:device:ipsw]) {
                             [savedVersions addObject:[ipsw getIosVersion]];
                         }
                     } else {
@@ -257,7 +290,9 @@
         }
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [RamielView errorHandler:@"Error: Got null data back while requesting Firmware_Codenames page." :@"Please check that theiphonewiki site is not down." :@"N/A"];
+            [RamielView errorHandler:
+                @"Error: Got null data back while requesting Firmware_Codenames page.":
+                    @"Please check that theiphonewiki site is not down.":@"N/A"];
         });
         return;
     }
@@ -272,7 +307,8 @@
     if (savedVersions.count == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSAlert *alert = [[NSAlert alloc] init];
-            [alert setMessageText:@"FirmwareKeys: All firmware keys have been backed up previously, no work to be done."];
+            [alert
+                setMessageText:@"FirmwareKeys: All firmware keys have been backed up previously, no work to be done."];
             [alert setInformativeText:text];
             alert.window.titlebarAppearsTransparent = TRUE;
             [alert runModal];
@@ -288,9 +324,7 @@
     });
     return;
 }
-- (Boolean)fetchKeysFromWiki:(Device *)device
-                            :(IPSW *)ipsw
-                            :(NSDictionary *)manifest{
+- (Boolean)fetchKeysFromWiki:(Device *)device:(IPSW *)ipsw:(NSDictionary *)manifest {
     NSString *codename;
     NSString *buildid;
     if ([manifest objectForKey:@"codename"]) {
@@ -301,11 +335,8 @@
         codename = buildID[0][@"Info"][@"BuildTrain"];
         buildid = [manifest objectForKey:@"ProductBuildVersion"];
     }
-    NSURL *wikiURL =
-        [NSURL URLWithString:[NSString stringWithFormat:@"https://www.theiphonewiki.com/wiki/%@_%@_(%@)",
-                                                        codename,
-                                                        buildid,
-                                                        [device getModel]]];
+    NSURL *wikiURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.theiphonewiki.com/wiki/%@_%@_(%@)",
+                                                                     codename, buildid, [device getModel]]];
     NSURLRequest *request = [NSURLRequest requestWithURL:wikiURL];
     NSError *wikiError = NULL;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&wikiError];
@@ -317,27 +348,27 @@
                                                @"theiphonewiki.\nError Description: %@\nError Code: %ld",
                                                [wikiError localizedDescription], (long)wikiError.code
             ]:[NSString stringWithFormat:@"Full Error Message: %@", wikiError]];
-            
         });
         return FALSE;
     }
     if (data != NULL) {
 
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        if ([RamielView debugCheck]) {NSLog(@"Got response from theiphonewiki: %@", dataString);}
-        if ([dataString containsString:@"There is currently no text in this page"] && ![manifest objectForKey:@"local"]) { // No keys but still
-                                                                                      // valid page
+        if ([RamielView debugCheck]) {
+            NSLog(@"Got response from theiphonewiki: %@", dataString);
+        }
+        if ([dataString containsString:@"There is currently no text in this page"] &&
+            ![manifest objectForKey:@"local"]) { // No keys but still
+                                                 // valid page
             dispatch_async(dispatch_get_main_queue(), ^{
                 [RamielView errorHandler:
-                    @"No firmware keys found":
-                        @"Please check detailed log for more information":
-                            [NSString
-                                stringWithFormat:@"Theiphonewiki didn't have keys for this device + "
-                                                 @"firmware combination. Please ensure that the page at "
-                                                 @"the following URL doesn't contain keys, if it does open "
-                                                 @"an issue on GitHub and send me this log\n\n%@",
-                                                 [wikiURL absoluteURL]]];
-                
+                    @"No firmware keys found":@"Please check detailed log for more information"
+                                             :[NSString stringWithFormat:
+                                                            @"Theiphonewiki didn't have keys for this device + "
+                                                            @"firmware combination. Please ensure that the page at "
+                                                            @"the following URL doesn't contain keys, if it does open "
+                                                            @"an issue on GitHub and send me this log\n\n%@",
+                                                            [wikiURL absoluteURL]]];
             });
             return FALSE;
         }
@@ -349,7 +380,7 @@
 
             if ([[model1[0] uppercaseString]
                     isEqual:[[device getHardware_model] uppercaseString]]) { // Make sure we get the
-                                                                                 // right keys
+                                                                             // right keys
 
                 NSArray *ibecIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec-iv\">"];
                 NSArray *ibecIVSplit2 = [ibecIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
@@ -361,134 +392,144 @@
 
                 [self setIbssIV:ibssIVSplit2[0]];
 
-                NSArray *ibecKEYSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibec-key\">"];
+                NSArray *ibecKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec-key\">"];
                 NSArray *ibecKEYSplit2 = [ibecKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbecKEY:ibecKEYSplit2[0]];
 
-                NSArray *ibssKEYSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibss-key\">"];
+                NSArray *ibssKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss-key\">"];
                 NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbssKEY:ibssKEYSplit2[0]];
-                
-                if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] || [[ipsw getIosVersion] containsString:@"9."]) {
-                    
-                    NSArray *devicetreeIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-iv\">"];
+
+                if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] ||
+                    [[ipsw getIosVersion] containsString:@"9."]) {
+
+                    NSArray *devicetreeIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-iv\">"];
                     NSArray *devicetreeIVSplit2 = [devicetreeIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setDevicetreeIV:devicetreeIVSplit2[0]];
-                    
-                    NSArray *devicetreeKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-key\">"];
+
+                    NSArray *devicetreeKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-key\">"];
                     NSArray *devicetreeKEYSplit2 = [devicetreeKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setDevicetreeKEY:devicetreeKEYSplit2[0]];
-                    
-                    NSArray *kernelIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-iv\">"];
+
+                    NSArray *kernelIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-iv\">"];
                     NSArray *kernelIVSplit2 = [kernelIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setKernelIV:kernelIVSplit2[0]];
-                    
-                    NSArray *kernelKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-key\">"];
+
+                    NSArray *kernelKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-key\">"];
                     NSArray *kernelKEYSplit2 = [kernelKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setKernelKEY:kernelKEYSplit2[0]];
-                    
-                    NSArray *restoreRamdiskIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-iv\">"];
-                    NSArray *restoreRamdiskIVSplit2 = [restoreRamdiskIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
+                    NSArray *restoreRamdiskIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-iv\">"];
+                    NSArray *restoreRamdiskIVSplit2 =
+                        [restoreRamdiskIVSplit1[1] componentsSeparatedByString:@"</code>"];
+
                     [self setRestoreRamdiskIV:restoreRamdiskIVSplit2[0]];
 
-                    NSArray *restoreRamdiskKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-key\">"];
-                    NSArray *restoreRamdiskKEYSplit2 = [restoreRamdiskKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+                    NSArray *restoreRamdiskKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-key\">"];
+                    NSArray *restoreRamdiskKEYSplit2 =
+                        [restoreRamdiskKEYSplit1[1] componentsSeparatedByString:@"</code>"];
+
                     [self setRestoreRamdiskKEY:restoreRamdiskKEYSplit2[0]];
-                    
+
                     NSArray *ibootIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot-iv\">"];
                     NSArray *ibootIVSplit2 = [ibootIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setIbootIV:ibootIVSplit2[0]];
-                    
+
                     NSArray *ibootKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot-key\">"];
                     NSArray *ibootKEYSplit2 = [ibootKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setIbootKEY:ibootKEYSplit2[0]];
-                    
                 }
-                
+
                 return TRUE;
 
             } else {
 
-                NSArray *ibecIVSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-iv\">"];
+                NSArray *ibecIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-iv\">"];
                 NSArray *ibecIVSplit2 = [ibecIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbecIV:ibecIVSplit2[0]];
 
-                NSArray *ibssIVSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-iv\">"];
+                NSArray *ibssIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-iv\">"];
                 NSArray *ibssIVSplit2 = [ibssIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbssIV:ibssIVSplit2[0]];
 
-                NSArray *ibecKEYSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-key\">"];
+                NSArray *ibecKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-key\">"];
                 NSArray *ibecKEYSplit2 = [ibecKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbecKEY:ibecKEYSplit2[0]];
 
-                NSArray *ibssKEYSplit1 =
-                    [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-key\">"];
+                NSArray *ibssKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-key\">"];
                 NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
                 [self setIbssKEY:ibssKEYSplit2[0]];
-                
-                if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] || [[ipsw getIosVersion] containsString:@"9."]) {
-                    
-                    NSArray *devicetreeIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree2-iv\">"];
+
+                if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] ||
+                    [[ipsw getIosVersion] containsString:@"9."]) {
+
+                    NSArray *devicetreeIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-devicetree2-iv\">"];
                     NSArray *devicetreeIVSplit2 = [devicetreeIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setDevicetreeIV:devicetreeIVSplit2[0]];
-                    
-                    NSArray *devicetreeKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree2-key\">"];
+
+                    NSArray *devicetreeKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-devicetree2-key\">"];
                     NSArray *devicetreeKEYSplit2 = [devicetreeKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setDevicetreeKEY:devicetreeKEYSplit2[0]];
-                    
-                    NSArray *kernelIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache2-iv\">"];
+
+                    NSArray *kernelIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache2-iv\">"];
                     NSArray *kernelIVSplit2 = [kernelIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setKernelIV:kernelIVSplit2[0]];
-                    
-                    NSArray *kernelKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache2-key\">"];
+
+                    NSArray *kernelKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache2-key\">"];
                     NSArray *kernelKEYSplit2 = [kernelKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setKernelKEY:kernelKEYSplit2[0]];
-                    
-                    NSArray *restoreRamdiskIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk2-iv\">"];
-                    NSArray *restoreRamdiskIVSplit2 = [restoreRamdiskIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
+                    NSArray *restoreRamdiskIVSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk2-iv\">"];
+                    NSArray *restoreRamdiskIVSplit2 =
+                        [restoreRamdiskIVSplit1[1] componentsSeparatedByString:@"</code>"];
+
                     [self setRestoreRamdiskIV:restoreRamdiskIVSplit2[0]];
 
-                    NSArray *restoreRamdiskKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk2-key\">"];
-                    NSArray *restoreRamdiskKEYSplit2 = [restoreRamdiskKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+                    NSArray *restoreRamdiskKEYSplit1 =
+                        [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk2-key\">"];
+                    NSArray *restoreRamdiskKEYSplit2 =
+                        [restoreRamdiskKEYSplit1[1] componentsSeparatedByString:@"</code>"];
+
                     [self setRestoreRamdiskKEY:restoreRamdiskKEYSplit2[0]];
-                    
+
                     NSArray *ibootIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot2-iv\">"];
                     NSArray *ibootIVSplit2 = [ibootIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setIbootIV:ibootIVSplit2[0]];
-                    
+
                     NSArray *ibootKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot2-key\">"];
                     NSArray *ibootKEYSplit2 = [ibootKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                    
+
                     [self setIbootKEY:ibootKEYSplit2[0]];
-                
                 }
-                
+
                 return TRUE;
             }
 
@@ -513,51 +554,54 @@
             NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
 
             [self setIbssKEY:ibssKEYSplit2[0]];
-            
-            if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] || [[ipsw getIosVersion] containsString:@"9."]) {
-                
+
+            if ([[ipsw getIosVersion] containsString:@"7."] || [[ipsw getIosVersion] containsString:@"8."] ||
+                [[ipsw getIosVersion] containsString:@"9."]) {
+
                 NSArray *devicetreeIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-iv\">"];
                 NSArray *devicetreeIVSplit2 = [devicetreeIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setDevicetreeIV:devicetreeIVSplit2[0]];
-                
-                NSArray *devicetreeKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-key\">"];
+
+                NSArray *devicetreeKEYSplit1 =
+                    [dataString componentsSeparatedByString:@"id=\"keypage-devicetree-key\">"];
                 NSArray *devicetreeKEYSplit2 = [devicetreeKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setDevicetreeKEY:devicetreeKEYSplit2[0]];
-                
+
                 NSArray *kernelIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-iv\">"];
                 NSArray *kernelIVSplit2 = [kernelIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setKernelIV:kernelIVSplit2[0]];
-                
+
                 NSArray *kernelKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-kernelcache-key\">"];
                 NSArray *kernelKEYSplit2 = [kernelKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setKernelKEY:kernelKEYSplit2[0]];
-                
-                NSArray *restoreRamdiskIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-iv\">"];
+
+                NSArray *restoreRamdiskIVSplit1 =
+                    [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-iv\">"];
                 NSArray *restoreRamdiskIVSplit2 = [restoreRamdiskIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setRestoreRamdiskIV:restoreRamdiskIVSplit2[0]];
 
-                NSArray *restoreRamdiskKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-key\">"];
+                NSArray *restoreRamdiskKEYSplit1 =
+                    [dataString componentsSeparatedByString:@"id=\"keypage-restoreramdisk-key\">"];
                 NSArray *restoreRamdiskKEYSplit2 = [restoreRamdiskKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setRestoreRamdiskKEY:restoreRamdiskKEYSplit2[0]];
-                
+
                 NSArray *ibootIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot-iv\">"];
                 NSArray *ibootIVSplit2 = [ibootIVSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setIbootIV:ibootIVSplit2[0]];
-                
+
                 NSArray *ibootKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-iboot-key\">"];
                 NSArray *ibootKEYSplit2 = [ibootKEYSplit1[1] componentsSeparatedByString:@"</code>"];
-                
+
                 [self setIbootKEY:ibootKEYSplit2[0]];
-                
             }
-            
+
             return TRUE;
         }
     } else {
@@ -565,7 +609,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [RamielView errorHandler:
                     @"Failed to get firmware keys":@"Please check detailed log for more information"
-                                        :[NSString stringWithFormat:@"%@", data]];
+                                                  :[NSString stringWithFormat:@"%@", data]];
             });
             return FALSE;
         }

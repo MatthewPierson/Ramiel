@@ -8,8 +8,8 @@
 
 #import "SettingsView.h"
 #include "../ibootim/ibootimMain.h"
-#import "RamielView.h"
 #import "FirmwareKeys.h"
+#import "RamielView.h"
 #include "libirecovery.h"
 
 @implementation SettingsView
