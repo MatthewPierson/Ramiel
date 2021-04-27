@@ -386,7 +386,7 @@ int apnoncecon = 0;
         [NSString stringWithFormat:@"%@/RamielFiles/ibec.im4p", [[NSBundle mainBundle] resourcePath]];
     NSString *outPathManifest =
         [NSString stringWithFormat:@"%@/RamielFiles/ApnonceManifest.plist", [[NSBundle mainBundle] resourcePath]];
-
+    [self->_label setStringValue:@"Downloading BuildManifest.plist..."];
     [RamielView downloadFileFromIPSW:dataString:@"BuildManifest.plist":outPathManifest];
     NSDictionary *manifestData = [NSDictionary dictionaryWithContentsOfFile:outPathManifest];
     if (manifestData == NULL) {
@@ -406,20 +406,26 @@ int apnoncecon = 0;
             }
         }
     }
+    [self->_label setStringValue:@"Downloading iBSS..."];
     [RamielView downloadFileFromIPSW:dataString:ibssPath:ibssOutPath];
+    [self->_label setStringValue:@"Downloading iBEC..."];
     [RamielView downloadFileFromIPSW:dataString:ibecPath:ibecOutPath];
+    [self->_label setStringValue:@"Downloads complete..."];
     FirmwareKeys *ios12Keys = [[FirmwareKeys alloc] initFirmwareKeysID];
     IPSW *ios12IPSW = [[IPSW alloc] initIPSWID];
     [ios12IPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]];
     [ios12Keys fetchKeysFromWiki:apnonceDevice:ios12IPSW:manifestData];
+    [self->_label setStringValue:@"Decrypting iBSS..."];
     [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibss.raw --iv %@ "
                                                        @"--key %@ %@/RamielFiles/ibss.im4p",
                                                        [[NSBundle mainBundle] resourcePath], [ios12Keys getIbssIV],
                                                        [ios12Keys getIbssKEY], [[NSBundle mainBundle] resourcePath]]];
+    [self->_label setStringValue:@"Decrypting iBEC..."];
     [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibec.raw --iv %@ "
                                                        @"--key %@ %@/RamielFiles/ibec.im4p",
                                                        [[NSBundle mainBundle] resourcePath], [ios12Keys getIbecIV],
                                                        [ios12Keys getIbecKEY], [[NSBundle mainBundle] resourcePath]]];
+
     return 0;
 }
 

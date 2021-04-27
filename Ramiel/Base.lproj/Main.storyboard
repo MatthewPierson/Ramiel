@@ -911,7 +911,8 @@
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nK6-JG-6BY">
                                 <rect key="frame" x="85" y="174" width="311" height="15"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="exploit3d (@exploit3d) - AppleMesaSepDriver patcher" id="NDP-HP-Nd9">
+                                <rect key="frame" x="43" y="174" width="395" height="15"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="exploit3d (@exploit3d) - AppleMesaSepDriver patcher/iOS 7/8/9 help" id="NDP-HP-Nd9">
                                     <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
