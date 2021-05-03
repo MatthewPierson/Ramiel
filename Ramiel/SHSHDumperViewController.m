@@ -544,7 +544,7 @@ FirmwareKeys *dumpKeys;
                 sleep(15);
 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self->_label setStringValue:@"Dumping SHSH..."];
+                    [self->_label setStringValue:@"Running iProxy..."];
                     [self->_prog incrementBy:14.28];
                 });
 
@@ -554,58 +554,81 @@ FirmwareKeys *dumpKeys;
                     @"-c", [NSString stringWithFormat:@"%@/ssh/iproxy 2222 44", [[NSBundle mainBundle] resourcePath]]
                 ]];
                 [task launch];
-                NSString *prefix;
-                if (@available(macOS 11.0, *)) {
-                    prefix = @"/usr/bin";
-                } else {
-                    prefix = @"/usr/local/bin";
-                }
-                // Dump SHSH
-                [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
-                                                                [[NSBundle mainBundle] resourcePath]]];
-                // Have to do this twice
-                [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
-                                                                [[NSBundle mainBundle] resourcePath]]];
-                // ssh -p 2222 root@localhost "dd if=/dev/disk1 bs=256 count=$((0x4000))" | dd of=/tmp/dump.raw
-                [RamielView
-                    img4toolCMD:[NSString stringWithFormat:@"--convert -s %@/Ramiel/shsh/%llu_%@.shsh /tmp/dump.raw",
-                                                           NSSearchPathForDirectoriesInDomains(
-                                                               NSDocumentDirectory, NSUserDomainMask, YES)[0],
-                                                           (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
+                // Prompt for whether to dump SHSH or not
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSAlert *dumpAlert = [[NSAlert alloc] init];
+                    [dumpAlert setMessageText:@"Would you like to dump your devices SHSH?"];
+                    [dumpAlert setInformativeText:@"You can still SSH into the device after dumping SHSH if you'd like."];
+                    [dumpAlert addButtonWithTitle:@"Yes"];
+                    [dumpAlert addButtonWithTitle:@"No"];
+                    dumpAlert.window.titlebarAppearsTransparent = true;
+                    NSModalResponse choice = [dumpAlert runModal];
+                    if (choice == NSAlertFirstButtonReturn) {
+                        NSString *prefix;
+                        if (@available(macOS 11.0, *)) {
+                            prefix = @"/usr/bin";
+                        } else {
+                            prefix = @"/usr/local/bin";
+                        }
+                        // Dump SHSH
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
+                                                                        [[NSBundle mainBundle] resourcePath]]];
+                        // Have to do this twice
+                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
+                                                                        [[NSBundle mainBundle] resourcePath]]];
+                        // ssh -p 2222 root@localhost "dd if=/dev/disk1 bs=256 count=$((0x4000))" | dd of=/tmp/dump.raw
+                        [RamielView
+                            img4toolCMD:[NSString stringWithFormat:@"--convert -s %@/Ramiel/shsh/%llu_%@.shsh /tmp/dump.raw",
+                                                                   NSSearchPathForDirectoriesInDomains(
+                                                                       NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                                   (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
 
-                if ([[NSFileManager defaultManager]
-                        fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh",
-                                                                    NSSearchPathForDirectoriesInDomains(
-                                                                        NSDocumentDirectory, NSUserDomainMask, YES)[0],
-                                                                    (uint64_t)[dumpDevice getEcid],
-                                                                    [dumpIPSW getIosVersion]]]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSAlert *rebootAlert = [[NSAlert alloc] init];
-                        [rebootAlert setMessageText:@"SHSH dumped successfully!"];
-                        [rebootAlert
-                            setInformativeText:
-                                [NSString stringWithFormat:@"Dumped SHSH has been saved to your Documents "
-                                                           @"folder at the path:  \"%@/Ramiel/shsh/%llu_%@.shsh\"",
-                                                           NSSearchPathForDirectoriesInDomains(
-                                                               NSDocumentDirectory, NSUserDomainMask, YES)[0],
-                                                           (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
-                        rebootAlert.window.titlebarAppearsTransparent = true;
-                        [rebootAlert runModal];
-                        [[NSFileManager defaultManager] removeItemAtPath:@"/tmp/dump.raw" error:nil];
-                        dumpcon = 1;
-                        [self.view.window.contentViewController dismissViewController:self];
-                    });
+                        if ([[NSFileManager defaultManager]
+                                fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh",
+                                                                            NSSearchPathForDirectoriesInDomains(
+                                                                                NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                                            (uint64_t)[dumpDevice getEcid],
+                                                                            [dumpIPSW getIosVersion]]]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                NSAlert *rebootAlert = [[NSAlert alloc] init];
+                                [rebootAlert setMessageText:@"SHSH dumped successfully! You can now SSH into your device with \"ssh root@localhost -p 2222\""];
+                                [rebootAlert
+                                    setInformativeText:
+                                        [NSString stringWithFormat:@"Dumped SHSH has been saved to your Documents "
+                                                                   @"folder at the path:  \"%@/Ramiel/shsh/%llu_%@.shsh\"",
+                                                                   NSSearchPathForDirectoriesInDomains(
+                                                                       NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                                   (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
+                                rebootAlert.window.titlebarAppearsTransparent = true;
+                                [rebootAlert runModal];
+                                [[NSFileManager defaultManager] removeItemAtPath:@"/tmp/dump.raw" error:nil];
+                                dumpcon = 1;
+                                [self.view.window.contentViewController dismissViewController:self];
+                                return;
+                            });
 
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [RamielView errorHandler:
-                            @"Failed to dump SHSH":@"Please reboot into DFU mode and try again."
-                                                  :@"Failed to find dumped SHSH file on disk."];
+                        } else {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [RamielView errorHandler:
+                                    @"Failed to dump SHSH":@"Please reboot into DFU mode and try again."
+                                                          :@"Failed to find dumped SHSH file on disk."];
 
-                        [self.view.window.contentViewController dismissViewController:self];
-                        return;
-                    });
-                }
+                                [self.view.window.contentViewController dismissViewController:self];
+                                return;
+                            });
+                        }
+                    } else {
+                        // Inform user how to connect
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSAlert *connectAlert = [[NSAlert alloc] init];
+                            [connectAlert setMessageText:@"You can now SSH into your device with \"ssh root@localhost -p 2222\"."];
+                            connectAlert.window.titlebarAppearsTransparent = true;
+                            [connectAlert runModal];
+                            [self.view.window.contentViewController dismissViewController:self];
+                            return;
+                        });
+                    }
+                });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [RamielView errorHandler:

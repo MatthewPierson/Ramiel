@@ -601,7 +601,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="d1v-Bz-SZQ"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="Dump Devices SHSH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nGm-wv-PMj">
+                                <buttonCell key="cell" type="push" title="Boot SSH Ramdisk" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nGm-wv-PMj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1020,7 +1020,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="NbP-k5-OeL"/>
                                     <constraint firstAttribute="height" constant="40" id="tTu-g8-kMi"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="SHSH Dumper" drawsBackground="YES" id="ZlG-qm-oKW">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="SSH Ramdisk" drawsBackground="YES" id="ZlG-qm-oKW">
                                     <font key="font" size="31" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -1048,8 +1048,8 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ww9-dB-Z8Y">
-                                <rect key="frame" x="182" y="134" width="116" height="32"/>
-                                <buttonCell key="cell" type="push" title="Dump SHSH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yuw-0z-3PW">
+                                <rect key="frame" x="164" y="134" width="153" height="32"/>
+                                <buttonCell key="cell" type="push" title="Boot SSH Ramdisk" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yuw-0z-3PW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
