@@ -554,6 +554,14 @@ FirmwareKeys *dumpKeys;
                     @"-c", [NSString stringWithFormat:@"%@/ssh/iproxy 2222 44", [[NSBundle mainBundle] resourcePath]]
                 ]];
                 [task launch];
+                NSString *prefix;
+                if (@available(macOS 11.0, *)) {
+                    prefix = @"/usr/bin";
+                } else {
+                    prefix = @"/usr/local/bin";
+                }
+                [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
+                                                                [[NSBundle mainBundle] resourcePath]]];
                 // Prompt for whether to dump SHSH or not
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSAlert *dumpAlert = [[NSAlert alloc] init];
@@ -564,16 +572,7 @@ FirmwareKeys *dumpKeys;
                     dumpAlert.window.titlebarAppearsTransparent = true;
                     NSModalResponse choice = [dumpAlert runModal];
                     if (choice == NSAlertFirstButtonReturn) {
-                        NSString *prefix;
-                        if (@available(macOS 11.0, *)) {
-                            prefix = @"/usr/bin";
-                        } else {
-                            prefix = @"/usr/local/bin";
-                        }
                         // Dump SHSH
-                        [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
-                                                                        [[NSBundle mainBundle] resourcePath]]];
-                        // Have to do this twice
                         [RamielView otherCMD:[NSString stringWithFormat:@"%@/python3 %@/ssh/dump.py", prefix,
                                                                         [[NSBundle mainBundle] resourcePath]]];
                         // ssh -p 2222 root@localhost "dd if=/dev/disk1 bs=256 count=$((0x4000))" | dd of=/tmp/dump.raw
