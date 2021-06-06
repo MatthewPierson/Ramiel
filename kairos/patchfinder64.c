@@ -9,7 +9,7 @@
 #include "patchfinder64.h"
 
 bool auth_ptrs = false;
-typedef unsigned long long addr_t;
+typedef uint64_t addr_t;
 static addr_t kerndumpbase = -1;
 static addr_t xnucore_base = 0;
 static addr_t xnucore_size = 0;
@@ -1190,7 +1190,7 @@ find_trustcache(void)
         return val + kerndumpbase;
     }
 
-    addr_t call, func, val, adrp;
+    addr_t cbz, call, func, val, adrp;
     int reg;
     uint32_t op;
 
@@ -1916,7 +1916,7 @@ addr_t find_boottime(void) {
     }
     // add pageoff
     val += ((*insn >> 10) & 0xFFF) << 3;
-    //uint8_t xn = (*insn & 0x1f);
+    uint8_t xn = (*insn & 0x1f);
 
     return val;
 }

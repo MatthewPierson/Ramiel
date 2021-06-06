@@ -691,7 +691,6 @@ FirmwareKeys *dumpKeys;
                                                         ibecPwnPath, ibecPwnPath]];
     } else {
         ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args, 0);
-
         if (ret != 0) {
             dispatch_queue_t mainQueue = dispatch_get_main_queue();
             dispatch_sync(mainQueue, ^{
