@@ -117,7 +117,7 @@ int change_bootarg_adr_xref_addr(struct iboot64_img* iboot_in, addr_t dest, addr
 	}
 	if(type == adr || type == nop) {
 		uint32_t newAdr = 0;
-		if (iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100)
+        if ((iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) || iboot_in->VERS >= 7429)
 			newAdr = new_insn_adr(dest,24,address-(addr_t)iboot_in->buf);
 		else
 			newAdr = replace_adr_addr(dest,insn,address-(addr_t)iboot_in->buf);
@@ -131,7 +131,7 @@ int change_bootarg_adr_xref_addr(struct iboot64_img* iboot_in, addr_t dest, addr
 }
 
 int doFinalBootArgs(struct iboot64_img* iboot_in, addr_t xref, addr_t default_args_loc) {
-	if (iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) // not necessary as of iOS 14.5
+    if ((iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) || iboot_in->VERS >= 7429) // not necessary as of iOS 14.5
 		return 0;
 	uint32_t adrInsn = get_insn(iboot_in->buf,xref);
 	uint8_t rd = get_rd(adrInsn);
@@ -275,17 +275,12 @@ void do_rsa_sigcheck_patch(struct iboot64_img* iboot_in, addr_t img4Xref ) {
 	if (verifyFunc > (addr_t)(iboot_in->buf+iboot_in->len)) { // in older versions a dereference does not need to be made
 		verifyFunc = verifyRef-(x2_adr/4)+x2_adr;
 	}
-	LOG("Call to 0x%llx\n",verifyFunc);
-	addr_t crawl = verifyFunc;
-	crawl += 4;
-	while(get_type(get_insn(iboot_in->buf,crawl)) != ret) {
-		crawl += 4; 
-	}
-	LOG("RET found for sub_%llx at 0x%llx\n",verifyFunc+iboot_in->base,crawl);
+	LOG("Call to sub_%llx\n",verifyFunc);
+	// just patch at beginning, doesn't seem like this actually harms anything
 	uint32_t movInsn = new_mov_immediate_insn(0,0,1);
 	uint32_t retInsn = new_ret_insn(-1);
-	write_opcode(iboot_in->buf,crawl,movInsn);
-	write_opcode(iboot_in->buf,crawl+4,retInsn);
+	write_opcode(iboot_in->buf,verifyFunc,movInsn);
+	write_opcode(iboot_in->buf,verifyFunc+4,retInsn);
 	LOG("Did MOV r0, #0 and RET\n");
 }
 
@@ -294,13 +289,13 @@ int patch_boot_args64(struct iboot64_img* iboot_in, char* bootargs) {
 	void* default_loc = NULL;
 	int num = 1;
 	LOG("Image base address at 0x%llx\n",iboot_in->base);
-	if (iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100)
+	if ((iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) || iboot_in->VERS >= 7429)
 		default_loc = memmem(iboot_in->buf,iboot_in->len,"rd=md0",strlen("rd=md0"));
 	else
 		default_loc = memmem(iboot_in->buf,iboot_in->len,DEFAULT_BOOTARGS_STRING,strlen(DEFAULT_BOOTARGS_STRING));
 	if(!default_loc) { // if those are not found, try for the other possible string
 		LOG("Searching for alternate boot-args\n");
-		if (iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100)
+        if ((iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) || iboot_in->VERS >= 7429)
 			default_loc = memmem(iboot_in->buf,iboot_in->len," -progress",strlen(" -progress"));
 		else
 			default_loc = memmem(iboot_in->buf,iboot_in->len,OTHER_DEFAULT_BOOTARGS_STRING,strlen(OTHER_DEFAULT_BOOTARGS_STRING));
@@ -311,7 +306,7 @@ int patch_boot_args64(struct iboot64_img* iboot_in, char* bootargs) {
 	}
 	LOG("Found boot-arg string at %p\n",GET_IBOOT_FILE_OFFSET(iboot_in,default_loc));
 	uint64_t default_args_xref = iboot64_ref(iboot_in,default_loc);
-	if (iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) {
+    if ((iboot_in->VERS >= 6723 && iboot_in->minor_vers >= 100) || iboot_in->VERS >= 7429) {
 		LOG("Relocating from 0x%llx...\n",iboot_in->base+default_args_xref);
 		default_args_xref = get_next_nth_insn(iboot_in->buf,default_args_xref,5,nop);
 	}

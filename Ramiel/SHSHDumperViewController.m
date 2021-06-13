@@ -165,6 +165,15 @@ FirmwareKeys *dumpKeys;
             NSDictionary *manifestData = [NSDictionary
                 dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/BuildManifest.plist", dumpextractPath]];
             [dumpIPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]]; // Get IPSW's iOS version
+            if ([[dumpIPSW getIosVersion] containsString:@"15."]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [RamielView errorHandler:
+                        @"The iOS 15 Beta is not supported in this version of Ramiel":
+                            @"Please check @ramielapp on twitter for updates on iOS 15 Beta support":@"N/A"];
+                    [self.view.window.contentViewController dismissViewController:self];
+                });
+                return;
+            }
             [dumpIPSW
                 setSupportedModels:[manifestData objectForKey:@"SupportedProductTypes"]]; // Get supported devices list
             int supported = 0;
@@ -1043,7 +1052,8 @@ FirmwareKeys *dumpKeys;
 
             if ((([[dumpIPSW getIosVersion] containsString:@"12."] ||
                   [[dumpIPSW getIosVersion] containsString:@"13."] ||
-                  [[dumpIPSW getIosVersion] containsString:@"14."]) &&
+                  [[dumpIPSW getIosVersion] containsString:@"14."] ||
+                  [[dumpIPSW getIosVersion] containsString:@"15."]) &&
                  ![[NSFileManager defaultManager]
                      fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
                                                                  [[NSBundle mainBundle] resourcePath]]]) ||

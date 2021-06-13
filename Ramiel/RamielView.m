@@ -662,7 +662,8 @@ FirmwareKeys *userKeys;
 
                 if ((([[userIPSW getIosVersion] containsString:@"12."] ||
                       [[userIPSW getIosVersion] containsString:@"13."] ||
-                      [[userIPSW getIosVersion] containsString:@"14."]) &&
+                      [[userIPSW getIosVersion] containsString:@"14."] ||
+                      [[userIPSW getIosVersion] containsString:@"15."]) &&
                      ![[NSFileManager defaultManager]
                          fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
                                                                      [[NSBundle mainBundle] resourcePath]]]) ||
@@ -729,7 +730,23 @@ FirmwareKeys *userKeys;
                         ret = [userDevice sendCMD:trustCMD];
                     }
                 }
-                if ([[userIPSW getIosVersion] containsString:@"14."] ||
+                if ([userIPSW getTouchName] != NULL &&
+                    ![[NSFileManager defaultManager]
+                        fileExistsAtPath:[NSString stringWithFormat:@"%@/ramdisk.img4",
+                                                                    [[NSBundle mainBundle] resourcePath]]]) {
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self->_infoLabel setStringValue:@"Sending Touch..."];
+                    });
+                    NSString *touch = [NSString stringWithFormat:@"%@/touch.img4", [[NSBundle mainBundle] resourcePath]];
+                    ret = [userDevice sendImage:touch];
+
+                    if (ret != 1) {
+                        ret = [userDevice sendCMD:trustCMD];
+                    }
+                }
+                if ([[userIPSW getIosVersion] containsString:@"15."] ||
+                    [[userIPSW getIosVersion] containsString:@"14."] ||
                     [[userIPSW getIosVersion] containsString:@"13."] ||
                     ([[userDevice getCpid] containsString:@"8015"] && [userIPSW getBootRamdisk])) {
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -766,7 +783,8 @@ FirmwareKeys *userKeys;
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"Booted device successfully!\n");
 
-                if (([[userIPSW getIosVersion] containsString:@"14."] ||
+                if (([[userIPSW getIosVersion] containsString:@"15."] ||
+                     [[userIPSW getIosVersion] containsString:@"14."] ||
                      [[userIPSW getIosVersion] containsString:@"13."] ||
                      ([[userDevice getCpid] containsString:@"8015"])) &&
                     [userIPSW getBootRamdisk]) {
@@ -977,6 +995,15 @@ FirmwareKeys *userKeys;
             NSDictionary *manifestData = [NSDictionary
                 dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/BuildManifest.plist", extractPath]];
             [userIPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]]; // Get IPSW's iOS version
+            if ([[userIPSW getIosVersion] containsString:@"15."]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [RamielView errorHandler:
+                        @"The iOS 15 Beta is not supported in this version of Ramiel":
+                            @"Please check @ramielapp on twitter for updates on iOS 15 Beta support":@"N/A"];
+                    [self refreshInfo:NULL];
+                });
+                return;
+            }
             [userIPSW
                 setSupportedModels:[manifestData objectForKey:@"SupportedProductTypes"]]; // Get supported devices list
             int supported = 0;
@@ -1066,7 +1093,8 @@ FirmwareKeys *userKeys;
                             setTrustCacheName:[NSString
                                                   stringWithFormat:@"Firmware/%@.trustcache",
                                                                    buildID[i][@"Manifest"][@"OS"][@"Info"][@"Path"]]];
-                        if ([[userIPSW getIosVersion] containsString:@"14."] ||
+                        if ([[userIPSW getIosVersion] containsString:@"15."] ||
+                            [[userIPSW getIosVersion] containsString:@"14."] ||
                             ([[userIPSW getIosVersion] containsString:@"13."]) ||
                             ([[userDevice getCpid] containsString:@"8015"])) {
                             [userIPSW
@@ -1131,7 +1159,8 @@ FirmwareKeys *userKeys;
                     moveItemAtPath:[NSString stringWithFormat:@"%@/%@", extractPath, [userIPSW getKernelName]]
                             toPath:[NSString stringWithFormat:@"%@/RamielFiles/kernel.im4p", resourcesFolder]
                              error:nil];
-                if ([[userIPSW getIosVersion] containsString:@"14."] ||
+                if ([[userIPSW getIosVersion] containsString:@"15."] ||
+                    [[userIPSW getIosVersion] containsString:@"14."] ||
                     [[userIPSW getIosVersion] containsString:@"13."] ||
                     ([[userDevice getCpid] containsString:@"8015"])) {
                     [[NSFileManager defaultManager]
@@ -1239,7 +1268,8 @@ FirmwareKeys *userKeys;
                 // checkra1n is impossible without having the SHSH the device was
                 // restored with on hand.
 
-                if ([[userIPSW getIosVersion] containsString:@"14."] ||
+                if ([[userIPSW getIosVersion] containsString:@"15."] ||
+                    [[userIPSW getIosVersion] containsString:@"14."] ||
                     ([[userDevice getCpid] containsString:@"8015"] || [[userDevice getCpid] containsString:@"8010"])) {
                     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -1813,7 +1843,7 @@ FirmwareKeys *userKeys;
                     if (![[ramielPrefs objectForKey:@"bootpartitionPatch"] isEqual:@(0)]) {
 
                         if ([[userIPSW getIosVersion] containsString:@"13"] ||
-                            [[userIPSW getIosVersion] containsString:@"14"]) {
+                            [[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
                             int convertInt = [[ramielPrefs objectForKey:@"bootpartitionPatch"] intValue];
 
                             NSString *filepath = [NSString
@@ -1833,7 +1863,7 @@ FirmwareKeys *userKeys;
                             if (![[userIPSW getIosVersion] containsString:@"12"]) {
                                 filepath = [NSString stringWithFormat:@"%@/RamielFiles/devicetree.im4p",
                                                                       [[NSBundle mainBundle] resourcePath]];
-                                if ([[userIPSW getIosVersion] containsString:@"14"]) {
+                                if ([[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
                                     [RamielView
                                         img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw "
                                                                                @"%@/RamielFiles/devicetree.im4p",
@@ -1863,7 +1893,7 @@ FirmwareKeys *userKeys;
                                 [fHandle writeData:dataWrite];
                                 [fHandle closeFile];
 
-                                if ([[userIPSW getIosVersion] containsString:@"14"]) {
+                                if ([[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
                                     [RamielView
                                         img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
                                                                                @"dtre %@/RamielFiles/devicetree.raw",
