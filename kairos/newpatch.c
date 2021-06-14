@@ -275,12 +275,26 @@ void do_rsa_sigcheck_patch(struct iboot64_img* iboot_in, addr_t img4Xref ) {
 	if (verifyFunc > (addr_t)(iboot_in->buf+iboot_in->len)) { // in older versions a dereference does not need to be made
 		verifyFunc = verifyRef-(x2_adr/4)+x2_adr;
 	}
-	LOG("Call to sub_%llx\n",verifyFunc);
-	// just patch at beginning, doesn't seem like this actually harms anything
-	uint32_t movInsn = new_mov_immediate_insn(0,0,1);
-	uint32_t retInsn = new_ret_insn(-1);
-	write_opcode(iboot_in->buf,verifyFunc,movInsn);
-	write_opcode(iboot_in->buf,verifyFunc+4,retInsn);
+    if (iboot_in->VERS < 5540) {
+        LOG("Call to 0x%llx\n",verifyFunc);
+        addr_t crawl = verifyFunc;
+        crawl += 4;
+        while(get_type(get_insn(iboot_in->buf,crawl)) != ret) {
+            crawl += 4;
+        }
+        LOG("RET found for sub_%llx at 0x%llx\n",verifyFunc+iboot_in->base,crawl);
+        uint32_t movInsn = new_mov_immediate_insn(0,0,1);
+        uint32_t retInsn = new_ret_insn(-1);
+        write_opcode(iboot_in->buf,crawl,movInsn);
+        write_opcode(iboot_in->buf,crawl+4,retInsn);
+    } else {
+        LOG("Call to sub_%llx\n",verifyFunc);
+        // just patch at beginning, doesn't seem like this actually harms anything
+        uint32_t movInsn = new_mov_immediate_insn(0,0,1);
+        uint32_t retInsn = new_ret_insn(-1);
+        write_opcode(iboot_in->buf,verifyFunc,movInsn);
+        write_opcode(iboot_in->buf,verifyFunc+4,retInsn);
+    }
 	LOG("Did MOV r0, #0 and RET\n");
 }
 
