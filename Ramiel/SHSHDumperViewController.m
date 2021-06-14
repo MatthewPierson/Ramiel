@@ -575,7 +575,8 @@ FirmwareKeys *dumpKeys;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSAlert *dumpAlert = [[NSAlert alloc] init];
                     [dumpAlert setMessageText:@"Would you like to dump your devices SHSH?"];
-                    [dumpAlert setInformativeText:@"You can still SSH into the device after dumping SHSH if you'd like."];
+                    [dumpAlert
+                        setInformativeText:@"You can still SSH into the device after dumping SHSH if you'd like."];
                     [dumpAlert addButtonWithTitle:@"Yes"];
                     [dumpAlert addButtonWithTitle:@"No"];
                     dumpAlert.window.titlebarAppearsTransparent = true;
@@ -586,27 +587,31 @@ FirmwareKeys *dumpKeys;
                                                                         [[NSBundle mainBundle] resourcePath]]];
                         // ssh -p 2222 root@localhost "dd if=/dev/disk1 bs=256 count=$((0x4000))" | dd of=/tmp/dump.raw
                         [RamielView
-                            img4toolCMD:[NSString stringWithFormat:@"--convert -s %@/Ramiel/shsh/%llu_%@.shsh /tmp/dump.raw",
-                                                                   NSSearchPathForDirectoriesInDomains(
-                                                                       NSDocumentDirectory, NSUserDomainMask, YES)[0],
-                                                                   (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
+                            img4toolCMD:[NSString
+                                            stringWithFormat:@"--convert -s %@/Ramiel/shsh/%llu_%@.shsh /tmp/dump.raw",
+                                                             NSSearchPathForDirectoriesInDomains(
+                                                                 NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                             (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
 
                         if ([[NSFileManager defaultManager]
                                 fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%llu_%@.shsh",
                                                                             NSSearchPathForDirectoriesInDomains(
-                                                                                NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                                                NSDocumentDirectory, NSUserDomainMask,
+                                                                                YES)[0],
                                                                             (uint64_t)[dumpDevice getEcid],
                                                                             [dumpIPSW getIosVersion]]]) {
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 NSAlert *rebootAlert = [[NSAlert alloc] init];
-                                [rebootAlert setMessageText:@"SHSH dumped successfully! You can now SSH into your device with \"ssh root@localhost -p 2222\""];
+                                [rebootAlert setMessageText:@"SHSH dumped successfully! You can now SSH into your "
+                                                            @"device with \"ssh root@localhost -p 2222\""];
                                 [rebootAlert
                                     setInformativeText:
-                                        [NSString stringWithFormat:@"Dumped SHSH has been saved to your Documents "
-                                                                   @"folder at the path:  \"%@/Ramiel/shsh/%llu_%@.shsh\"",
-                                                                   NSSearchPathForDirectoriesInDomains(
-                                                                       NSDocumentDirectory, NSUserDomainMask, YES)[0],
-                                                                   (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
+                                        [NSString
+                                            stringWithFormat:@"Dumped SHSH has been saved to your Documents "
+                                                             @"folder at the path:  \"%@/Ramiel/shsh/%llu_%@.shsh\"",
+                                                             NSSearchPathForDirectoriesInDomains(
+                                                                 NSDocumentDirectory, NSUserDomainMask, YES)[0],
+                                                             (uint64_t)[dumpDevice getEcid], [dumpIPSW getIosVersion]]];
                                 rebootAlert.window.titlebarAppearsTransparent = true;
                                 [rebootAlert runModal];
                                 [[NSFileManager defaultManager] removeItemAtPath:@"/tmp/dump.raw" error:nil];
@@ -629,7 +634,8 @@ FirmwareKeys *dumpKeys;
                         // Inform user how to connect
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSAlert *connectAlert = [[NSAlert alloc] init];
-                            [connectAlert setMessageText:@"You can now SSH into your device with \"ssh root@localhost -p 2222\"."];
+                            [connectAlert setMessageText:
+                                              @"You can now SSH into your device with \"ssh root@localhost -p 2222\"."];
                             connectAlert.window.titlebarAppearsTransparent = true;
                             [connectAlert runModal];
                             [self.view.window.contentViewController dismissViewController:self];

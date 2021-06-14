@@ -738,7 +738,8 @@ FirmwareKeys *userKeys;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self->_infoLabel setStringValue:@"Sending Touch..."];
                     });
-                    NSString *touch = [NSString stringWithFormat:@"%@/touch.img4", [[NSBundle mainBundle] resourcePath]];
+                    NSString *touch =
+                        [NSString stringWithFormat:@"%@/touch.img4", [[NSBundle mainBundle] resourcePath]];
                     ret = [userDevice sendImage:touch];
 
                     if (ret != 1) {
@@ -1843,7 +1844,8 @@ FirmwareKeys *userKeys;
                     if (![[ramielPrefs objectForKey:@"bootpartitionPatch"] isEqual:@(0)]) {
 
                         if ([[userIPSW getIosVersion] containsString:@"13"] ||
-                            [[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
+                            [[userIPSW getIosVersion] containsString:@"14"] ||
+                            [[userIPSW getIosVersion] containsString:@"15"]) {
                             int convertInt = [[ramielPrefs objectForKey:@"bootpartitionPatch"] intValue];
 
                             NSString *filepath = [NSString
@@ -1863,7 +1865,8 @@ FirmwareKeys *userKeys;
                             if (![[userIPSW getIosVersion] containsString:@"12"]) {
                                 filepath = [NSString stringWithFormat:@"%@/RamielFiles/devicetree.im4p",
                                                                       [[NSBundle mainBundle] resourcePath]];
-                                if ([[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
+                                if ([[userIPSW getIosVersion] containsString:@"14"] ||
+                                    [[userIPSW getIosVersion] containsString:@"15"]) {
                                     [RamielView
                                         img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/devicetree.raw "
                                                                                @"%@/RamielFiles/devicetree.im4p",
@@ -1893,7 +1896,8 @@ FirmwareKeys *userKeys;
                                 [fHandle writeData:dataWrite];
                                 [fHandle closeFile];
 
-                                if ([[userIPSW getIosVersion] containsString:@"14"] || [[userIPSW getIosVersion] containsString:@"15"]) {
+                                if ([[userIPSW getIosVersion] containsString:@"14"] ||
+                                    [[userIPSW getIosVersion] containsString:@"15"]) {
                                     [RamielView
                                         img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/devicetree.im4p -t "
                                                                                @"dtre %@/RamielFiles/devicetree.raw",
