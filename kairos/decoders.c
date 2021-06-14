@@ -29,61 +29,61 @@ uint64_t SET_BITS(uint64_t v, int begin) { return ((v)<<(begin));}
 
 insn_type_t get_type(uint32_t data) {
     enum insn_type type;
-    if(BIT_RANGE(data, 24, 28) == 0b10000 && (data>>31))
+    if(BIT_RANGE(data, 24, 28) == 0x10 && (data>>31))
         type = adrp;
-    else if(BIT_RANGE(data, 24, 28) == 0b10000 && !(data>>31))
+    else if(BIT_RANGE(data, 24, 28) == 0x10 && !(data>>31))
         type = adr;
-    else if(BIT_RANGE(data, 24, 30) == 0b0010001)
+    else if(BIT_RANGE(data, 24, 30) == 0x11)
         type = add;
-    else if(BIT_RANGE(data, 24, 30) == 0b1010001)
+    else if(BIT_RANGE(data, 24, 30) == 0x51)
         type = sub;
-    else if((data>>26) == 0b100101)
+    else if((data>>26) == 0x25)
         type = bl;
-    else if(BIT_RANGE(data, 24, 30) == 0b0110100)
+    else if(BIT_RANGE(data, 24, 30) == 0x34)
         type = cbz;
-    else if(((0b11111 << 5) | data) == 0b11010110010111110000001111100000)
+    else if(((0x1F << 5) | data) == 0xD65F03E0)
         type = ret;
-    else if(BIT_RANGE(data, 24, 30) == 0b0110111)
+    else if(BIT_RANGE(data, 24, 30) == 0x37)
         type = tbnz;
-    else if(((0b11111 << 5) | data) == 0b11010110000111110000001111100000)
+    else if(((0x1F << 5) | data) == 0xD61F03E0)
         type = br;
-    else if((((data>>22) | 0b0100000000) == 0b1111100001 && ((data>>10) % 4)) || ((data>>22 | 0b0100000000) == 0b1111100101) || ((data>>23) == 0b00011000))
+    else if((((data>>22) | 0x100) == 0x3E1 && ((data>>10) % 4)) || ((data>>22 | 0x100) == 0x3E5) || ((data>>23) == 0x18))
         type = ldr;
-    else if(BIT_RANGE(data, 24, 30) == 0b0110101)
+    else if(BIT_RANGE(data, 24, 30) == 0x35)
         type = cbnz;
-    else if(BIT_RANGE(data, 23, 30) == 0b11100101)
+    else if(BIT_RANGE(data, 23, 30) == 0xE5)
         type = movk;
-    else if(BIT_RANGE(data, 23, 30) == 0b01100100)
+    else if(BIT_RANGE(data, 23, 30) == 0x64)
         type = orr;
-    else if(BIT_RANGE(data, 23, 30) == 0b00100100)
+    else if(BIT_RANGE(data, 23, 30) == 0x24)
         type = and_;
-    else if(BIT_RANGE(data, 24, 30) == 0b0110110)
+    else if(BIT_RANGE(data, 24, 30) == 0x36)
         type = tbz;
-    else if((BIT_RANGE(data, 24, 29) == 0b001000) && (data >> 31) && BIT_AT(data, 22))
+    else if((BIT_RANGE(data, 24, 29) == 0x8) && (data >> 31) && BIT_AT(data, 22))
         type = ldxr;
-    else if(BIT_RANGE(data, 21, 31) == 0b00111000010 || BIT_RANGE(data, 22, 31) == 0b0011100101  || (BIT_RANGE(data, 21, 31) == 0b00111000011 && BIT_RANGE(data, 10, 11) == 0b10))
+    else if(BIT_RANGE(data, 21, 31) == 0x1C2 || BIT_RANGE(data, 22, 31) == 0xE5  || (BIT_RANGE(data, 21, 31) == 0x1C3 && BIT_RANGE(data, 10, 11) == 0x2))
         type = ldrb;
-    else if((BIT_RANGE(data, 22, 29) == 0b11100100) && (data >> 31))
+    else if((BIT_RANGE(data, 22, 29) == 0xE4) && (data >> 31))
         type = str;
-    else if((BIT_RANGE(data, 25, 30) == 0b010100) && !BIT_AT(data, 22))
+    else if((BIT_RANGE(data, 25, 30) == 0x14) && !BIT_AT(data, 22))
         type = stp;
-    else if((BIT_RANGE(data, 23, 30) == 0b10100101))
+    else if((BIT_RANGE(data, 23, 30) == 0xA5))
         type = movz;
-    else if((BIT_RANGE(data, 24, 30) == 0b0101010) && (BIT_AT(data, 21) == 0))
+    else if((BIT_RANGE(data, 24, 30) == 0x2A) && (BIT_AT(data, 21) == 0x0))
         type = mov;
-    else if((BIT_RANGE(data, 24, 31) == 0b01010100) && !BIT_AT(data, 4))
+    else if((BIT_RANGE(data, 24, 31) == 0x54) && !BIT_AT(data, 4))
         type = bcond;
-    else if((BIT_RANGE(data, 26, 31) == 0b000101))
+    else if((BIT_RANGE(data, 26, 31) == 0x5))
         type = b;
-    else if((BIT_RANGE(data, 12, 31) == 0b11010101000000110010) & (0b11111 % (1<<5)))
+    else if((BIT_RANGE(data, 12, 31) == 0xD5032) & (0x1F % (1<<5)))
         type = nop;
-    else if((BIT_RANGE(data, 21, 30) == 0b0011010100) && (BIT_RANGE(data, 10, 11) == 0b00))
+    else if((BIT_RANGE(data, 21, 30) == 0xD4) && (BIT_RANGE(data, 10, 11) == 0x0))
         type = csel;
-    else if((BIT_RANGE(data, 20, 31) == 0b110101010011))
+    else if((BIT_RANGE(data, 20, 31) == 0xD53))
         type = mrs;
-    else if((BIT_RANGE(data, 21, 30) == 0b1101011001) || (BIT_RANGE(data, 24, 30) == 0b1101011) || (BIT_RANGE(data, 24, 30) == 0b1110001)) 
+    else if((BIT_RANGE(data, 21, 30) == 0x359) || (BIT_RANGE(data, 24, 30) == 0x6B) || (BIT_RANGE(data, 24, 30) == 0x71)) 
         type = subs;
-    else if((BIT_RANGE(data, 21, 30) == 0b1111010010))
+    else if((BIT_RANGE(data, 21, 30) == 0x3D2))
         type = ccmp;
     else
         type = unknown;
@@ -188,9 +188,9 @@ uint64_t get_ptr_loc(uint8_t* buf, addr_t offset) {
 int64_t get_addr_for_adr(addr_t offset,uint32_t insn) {
     uint64_t pc = offset / 4; // yup. that easy
     //printf("offset: %llx\n",offset);
-    //uint64_t immlo = BIT_RANGE(insn,29,30);
-    //uint64_t immhi = BIT_RANGE(insn,5,23);
-    //uint64_t immf = (BIT_RANGE(insn,5,23) << 2) | BIT_RANGE(insn,29,30); // immhi:immlo
+    uint64_t immlo = BIT_RANGE(insn,29,30);
+    uint64_t immhi = BIT_RANGE(insn,5,23);
+    uint64_t immf = (BIT_RANGE(insn,5,23) << 2) | BIT_RANGE(insn,29,30); // immhi:immlo
     int64_t imm = signExtend((BIT_RANGE(insn,5,23) << 2) | BIT_RANGE(insn,29,30),21);
     //printf("PC-rel for : %llx\n",imm);
     return imm + pc;
@@ -232,7 +232,7 @@ addr_t get_next_nth_insn(uint8_t* buf, addr_t offset, int n, insn_type_t type) {
 
 char* uint64_to_hex(uint64_t num) {
     char* res = NULL;
-    //uint8_t scratch = 0;
+    uint8_t scratch = 0;
     asprintf(&res,"%s\\x%02llx","", (num >> 0) & 0xFF);
     asprintf(&res,"%s\\x%02llx",res, (num >> 8) & 0xFF);
     asprintf(&res,"%s\\x%02llx",res, (num >> 16) & 0xFF);

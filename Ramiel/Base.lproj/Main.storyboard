@@ -415,11 +415,11 @@
                 <customObject id="vtb-Ah-tb6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController id="Cl8-Id-BaF" customClass="SettingsView" sceneMemberID="viewController">
                     <view key="view" id="hce-ME-MTK">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rQ8-l9-I8M">
-                                <rect key="frame" x="151" y="270" width="179" height="40"/>
+                                <rect key="frame" x="151" y="310" width="179" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="179" id="wOf-IQ-Qwk"/>
                                     <constraint firstAttribute="height" constant="40" id="xN4-jy-uFy"/>
@@ -447,7 +447,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xvF-kf-b73">
-                                <rect key="frame" x="263" y="227" width="173" height="32"/>
+                                <rect key="frame" x="263" y="267" width="173" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="Bfi-Bk-EmK"/>
                                 </constraints>
@@ -460,7 +460,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="21n-Uu-pCv">
-                                <rect key="frame" x="263" y="197" width="173" height="32"/>
+                                <rect key="frame" x="263" y="237" width="173" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set Custom BootLogo" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UMd-Yh-ETm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -470,7 +470,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n2K-Qj-K0V">
-                                <rect key="frame" x="440" y="236" width="22" height="18"/>
+                                <rect key="frame" x="440" y="276" width="22" height="18"/>
                                 <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0aR-W6-wE6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -480,7 +480,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1In-9i-mL8">
-                                <rect key="frame" x="440" y="206" width="22" height="18"/>
+                                <rect key="frame" x="440" y="246" width="22" height="18"/>
                                 <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" inset="2" id="h7a-5Z-il3">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -490,7 +490,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XQj-Fd-qRi">
-                                <rect key="frame" x="44" y="227" width="164" height="32"/>
+                                <rect key="frame" x="44" y="267" width="164" height="32"/>
                                 <buttonCell key="cell" type="push" title="Boot Dualbooted OS" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cnY-e2-xvx">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -500,7 +500,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Zy-Rm-9UP">
-                                <rect key="frame" x="18" y="236" width="26" height="18"/>
+                                <rect key="frame" x="18" y="276" width="26" height="18"/>
                                 <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" inset="2" id="k4w-JB-NxO">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -510,7 +510,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VbP-km-1jl">
-                                <rect key="frame" x="44" y="197" width="164" height="32"/>
+                                <rect key="frame" x="44" y="237" width="164" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="152" id="SDq-uF-uco"/>
                                 </constraints>
@@ -530,7 +530,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="efq-NJ-s1i">
-                                <rect key="frame" x="18" y="176" width="169" height="18"/>
+                                <rect key="frame" x="18" y="216" width="169" height="18"/>
                                 <buttonCell key="cell" type="check" title="    Skip IPSW verification" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GJI-qJ-WqH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -540,7 +540,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8rj-nO-EIQ">
-                                <rect key="frame" x="263" y="167" width="173" height="32"/>
+                                <rect key="frame" x="263" y="207" width="173" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="W16-3S-eZx"/>
                                 </constraints>
@@ -554,7 +554,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qrh-UQ-cgt">
-                                <rect key="frame" x="263" y="137" width="173" height="32"/>
+                                <rect key="frame" x="263" y="177" width="173" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="HEk-RV-FJ7"/>
                                 </constraints>
@@ -567,7 +567,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ysg-qQ-ktP">
-                                <rect key="frame" x="18" y="150" width="157" height="18"/>
+                                <rect key="frame" x="18" y="190" width="157" height="18"/>
                                 <buttonCell key="cell" type="check" title="    Enable debug mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="CtV-uX-zMV">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -577,7 +577,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XSt-E1-Lw5">
-                                <rect key="frame" x="18" y="124" width="200" height="18"/>
+                                <rect key="frame" x="18" y="164" width="200" height="18"/>
                                 <buttonCell key="cell" type="check" title="    Apply AMFI Kernel Patches" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ioS-mx-FrV">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -587,7 +587,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9fL-yH-TRW">
-                                <rect key="frame" x="18" y="98" width="221" height="18"/>
+                                <rect key="frame" x="18" y="138" width="221" height="18"/>
                                 <buttonCell key="cell" type="check" title="    Apply AMSD/ABS Kernel Patches" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ht3-nu-HM3">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
@@ -597,11 +597,11 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WPj-Tr-bog">
-                                <rect key="frame" x="263" y="107" width="173" height="32"/>
+                                <rect key="frame" x="263" y="147" width="173" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="d1v-Bz-SZQ"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="Dump Devices SHSH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nGm-wv-PMj">
+                                <buttonCell key="cell" type="push" title="Boot SSH Ramdisk" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nGm-wv-PMj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -611,7 +611,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xfs-Id-BbE">
-                                <rect key="frame" x="263" y="77" width="173" height="32"/>
+                                <rect key="frame" x="263" y="117" width="173" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="161" id="J2s-DI-QZI"/>
                                 </constraints>
@@ -623,12 +623,24 @@
                                     <action selector="useLocalSHSHButton:" target="Cl8-Id-BaF" id="WXR-BX-l7V"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ejH-1z-ivL">
+                                <rect key="frame" x="240" y="87" width="196" height="32"/>
+                                <buttonCell key="cell" type="push" title="Backup All Firmware Keys" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DU3-cT-Wpv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backUpAllFirmwareKeys:" target="Cl8-Id-BaF" id="GDT-LW-1gZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="ejH-1z-ivL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hce-ME-MTK" secondAttribute="leading" constant="246" id="11m-lY-PSO"/>
                             <constraint firstItem="Xfs-Id-BbE" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="215" id="17g-o3-NaJ"/>
                             <constraint firstItem="9Zy-Rm-9UP" firstAttribute="leading" secondItem="hce-ME-MTK" secondAttribute="leading" constant="20" id="2Qh-qL-wQ2"/>
                             <constraint firstAttribute="trailing" secondItem="WPj-Tr-bog" secondAttribute="trailing" constant="50" id="2Tn-wK-v9Y"/>
                             <constraint firstItem="efq-NJ-s1i" firstAttribute="leading" secondItem="hce-ME-MTK" secondAttribute="leading" constant="20" id="338-j7-zg8"/>
+                            <constraint firstItem="ejH-1z-ivL" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="245" id="3eT-TU-dz4"/>
                             <constraint firstItem="XSt-E1-Lw5" firstAttribute="top" secondItem="Ysg-qQ-ktP" secondAttribute="bottom" constant="12" id="4HM-PX-avI"/>
                             <constraint firstItem="VbP-km-1jl" firstAttribute="leading" secondItem="hce-ME-MTK" secondAttribute="leading" constant="50" id="EtC-Ru-kJ2"/>
                             <constraint firstItem="9fL-yH-TRW" firstAttribute="top" secondItem="XSt-E1-Lw5" secondAttribute="bottom" constant="12" id="FCX-YP-2ll"/>
@@ -637,7 +649,7 @@
                             <constraint firstAttribute="trailing" secondItem="qrh-UQ-cgt" secondAttribute="trailing" constant="50" id="Jn0-64-ou3"/>
                             <constraint firstAttribute="trailing" secondItem="n2K-Qj-K0V" secondAttribute="trailing" constant="20" id="MoY-5W-YM3"/>
                             <constraint firstAttribute="trailing" secondItem="xvF-kf-b73" secondAttribute="trailing" constant="50" id="Ow9-3f-dMP"/>
-                            <constraint firstAttribute="bottom" secondItem="rQ8-l9-I8M" secondAttribute="bottom" constant="270" id="PdJ-WM-XkM"/>
+                            <constraint firstAttribute="bottom" secondItem="rQ8-l9-I8M" secondAttribute="bottom" constant="310" id="PdJ-WM-XkM"/>
                             <constraint firstAttribute="bottom" secondItem="wwt-Vj-2IG" secondAttribute="bottom" constant="20" id="Ugs-wJ-vcm"/>
                             <constraint firstItem="rQ8-l9-I8M" firstAttribute="centerX" secondItem="hce-ME-MTK" secondAttribute="centerX" id="WCR-ve-e60"/>
                             <constraint firstItem="21n-Uu-pCv" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="95" id="WZe-Bt-0rE"/>
@@ -664,6 +676,7 @@
                             <constraint firstItem="wwt-Vj-2IG" firstAttribute="centerX" secondItem="hce-ME-MTK" secondAttribute="centerX" id="ruo-NN-yqr"/>
                             <constraint firstAttribute="trailing" secondItem="21n-Uu-pCv" secondAttribute="trailing" constant="50" id="s6Y-QS-0DX"/>
                             <constraint firstItem="9Zy-Rm-9UP" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="68" id="sUw-gu-fVA"/>
+                            <constraint firstAttribute="trailing" secondItem="ejH-1z-ivL" secondAttribute="trailing" constant="50" id="uBi-GR-lR6"/>
                             <constraint firstItem="n2K-Qj-K0V" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="68" id="uuy-1L-mnV"/>
                             <constraint firstItem="9fL-yH-TRW" firstAttribute="leading" secondItem="hce-ME-MTK" secondAttribute="leading" constant="20" id="x1u-au-E34"/>
                             <constraint firstItem="WPj-Tr-bog" firstAttribute="top" secondItem="hce-ME-MTK" secondAttribute="top" constant="185" id="xQq-W4-LjV"/>
@@ -682,6 +695,7 @@
                         <outlet property="amfiToggle" destination="XSt-E1-Lw5" id="cI7-KZ-Ehs"/>
                         <outlet property="amsdToggle" destination="9fL-yH-TRW" id="c2n-pT-0Yw"/>
                         <outlet property="apnonceButton" destination="8rj-nO-EIQ" id="Kcg-Yg-KRS"/>
+                        <outlet property="backupFirmwareKeysButton" destination="ejH-1z-ivL" id="dI9-bV-TaV"/>
                         <outlet property="bootargsButton" destination="xvF-kf-b73" id="D0C-Ao-acI"/>
                         <outlet property="bootlogoButton" destination="21n-Uu-pCv" id="dXr-uW-uSE"/>
                         <outlet property="dualbootButton" destination="XQj-Fd-qRi" id="iov-X8-mq1"/>
@@ -703,18 +717,18 @@
             <objects>
                 <viewController id="Pic-FN-Ksz" customClass="SHSHViewController" sceneMemberID="viewController">
                     <view key="view" id="Rdj-af-a3c">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="50" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="fO8-dH-PTe">
-                                <rect key="frame" x="165" y="140" width="150" height="20"/>
+                                <rect key="frame" x="165" y="170" width="150" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="Mpn-wK-bge"/>
                                     <constraint firstAttribute="width" constant="150" id="Pz3-ew-bK7"/>
                                 </constraints>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wG2-pc-52N">
-                                <rect key="frame" x="169" y="167" width="142" height="16"/>
+                                <rect key="frame" x="169" y="197" width="142" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="current_progress_label" id="tQ6-uE-fZe">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -745,7 +759,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3BW-mu-fAw">
-                                <rect key="frame" x="190" y="77" width="101" height="32"/>
+                                <rect key="frame" x="190" y="137" width="101" height="32"/>
                                 <buttonCell key="cell" type="push" title="Download" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="o70-yC-yyL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -765,7 +779,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veb-IJ-pFY">
-                                <rect key="frame" x="175" y="250" width="130" height="40"/>
+                                <rect key="frame" x="175" y="310" width="130" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="DBY-CD-JtK"/>
                                     <constraint firstAttribute="height" constant="40" id="WeU-RD-S0c"/>
@@ -790,7 +804,7 @@
                             <constraint firstAttribute="bottom" secondItem="JRu-vH-zmX" secondAttribute="bottom" constant="115" id="BVG-dB-5jW"/>
                             <constraint firstItem="veb-IJ-pFY" firstAttribute="centerX" secondItem="Rdj-af-a3c" secondAttribute="centerX" id="CmB-wE-SNJ"/>
                             <constraint firstItem="R15-Yx-szO" firstAttribute="centerX" secondItem="Rdj-af-a3c" secondAttribute="centerX" id="G2Q-gL-PqG"/>
-                            <constraint firstAttribute="bottom" secondItem="veb-IJ-pFY" secondAttribute="bottom" constant="250" id="RVd-Oa-Kas"/>
+                            <constraint firstAttribute="bottom" secondItem="veb-IJ-pFY" secondAttribute="bottom" constant="310" id="RVd-Oa-Kas"/>
                             <constraint firstAttribute="trailing" secondItem="sZU-mm-zkn" secondAttribute="trailing" constant="132" id="Tjo-pb-hF7"/>
                             <constraint firstItem="wG2-pc-52N" firstAttribute="centerX" secondItem="Rdj-af-a3c" secondAttribute="centerX" id="VfR-Wf-cEY"/>
                             <constraint firstItem="JRu-vH-zmX" firstAttribute="leading" secondItem="Rdj-af-a3c" secondAttribute="leading" constant="132" id="b2W-Zi-8Jg"/>
@@ -896,8 +910,8 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nK6-JG-6BY">
-                                <rect key="frame" x="85" y="174" width="311" height="15"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="exploit3d (@exploit3d) - AppleMesaSepDriver patcher" id="NDP-HP-Nd9">
+                                <rect key="frame" x="43" y="174" width="395" height="15"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="exploit3d (@exploit3d) - AppleMesaSepDriver patcher/iOS 7/8/9 help" id="NDP-HP-Nd9">
                                     <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -997,16 +1011,16 @@
             <objects>
                 <viewController id="LmQ-0a-iOJ" customClass="SHSHDumperViewController" sceneMemberID="viewController">
                     <view key="view" id="uwm-nk-fHt">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cnn-sI-XRw">
-                                <rect key="frame" x="120" y="250" width="240" height="40"/>
+                                <rect key="frame" x="120" y="310" width="240" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="NbP-k5-OeL"/>
                                     <constraint firstAttribute="height" constant="40" id="tTu-g8-kMi"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="SHSH Dumper" drawsBackground="YES" id="ZlG-qm-oKW">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="SSH Ramdisk" drawsBackground="YES" id="ZlG-qm-oKW">
                                     <font key="font" size="31" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -1019,14 +1033,14 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Efh-FN-KeU">
-                                <rect key="frame" x="140" y="140" width="200" height="20"/>
+                                <rect key="frame" x="140" y="167" width="200" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="1B6-Ta-oqO"/>
                                     <constraint firstAttribute="width" constant="200" id="kx2-j7-Q3o"/>
                                 </constraints>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O1c-dM-hz5">
-                                <rect key="frame" x="238" y="167" width="4" height="16"/>
+                                <rect key="frame" x="238" y="194" width="4" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" id="TPa-dh-DKh">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1034,8 +1048,8 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ww9-dB-Z8Y">
-                                <rect key="frame" x="182" y="104" width="116" height="32"/>
-                                <buttonCell key="cell" type="push" title="Dump SHSH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yuw-0z-3PW">
+                                <rect key="frame" x="164" y="134" width="153" height="32"/>
+                                <buttonCell key="cell" type="push" title="Boot SSH Ramdisk" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yuw-0z-3PW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1057,12 +1071,12 @@
                         <constraints>
                             <constraint firstItem="O1c-dM-hz5" firstAttribute="centerX" secondItem="uwm-nk-fHt" secondAttribute="centerX" id="3By-0m-YbI"/>
                             <constraint firstItem="ww9-dB-Z8Y" firstAttribute="centerX" secondItem="uwm-nk-fHt" secondAttribute="centerX" id="6iF-iJ-87F"/>
-                            <constraint firstItem="O1c-dM-hz5" firstAttribute="top" secondItem="cnn-sI-XRw" secondAttribute="bottom" constant="67" id="7FC-3h-SfB"/>
-                            <constraint firstItem="xLX-9B-ujl" firstAttribute="top" secondItem="ww9-dB-Z8Y" secondAttribute="bottom" constant="70" id="Azp-DX-BWF"/>
+                            <constraint firstItem="O1c-dM-hz5" firstAttribute="top" secondItem="cnn-sI-XRw" secondAttribute="bottom" constant="100" id="7FC-3h-SfB"/>
+                            <constraint firstItem="xLX-9B-ujl" firstAttribute="top" secondItem="ww9-dB-Z8Y" secondAttribute="bottom" constant="100" id="Azp-DX-BWF"/>
                             <constraint firstItem="Efh-FN-KeU" firstAttribute="top" secondItem="O1c-dM-hz5" secondAttribute="bottom" constant="8" symbolic="YES" id="CEf-93-Feb"/>
                             <constraint firstItem="xLX-9B-ujl" firstAttribute="centerX" secondItem="uwm-nk-fHt" secondAttribute="centerX" id="FaV-Oc-APO"/>
                             <constraint firstAttribute="bottom" secondItem="xLX-9B-ujl" secondAttribute="bottom" constant="20" symbolic="YES" id="cAq-2u-jeo"/>
-                            <constraint firstAttribute="bottom" secondItem="cnn-sI-XRw" secondAttribute="bottom" constant="250" id="h6f-0A-iYA"/>
+                            <constraint firstAttribute="bottom" secondItem="cnn-sI-XRw" secondAttribute="bottom" constant="310" id="h6f-0A-iYA"/>
                             <constraint firstItem="Efh-FN-KeU" firstAttribute="centerX" secondItem="uwm-nk-fHt" secondAttribute="centerX" id="hIL-gA-cAC"/>
                             <constraint firstItem="cnn-sI-XRw" firstAttribute="centerX" secondItem="uwm-nk-fHt" secondAttribute="centerX" id="tqz-Qa-RMR"/>
                         </constraints>
@@ -1082,11 +1096,11 @@
             <objects>
                 <viewController id="djv-ox-gJt" customClass="APNonceSetterViewController" sceneMemberID="viewController">
                     <view key="view" id="JUr-pM-1Uo">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ean-LA-HSf">
-                                <rect key="frame" x="110" y="250" width="260" height="40"/>
+                                <rect key="frame" x="110" y="310" width="260" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="260" id="Kcm-ZA-euX"/>
                                     <constraint firstAttribute="height" constant="40" id="VrK-n4-7zx"/>
@@ -1114,7 +1128,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="95i-Di-IfD">
-                                <rect key="frame" x="180" y="122" width="120" height="32"/>
+                                <rect key="frame" x="180" y="152" width="120" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set APNonce" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dti-ij-jTn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1124,7 +1138,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jW-PL-0Or">
-                                <rect key="frame" x="90" y="160" width="300" height="25"/>
+                                <rect key="frame" x="90" y="190" width="300" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="6EG-jw-cfj"/>
                                     <constraint firstAttribute="height" constant="25" id="kkx-hq-pEA"/>
@@ -1137,14 +1151,14 @@
                                 </textFieldCell>
                             </textField>
                             <progressIndicator hidden="YES" wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Dte-at-Q0p">
-                                <rect key="frame" x="165" y="140" width="150" height="20"/>
+                                <rect key="frame" x="165" y="170" width="150" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="O8S-0J-rQK"/>
                                     <constraint firstAttribute="height" constant="18" id="Yzf-98-Hbh"/>
                                 </constraints>
                             </progressIndicator>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FF6-p0-RH9">
-                                <rect key="frame" x="169" y="167" width="142" height="16"/>
+                                <rect key="frame" x="169" y="197" width="142" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" title="current_progress_label" id="EMq-N2-s2O">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1155,14 +1169,14 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="CVh-Cx-1ej" secondAttribute="bottom" constant="20" symbolic="YES" id="21C-c0-fIH"/>
                             <constraint firstItem="Dte-at-Q0p" firstAttribute="top" secondItem="FF6-p0-RH9" secondAttribute="bottom" constant="8" symbolic="YES" id="8xd-Ri-jHm"/>
-                            <constraint firstAttribute="bottom" secondItem="ean-LA-HSf" secondAttribute="bottom" constant="250" id="DAq-6N-03X"/>
+                            <constraint firstAttribute="bottom" secondItem="ean-LA-HSf" secondAttribute="bottom" constant="310" id="DAq-6N-03X"/>
                             <constraint firstItem="5jW-PL-0Or" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="GDT-pe-KJa"/>
                             <constraint firstItem="Dte-at-Q0p" firstAttribute="centerY" secondItem="JUr-pM-1Uo" secondAttribute="centerY" id="KbV-wm-dbf"/>
                             <constraint firstItem="FF6-p0-RH9" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="LCh-pX-AtI"/>
                             <constraint firstItem="95i-Di-IfD" firstAttribute="top" secondItem="5jW-PL-0Or" secondAttribute="bottom" constant="10" id="SsN-AR-hdF"/>
                             <constraint firstItem="95i-Di-IfD" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="drT-gX-NYU"/>
                             <constraint firstItem="CVh-Cx-1ej" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="o3b-Gh-2Rc"/>
-                            <constraint firstItem="5jW-PL-0Or" firstAttribute="top" secondItem="ean-LA-HSf" secondAttribute="bottom" constant="65" id="pqU-NZ-RJY"/>
+                            <constraint firstItem="5jW-PL-0Or" firstAttribute="top" secondItem="ean-LA-HSf" secondAttribute="bottom" constant="95" id="pqU-NZ-RJY"/>
                             <constraint firstItem="Dte-at-Q0p" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="sFJ-XQ-xhX"/>
                             <constraint firstItem="ean-LA-HSf" firstAttribute="centerX" secondItem="JUr-pM-1Uo" secondAttribute="centerX" id="yUo-80-ocN"/>
                         </constraints>

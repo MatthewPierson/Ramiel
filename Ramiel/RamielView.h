@@ -36,6 +36,7 @@
 + (IPSW *)getIpswInfoExternal;
 + (Device *)getConnectedDeviceInfo;
 + (void)errorHandler:(NSString *)errorMessage:(NSString *)errorTitle:(NSString *)detailedMessage;
++ (int)downloadFileFromIPSW:(NSString *)url:(NSString *)path:(NSString *)outpath;
 + (int)debugCheck;
 + (void)stopBackground;
 + (void)startBackground;

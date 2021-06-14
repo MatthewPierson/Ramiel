@@ -9,6 +9,7 @@
 #import "APNonceSetterViewController.h"
 #import "../Pods/SSZipArchive/SSZipArchive/SSZipArchive.h"
 #import "Device.h"
+#import "FirmwareKeys.h"
 #import "IPSW.h"
 #import "RamielView.h"
 #include "kairos.h"
@@ -19,6 +20,7 @@ NSString *generatorString;
 NSString *apnonceextractPath;
 IPSW *apnonceIPSW;
 Device *apnonceDevice;
+FirmwareKeys *apnonceKeys;
 irecv_error_t apnonceerror = 0;
 int apnoncecheckNum = 0;
 int apnoncecon = 0;
@@ -27,6 +29,7 @@ int apnoncecon = 0;
     [super viewDidLoad];
     self.preferredContentSize = NSMakeSize(self.view.frame.size.width, self.view.frame.size.height);
     apnonceIPSW = [[IPSW alloc] initIPSWID];
+    apnonceKeys = [[FirmwareKeys alloc] initFirmwareKeysID];
     apnonceDevice = [RamielView getConnectedDeviceInfo];
     [apnonceDevice resetConnection];
     [apnonceDevice setIRECVDeviceInfo:[apnonceDevice getIRECVClient]];
@@ -107,460 +110,101 @@ int apnoncecon = 0;
     }
     [self->_label setStringValue:@"Device is in PWNDFU mode..."];
 
+    [self downloadiBXX];
     [self loadIPSW];
 }
 
 - (void)loadIPSW {
-    [self->_label setStringValue:@"Waiting for user to pick IPSW..."];
 
-    NSOpenPanel *openDlg = [NSOpenPanel openPanel];
-    openDlg.message = @"Please pick an IPSW...";
-    openDlg.canChooseFiles = TRUE;
-    openDlg.canChooseDirectories = FALSE;
-    openDlg.allowsMultipleSelection = FALSE;
-    openDlg.allowedFileTypes = [NSArray arrayWithObject:@"ipsw"];
-    openDlg.canCreateDirectories = FALSE;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_prog incrementBy:16.66];
+        [self->_label setStringValue:@"Patching iBSS/iBEC..."];
+    });
+    const char *ibssPath =
+        [[NSString stringWithFormat:@"%@/RamielFiles/ibss.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
+    const char *ibssPwnPath =
+        [[NSString stringWithFormat:@"%@/RamielFiles/ibss.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
+    const char *args = [@"-v" UTF8String];
 
-    if ([openDlg runModal] == NSModalResponseOK) {
+    int ret;
+    sleep(1);
+    ret = patchIBXX((char *)ibssPath, (char *)ibssPwnPath, (char *)args, 0);
 
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self->_prog incrementBy:16.66];
-                [self->_label setStringValue:@"Unzipping IPSW..."];
-                [apnonceIPSW setIpswPath:openDlg.URL.path];
-            });
-
-            while ([apnonceIPSW getIpswPath] == NULL) {
-            }
-
-            apnonceextractPath =
-                [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            apnonceextractPath = [NSString stringWithFormat:@"%@/RamielIPSW", [[NSBundle mainBundle] resourcePath]];
-            if ([RamielView debugCheck])
-                NSLog(@"Unzipping IPSW From Path: %@\nto path: %@", [apnonceIPSW getIpswPath], apnonceextractPath);
-            if ([[[NSFileManager defaultManager] attributesOfItemAtPath:[apnonceIPSW getIpswPath] error:nil] fileSize] <
-                1677721600.00) { // If the IPSW is less then 1.5GB then its likely incomplete
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RamielView errorHandler:
-                        @"Downloaded IPSW is corrupt":
-                            @"Please re-download the IPSW and try again, either from ipsw.me or using Ramiel's IPSW "
-                             @"downloader.":
-                                 [NSString stringWithFormat:
-                                               @"IPSW's size in bytes is %llu which is to small for an actual IPSW",
-                                               [[[NSFileManager defaultManager]
-                                                   attributesOfItemAtPath:[apnonceIPSW getIpswPath]
-                                                                    error:nil] fileSize]]];
-                    [[NSFileManager defaultManager] removeItemAtPath:[apnonceIPSW getIpswPath] error:nil];
-                    return;
-                });
-            }
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[apnonceextractPath pathExtension]
-                                                     isDirectory:(BOOL * _Nullable) TRUE]) {
-
-                [[NSFileManager defaultManager] removeItemAtPath:apnonceextractPath error:nil];
-            }
-
-            [[NSFileManager defaultManager] createDirectoryAtPath:apnonceextractPath
-                                      withIntermediateDirectories:TRUE
-                                                       attributes:NULL
-                                                            error:nil];
-
-            //[SSZipArchive unzipFileAtPath:[apnonceIPSW getIpswPath] toDestination:apnonceextractPath];
-            NSError *er = nil;
-            [SSZipArchive unzipFileAtPath:[apnonceIPSW getIpswPath]
-                            toDestination:apnonceextractPath
-                                overwrite:YES
-                                 password:nil
-                                    error:&er];
-            if (er) {
-                NSLog(@"sadge: %@", er);
-            }
-
-            apnoncecheckNum = 1;
+    if (ret != 0) {
+        dispatch_queue_t mainQueue = dispatch_get_main_queue();
+        dispatch_sync(mainQueue, ^{
+            [RamielView errorHandler:
+                @"Failed to patch iBSS":[NSString stringWithFormat:@"Kairos returned with: %i", ret]:@"N/A"];
+            [self->_prog setHidden:TRUE];
+            [self.view.window.contentViewController dismissViewController:self];
+            [apnonceDevice teardown];
+            [apnonceIPSW teardown];
+            return;
         });
-
     } else {
-        //[self->_prog setHidden:TRUE];
-        [self.view.window.contentViewController dismissViewController:self];
-        return;
+        const char *ibecPath =
+            [[NSString stringWithFormat:@"%@/RamielFiles/ibec.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
+        const char *ibecPwnPath =
+            [[NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
+        ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args, 0);
+        if (ret != 0) {
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_sync(mainQueue, ^{
+                [RamielView errorHandler:
+                    @"Failed to patch iBEC":[NSString stringWithFormat:@"Kairos returned with: %i", ret]:@"N/A"];
+                [self->_prog setHidden:TRUE];
+                [self.view.window.contentViewController dismissViewController:self];
+                [apnonceDevice teardown];
+                [apnonceIPSW teardown];
+                return;
+            });
+        }
     }
 
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        while (apnoncecheckNum == 0) {
-            NSLog(@"unzipping...");
-            sleep(2);
-        }
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibss.%@.patched -t ibss "
+                                                       @"%@/RamielFiles/ibss.pwn",
+                                                       [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
+                                                       [[NSBundle mainBundle] resourcePath]]];
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_prog incrementBy:8.33];
-            [self->_label setStringValue:@"Parsing BuildManifest..."];
-        });
-
-        if ([[NSFileManager defaultManager]
-                fileExistsAtPath:[NSString stringWithFormat:@"%@/BuildManifest.plist", apnonceextractPath]]) {
-
-            NSDictionary *manifestData = [NSDictionary
-                dictionaryWithContentsOfFile:[NSString stringWithFormat:@"%@/BuildManifest.plist", apnonceextractPath]];
-            [apnonceIPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]]; // Get IPSW's iOS version
-            if ([[apnonceIPSW getIosVersion] containsString:@"9."] ||
-                [[apnonceIPSW getIosVersion] containsString:@"8."] ||
-                [[apnonceIPSW getIosVersion] containsString:@"7."]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSAlert *versionWarning = [[NSAlert alloc] init];
-                    [versionWarning
-                        setMessageText:
-                            [NSString stringWithFormat:@"Warning: %@ is not offically supported at this time, however "
-                                                       @"Ramiel will still attempt to properly boot your device.",
-                                                       [apnonceIPSW getIosVersion]]];
-                    [versionWarning
-                        setInformativeText:
-                            @"Your device may fail to boot, if this occurs then please open an issue on GitHub."];
-                    versionWarning.window.titlebarAppearsTransparent = TRUE;
-                    [versionWarning runModal];
-                });
-            }
-
-            [apnonceIPSW
-                setSupportedModels:[manifestData objectForKey:@"SupportedProductTypes"]]; // Get supported devices list
-            int supported = 0;
-            for (int i = 0; i < [[apnonceIPSW getSupportedModels] count]; i++) {
-                if ([[[apnonceIPSW getSupportedModels] objectAtIndex:i] containsString:[apnonceDevice getModel]]) {
-                    supported = 1;
-                }
-            }
-            if (supported == 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RamielView errorHandler:
-                        @"IPSW is not valid for this device":
-                            @"Please pick another IPSW or download one that is valid for your device":@"N/A"];
-                    [self.view.window.contentViewController dismissViewController:self];
-                });
-                return;
-            }
-
-            NSArray *buildID = [manifestData objectForKey:@"BuildIdentities"];
-
-            if ([buildID[0][@"Info"][@"VariantContents"][@"VinylFirmware"] isEqual:@"Release"]) {
-                [apnonceIPSW setReleaseBuild:YES];
-            } else {
-                [apnonceIPSW setReleaseBuild:NO];
-            }
-
-            for (int i = 0; i < [buildID count]; i++) {
-
-                if ([buildID[i][@"ApChipID"] isEqual:[apnonceDevice getCpid]]) {
-
-                    if ([buildID[i][@"Info"][@"DeviceClass"] isEqual:[apnonceDevice getHardware_model]]) {
-
-                        [apnonceIPSW setIbssName:buildID[i][@"Manifest"][@"iBSS"][@"Info"][@"Path"]];
-                        [apnonceIPSW setIbecName:buildID[i][@"Manifest"][@"iBEC"][@"Info"][@"Path"]];
-                        break;
-                    }
-                }
-            }
-
-            if ([apnonceIPSW getIbssName] != NULL) {
-
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self->_prog incrementBy:16.66];
-                    [self->_label setStringValue:@"Moving Files..."];
-                });
-
-                NSString *documentsFolder = [[NSBundle mainBundle] resourcePath];
-
-                [[NSFileManager defaultManager]
-                    removeItemAtPath:[NSString stringWithFormat:@"%@/RamielFiles", documentsFolder]
-                               error:nil];
-
-                [[NSFileManager defaultManager]
-                          createDirectoryAtPath:[NSString stringWithFormat:@"%@/RamielFiles", documentsFolder]
-                    withIntermediateDirectories:YES
-                                     attributes:nil
-                                          error:nil];
-
-                [[NSFileManager defaultManager]
-                    moveItemAtPath:[NSString stringWithFormat:@"%@/%@", apnonceextractPath, [apnonceIPSW getIbssName]]
-                            toPath:[NSString stringWithFormat:@"%@/RamielFiles/ibss.im4p", documentsFolder]
-                             error:nil];
-                [[NSFileManager defaultManager]
-                    moveItemAtPath:[NSString stringWithFormat:@"%@/%@", apnonceextractPath, [apnonceIPSW getIbecName]]
-                            toPath:[NSString stringWithFormat:@"%@/RamielFiles/ibec.im4p", documentsFolder]
-                             error:nil];
-
-                [[NSFileManager defaultManager] removeItemAtPath:apnonceextractPath error:nil];
-
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self->_prog incrementBy:16.66];
-                    [self->_label setStringValue:@"Grabbing Firmware Keys..."];
-                });
-
-                NSURL *wikiURL =
-                    [NSURL URLWithString:[NSString stringWithFormat:@"https://www.theiphonewiki.com/wiki/%@_%@_(%@)",
-                                                                    buildID[0][@"Info"][@"BuildTrain"],
-                                                                    [manifestData objectForKey:@"ProductBuildVersion"],
-                                                                    [apnonceDevice getModel]]];
-                NSURLRequest *request = [NSURLRequest requestWithURL:wikiURL];
-                NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-                if (data != NULL) {
-
-                    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                    if ([RamielView debugCheck])
-                        NSLog(@"Got response from theiphonewiki: %@", dataString);
-                    if ([dataString containsString:@"There is currently no text in this page"]) { // No keys but still
-                                                                                                  // valid page
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [RamielView errorHandler:
-                                @"No firmware keys found":
-                                    @"Please check detailed log for more information":
-                                        [NSString
-                                            stringWithFormat:@"Theiphonewiki didn't have keys for this device + "
-                                                             @"firmware combination. Please ensure that the page at "
-                                                             @"the following URL doesn't contain keys, if it does open "
-                                                             @"an issue on GitHub and send me this log\n\n%@",
-                                                             [wikiURL absoluteURL]]];
-                            [self.view.window.contentViewController dismissViewController:self];
-                        });
-                        return;
-                    }
-                    if ([dataString containsString:@"/>&#160;("]) {
-
-                        NSArray *model1 = [dataString componentsSeparatedByString:@"/>&#160;("];
-
-                        model1 = [model1[1] componentsSeparatedByString:@")&"];
-
-                        if ([[model1[0] uppercaseString]
-                                isEqual:[[apnonceDevice getHardware_model] uppercaseString]]) { // Make sure we get the
-                                                                                                // right keys
-
-                            NSArray *ibecIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec-iv\">"];
-                            NSArray *ibecIVSplit2 = [ibecIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbecIV:ibecIVSplit2[0]];
-
-                            NSArray *ibssIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss-iv\">"];
-                            NSArray *ibssIVSplit2 = [ibssIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbssIV:ibssIVSplit2[0]];
-
-                            NSArray *ibecKEYSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibec-key\">"];
-                            NSArray *ibecKEYSplit2 = [ibecKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbecKEY:ibecKEYSplit2[0]];
-
-                            NSArray *ibssKEYSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibss-key\">"];
-                            NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbssKEY:ibssKEYSplit2[0]];
-
-                        } else {
-
-                            NSArray *ibecIVSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-iv\">"];
-                            NSArray *ibecIVSplit2 = [ibecIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbecIV:ibecIVSplit2[0]];
-
-                            NSArray *ibssIVSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-iv\">"];
-                            NSArray *ibssIVSplit2 = [ibssIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbssIV:ibssIVSplit2[0]];
-
-                            NSArray *ibecKEYSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibec2-key\">"];
-                            NSArray *ibecKEYSplit2 = [ibecKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbecKEY:ibecKEYSplit2[0]];
-
-                            NSArray *ibssKEYSplit1 =
-                                [dataString componentsSeparatedByString:@"id=\"keypage-ibss2-key\">"];
-                            NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                            [apnonceIPSW setIbssKEY:ibssKEYSplit2[0]];
-                        }
-
-                    } else {
-
-                        NSArray *ibecIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec-iv\">"];
-                        NSArray *ibecIVSplit2 = [ibecIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                        [apnonceIPSW setIbecIV:ibecIVSplit2[0]];
-
-                        NSArray *ibssIVSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss-iv\">"];
-                        NSArray *ibssIVSplit2 = [ibssIVSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                        [apnonceIPSW setIbssIV:ibssIVSplit2[0]];
-
-                        NSArray *ibecKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibec-key\">"];
-                        NSArray *ibecKEYSplit2 = [ibecKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                        [apnonceIPSW setIbecKEY:ibecKEYSplit2[0]];
-
-                        NSArray *ibssKEYSplit1 = [dataString componentsSeparatedByString:@"id=\"keypage-ibss-key\">"];
-                        NSArray *ibssKEYSplit2 = [ibssKEYSplit1[1] componentsSeparatedByString:@"</code></li>"];
-
-                        [apnonceIPSW setIbssKEY:ibssKEYSplit2[0]];
-                    }
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self->_prog incrementBy:16.66];
-                        [self->_label setStringValue:@"Patching iBSS/iBEC..."];
-                    });
-                    if (!([apnonceIPSW getIbssKEY].length == 64 && [apnonceIPSW getIbecKEY].length == 64 &&
-                          [apnonceIPSW getIbssIV].length == 32 &&
-                          [apnonceIPSW getIbecIV].length == 32)) { // Ensure that the keys we got are the right length
-
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [RamielView errorHandler:
-                                @"Received malformed keys":
-                                    [NSString stringWithFormat:
-                                                  @"Expected string lengths of 64 & 32 but got %lu, %lu & %lu, %lu",
-                                                  (unsigned long)[apnonceIPSW getIbssKEY].length,
-                                                  (unsigned long)[apnonceIPSW getIbssIV].length,
-                                                  (unsigned long)[apnonceIPSW getIbecKEY].length,
-                                                  (unsigned long)[apnonceIPSW getIbecIV].length
-                            ]:[NSString
-                                    stringWithFormat:
-                                        @"Key Information:\n\niBSS Key: %@\niBSS IVs: %@\niBEC Key: %@\niBEC IVs: %@",
-                                        [apnonceIPSW getIbssKEY], [apnonceIPSW getIbssIV], [apnonceIPSW getIbecKEY],
-                                        [apnonceIPSW getIbecIV]]];
-
-                            [self.view.window.contentViewController dismissViewController:self];
-                            return;
-                        });
-                    }
-
-                    [RamielView
-                        img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibss.raw --iv %@ "
-                                                               @"--key %@ %@/RamielFiles/ibss.im4p",
-                                                               [[NSBundle mainBundle] resourcePath],
-                                                               [apnonceIPSW getIbssIV], [apnonceIPSW getIbssKEY],
-                                                               [[NSBundle mainBundle] resourcePath]]];
-
-                    [RamielView
-                        img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibec.raw --iv %@ "
-                                                               @"--key %@ %@/RamielFiles/ibec.im4p",
-                                                               [[NSBundle mainBundle] resourcePath],
-                                                               [apnonceIPSW getIbecIV], [apnonceIPSW getIbecKEY],
-                                                               [[NSBundle mainBundle] resourcePath]]];
-
-                    const char *ibssPath = [[NSString
-                        stringWithFormat:@"%@/RamielFiles/ibss.raw", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                    const char *ibssPwnPath = [[NSString
-                        stringWithFormat:@"%@/RamielFiles/ibss.pwn", [[NSBundle mainBundle] resourcePath]] UTF8String];
-                    const char *args = [@"-v" UTF8String];
-
-                    int ret;
-                    sleep(1);
-                    ret = patchIBXX((char *)ibssPath, (char *)ibssPwnPath, (char *)args);
-
-                    if (ret != 0) {
-                        dispatch_queue_t mainQueue = dispatch_get_main_queue();
-                        dispatch_sync(mainQueue, ^{
-                            [RamielView errorHandler:
-                                @"Failed to patch iBSS":[NSString stringWithFormat:@"Kairos returned with: %i", ret
-                            ]:@"N/A"];
-                            [self->_prog setHidden:TRUE];
-                            [self.view.window.contentViewController dismissViewController:self];
-                            return;
-                        });
-                    } else {
-                        const char *ibecPath =
-                            [[NSString stringWithFormat:@"%@/RamielFiles/ibec.raw",
-                                                        [[NSBundle mainBundle] resourcePath]] UTF8String];
-                        const char *ibecPwnPath =
-                            [[NSString stringWithFormat:@"%@/RamielFiles/ibec.pwn",
-                                                        [[NSBundle mainBundle] resourcePath]] UTF8String];
-                        ret = patchIBXX((char *)ibecPath, (char *)ibecPwnPath, (char *)args);
-
-                        if (ret != 0) {
-                            dispatch_queue_t mainQueue = dispatch_get_main_queue();
-                            dispatch_sync(mainQueue, ^{
-                                [RamielView errorHandler:
-                                    @"Failed to patch iBEC":[NSString stringWithFormat:@"Kairos returned with: %i", ret
-                                ]:@"N/A"];
-                                [self->_prog setHidden:TRUE];
-                                [self.view.window.contentViewController dismissViewController:self];
-                                return;
-                            });
-                        }
-                    }
-
-                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibss.%@.patched -t ibss "
-                                                                       @"%@/RamielFiles/ibss.pwn",
-                                                                       [[NSBundle mainBundle] resourcePath],
-                                                                       [apnonceDevice getModel],
-                                                                       [[NSBundle mainBundle] resourcePath]]];
-
-                    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibec.%@.patched -t ibec "
-                                                                       @"%@/RamielFiles/ibec.pwn",
-                                                                       [[NSBundle mainBundle] resourcePath],
-                                                                       [apnonceDevice getModel],
-                                                                       [[NSBundle mainBundle] resourcePath]]];
-                    NSString *apnonceshshPath;
-                    NSMutableDictionary *ramielPrefs = [NSMutableDictionary
-                        dictionaryWithDictionary:[NSDictionary
-                                                     dictionaryWithContentsOfFile:
-                                                         [NSString
-                                                             stringWithFormat:@"%@/com.moski.RamielSettings.plist",
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/RamielFiles/ibec.%@.patched -t ibec "
+                                                       @"%@/RamielFiles/ibec.pwn",
+                                                       [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
+                                                       [[NSBundle mainBundle] resourcePath]]];
+    NSString *apnonceshshPath;
+    NSMutableDictionary *ramielPrefs = [NSMutableDictionary
+        dictionaryWithDictionary:[NSDictionary dictionaryWithContentsOfFile:
+                                                   [NSString stringWithFormat:@"%@/com.moski.RamielSettings.plist",
                                                                               [[NSBundle mainBundle] resourcePath]]]];
-                    if (![[ramielPrefs objectForKey:@"customSHSHPath"] containsString:@"N/A"]) {
-                        if ([RamielView debugCheck])
-                            NSLog(@"Using user-provided SHSH from: %@", [ramielPrefs objectForKey:@"customSHSHPath"]);
-                        apnonceshshPath = [ramielPrefs objectForKey:@"customSHSHPath"];
-                    } else if ([[NSFileManager defaultManager]
-                                   fileExistsAtPath:[NSString stringWithFormat:@"%@/shsh/%@.shsh",
-                                                                               [[NSBundle mainBundle] resourcePath],
-                                                                               [apnonceDevice getCpid]]]) {
-                        apnonceshshPath =
-                            [NSString stringWithFormat:@"%@/shsh/%@.shsh", [[NSBundle mainBundle] resourcePath],
-                                                       [apnonceDevice getCpid]];
-                    } else {
-                        apnonceshshPath =
-                            [NSString stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
-                    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    if (![[ramielPrefs objectForKey:@"customSHSHPath"] containsString:@"N/A"]) {
+        if ([RamielView debugCheck])
+            NSLog(@"Using user-provided SHSH from: %@", [ramielPrefs objectForKey:@"customSHSHPath"]);
+        apnonceshshPath = [ramielPrefs objectForKey:@"customSHSHPath"];
+    } else if ([[NSFileManager defaultManager]
+                   fileExistsAtPath:[NSString stringWithFormat:@"%@/Ramiel/shsh/%@.shsh", documentsDirectory,
+                                                               [apnonceDevice getCpid]]]) {
+        apnonceshshPath =
+            [NSString stringWithFormat:@"%@/Ramiel/shsh/%@.shsh", documentsDirectory, [apnonceDevice getCpid]];
+    } else {
+        apnonceshshPath = [NSString stringWithFormat:@"%@/shsh/shsh.shsh", [[NSBundle mainBundle] resourcePath]];
+    }
 
-                    [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/ibss.img4 -p %@/RamielFiles/ibss.%@.patched -s %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
-                                                         apnonceshshPath]];
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/ibss.img4 -p %@/RamielFiles/ibss.%@.patched -s %@",
+                                                       [[NSBundle mainBundle] resourcePath],
+                                                       [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
+                                                       apnonceshshPath]];
 
-                    [RamielView
-                        img4toolCMD:[NSString
-                                        stringWithFormat:@"-c %@/ibec.img4 -p %@/RamielFiles/ibec.%@.patched -s %@",
-                                                         [[NSBundle mainBundle] resourcePath],
-                                                         [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
-                                                         apnonceshshPath]];
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-c %@/ibec.img4 -p %@/RamielFiles/ibec.%@.patched -s %@",
+                                                       [[NSBundle mainBundle] resourcePath],
+                                                       [[NSBundle mainBundle] resourcePath], [apnonceDevice getModel],
+                                                       apnonceshshPath]];
 
-                    // Boot SSH Ramdisk
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self bootDevice];
-                    });
-                    return;
-
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [RamielView errorHandler:
-                            @"Failed to get firmware keys":@"Please check detailed log for more information"
-                                                          :[NSString stringWithFormat:@"%@", data]];
-                        [self.view.window.contentViewController dismissViewController:self];
-                    });
-                    return;
-                }
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RamielView errorHandler:
-                        @"IPSW is not valid for connected device":@"Please provide Ramiel with the correct IPSW"
-                                                                 :@"N/A"];
-                });
-                [self.view.window.contentViewController dismissViewController:self];
-            }
-        }
+    // Boot SSH Ramdisk
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self bootDevice];
     });
+    return;
 }
 
 - (void)bootDevice {
@@ -611,6 +255,8 @@ int apnoncecon = 0;
                             @"Ramiel wasn't able to reconnect to the device after sending iBSS for the second time":
                                 @"libirecovery returned: IRECV_E_NO_DEVICE"];
                     [self.view.window.contentViewController dismissViewController:self];
+                    [apnonceDevice teardown];
+                    [apnonceIPSW teardown];
                 });
                 return;
             }
@@ -635,6 +281,8 @@ int apnoncecon = 0;
                             @"Ramiel wasn't able to reconnect to the device after sending iBSS for the second time":
                                 @"libirecovery returned: IRECV_E_NO_DEVICE"];
                     [self.view.window.contentViewController dismissViewController:self];
+                    [apnonceDevice teardown];
+                    [apnonceIPSW teardown];
                     return;
                 });
             }
@@ -718,6 +366,66 @@ int apnoncecon = 0;
         }
         return;
     });
+}
+
+- (int)downloadiBXX {
+    [[NSFileManager defaultManager]
+              createDirectoryAtPath:[NSString stringWithFormat:@"%@/RamielFiles/", [[NSBundle mainBundle] resourcePath]]
+        withIntermediateDirectories:YES
+                         attributes:nil
+                              error:nil];
+    NSURL *IPSWURL = [NSURL
+        URLWithString:[NSString stringWithFormat:@"https://api.ipsw.me/v2.1/%@/12.4/url", [apnonceDevice getModel]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:IPSWURL];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSString *ibssOutPath =
+        [NSString stringWithFormat:@"%@/RamielFiles/ibss.im4p", [[NSBundle mainBundle] resourcePath]];
+    NSString *ibecOutPath =
+        [NSString stringWithFormat:@"%@/RamielFiles/ibec.im4p", [[NSBundle mainBundle] resourcePath]];
+    NSString *outPathManifest =
+        [NSString stringWithFormat:@"%@/RamielFiles/ApnonceManifest.plist", [[NSBundle mainBundle] resourcePath]];
+    [self->_label setStringValue:@"Downloading BuildManifest.plist..."];
+    [RamielView downloadFileFromIPSW:dataString:@"BuildManifest.plist":outPathManifest];
+    NSDictionary *manifestData = [NSDictionary dictionaryWithContentsOfFile:outPathManifest];
+    if (manifestData == NULL) {
+        return 1;
+    }
+    NSString *ibssPath;
+    NSString *ibecPath;
+    NSArray *buildID = [manifestData objectForKey:@"BuildIdentities"];
+    for (int i = 0; i < [buildID count]; i++) {
+
+        if ([buildID[i][@"ApChipID"] isEqual:[apnonceDevice getCpid]]) {
+
+            if ([buildID[i][@"Info"][@"DeviceClass"] isEqual:[apnonceDevice getHardware_model]]) {
+
+                ibssPath = buildID[i][@"Manifest"][@"iBSS"][@"Info"][@"Path"];
+                ibecPath = buildID[i][@"Manifest"][@"iBEC"][@"Info"][@"Path"];
+            }
+        }
+    }
+    [self->_label setStringValue:@"Downloading iBSS..."];
+    [RamielView downloadFileFromIPSW:dataString:ibssPath:ibssOutPath];
+    [self->_label setStringValue:@"Downloading iBEC..."];
+    [RamielView downloadFileFromIPSW:dataString:ibecPath:ibecOutPath];
+    [self->_label setStringValue:@"Downloads complete..."];
+    FirmwareKeys *ios12Keys = [[FirmwareKeys alloc] initFirmwareKeysID];
+    IPSW *ios12IPSW = [[IPSW alloc] initIPSWID];
+    [ios12IPSW setIosVersion:[manifestData objectForKey:@"ProductVersion"]];
+    [ios12Keys fetchKeysFromWiki:apnonceDevice:ios12IPSW:manifestData];
+    [self->_label setStringValue:@"Decrypting iBSS..."];
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibss.raw --iv %@ "
+                                                       @"--key %@ %@/RamielFiles/ibss.im4p",
+                                                       [[NSBundle mainBundle] resourcePath], [ios12Keys getIbssIV],
+                                                       [ios12Keys getIbssKEY], [[NSBundle mainBundle] resourcePath]]];
+    [self->_label setStringValue:@"Decrypting iBEC..."];
+    [RamielView img4toolCMD:[NSString stringWithFormat:@"-e -o %@/RamielFiles/ibec.raw --iv %@ "
+                                                       @"--key %@ %@/RamielFiles/ibec.im4p",
+                                                       [[NSBundle mainBundle] resourcePath], [ios12Keys getIbecIV],
+                                                       [ios12Keys getIbecKEY], [[NSBundle mainBundle] resourcePath]]];
+
+    return 0;
 }
 
 - (IBAction)backButton:(NSButton *)sender {

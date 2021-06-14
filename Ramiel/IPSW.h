@@ -16,11 +16,8 @@
 @property (nonatomic, readwrite) BOOL releaseBuild;
 @property (nonatomic, readwrite) BOOL bootRamdisk;
 @property (nonatomic, readwrite) NSString *ibssName;
-@property (nonatomic, readwrite) NSString *ibssIV;
-@property (nonatomic, readwrite) NSString *ibssKEY;
 @property (nonatomic, readwrite) NSString *ibecName;
-@property (nonatomic, readwrite) NSString *ibecIV;
-@property (nonatomic, readwrite) NSString *ibecKEY;
+@property (nonatomic, readwrite) NSString *ibootName;
 @property (nonatomic, readwrite) NSString *deviceTreeName;
 @property (nonatomic, readwrite) NSString *trustCacheName;
 @property (nonatomic, readwrite) NSString *kernelName;
@@ -40,11 +37,8 @@
 - (BOOL)getReleaseBuild;
 - (BOOL)getBootRamdisk;
 - (NSString *)getIbssName;
-- (NSString *)getIbssIV;
-- (NSString *)getIbssKEY;
 - (NSString *)getIbecName;
-- (NSString *)getIbecIV;
-- (NSString *)getIbecKEY;
+- (NSString *)getIbootName;
 - (NSString *)getDeviceTreeName;
 - (NSString *)getTrustCacheName;
 - (NSString *)getKernelName;
@@ -62,11 +56,8 @@
 - (void)setReleaseBuild:(BOOL)releaseBuild;
 - (void)setBootRamdisk:(BOOL)bootRamdisk;
 - (void)setIbssName:(NSString *)ibssName;
-- (void)setIbssIV:(NSString *)ibssIV;
-- (void)setIbssKEY:(NSString *)ibssKEY;
 - (void)setIbecName:(NSString *)ibecName;
-- (void)setIbecIV:(NSString *)ibecIV;
-- (void)setIbecKEY:(NSString *)ibecKEY;
+- (void)setIbootName:(NSString *)ibootName;
 - (void)setDeviceTreeName:(NSString *)deviceTreeName;
 - (void)setTrustCacheName:(NSString *)trustCacheName;
 - (void)setKernelName:(NSString *)kernelName;

@@ -7,6 +7,7 @@ AlwaysBreakBeforeMultilineStrings: false
 IndentCaseLabels: true
 ColumnLimit: 120
 ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: true
 KeepEmptyLinesAtTheStartOfBlocks: true
 PenaltyBreakString: 1000000
 SpacesInContainerLiterals: false

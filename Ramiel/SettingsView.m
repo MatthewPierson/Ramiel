@@ -8,6 +8,7 @@
 
 #import "SettingsView.h"
 #include "../ibootim/ibootimMain.h"
+#import "FirmwareKeys.h"
 #import "RamielView.h"
 #include "libirecovery.h"
 
@@ -78,6 +79,7 @@
             // If device is in recovery mode we only need to enable the SHSH download button and the exit recovery mode
             // button
             [self->_exitRecMode setEnabled:TRUE];
+            [self->_backupFirmwareKeysButton setEnabled:TRUE];
             [self->_dumpSHSH setEnabled:FALSE];
             [self->_amfiToggle setEnabled:FALSE];
             [self->_amsdToggle setEnabled:FALSE];
@@ -115,6 +117,11 @@
     } else {
         [self->_bootlogoButton setEnabled:FALSE];
     }
+}
+
+- (IBAction)backUpAllFirmwareKeys:(NSButton *)sender {
+    FirmwareKeys *keys = [[FirmwareKeys alloc] initFirmwareKeysID];
+    [keys backupAllKeysForModel:[RamielView getConnectedDeviceInfo]];
 }
 
 - (IBAction)verificationToggle:(NSButton *)sender {

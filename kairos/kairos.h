@@ -9,6 +9,6 @@
 #ifndef kairos_h
 #define kairos_h
 
-int patchIBXX(char* in, char* out, char* bootArgsInput);
+int patchIBXX(char* in, char* out, char* bootArgsInput, int flag);
 
 #endif /* kairos_h */

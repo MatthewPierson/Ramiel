@@ -26,5 +26,6 @@
 @property (weak) IBOutlet NSButton *exitRecMode;
 @property (weak) IBOutlet NSButton *showSHSH;
 @property (weak) IBOutlet NSButton *localSHSHButton;
+@property (weak) IBOutlet NSButton *backupFirmwareKeysButton;
 
 @end
