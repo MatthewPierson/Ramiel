@@ -33,13 +33,16 @@ See [Ramiel.app](https://ramiel.app) for a list of FAQs.
 11. run ```pod install```
 12. Open a new Finder window and go to /usr/local/Cellar/
 13. Open Ramiel.xcworkspace and, in the top left corner, click Ramiel
-14. Once in the new tab, select the Ramiel target  ![tab](images/Project.png?raw=true)
-15. Go down to ```Frameworks, Libraries, and Embedded Content``` ![libraries](images/dylibs.png?raw=true)
-16. For any dylib that is greyed out, go back to that finder window and find the name of the tool, wheather that be libirecovery or curl
-17. Select the dylib in xcode and hit the ```-``` button. ![select](images/selection.png?raw=true)
-18. In finder, go to, for example ```/usr/local/Cellar/libirecovery/VERSION/lib/libirecovery-VERSION.dylib```, and drag that into the ```Frameworks, Libraries, and Embedded Content``` section.
-19. Repeat this for all the things grayed out.
-20. Finally go to Signing & Capabilities and change the Development team to yours, and you should now be able to compile!
+14. Once in the new tab, select the Ramiel target  
+15. ![tab](images/Project.png?raw=true)
+16. Go down to ```Frameworks, Libraries, and Embedded Content``` 
+17. ![libraries](images/dylibs.png?raw=true)
+18. For any dylib that is greyed out, go back to that finder window and find the name of the tool, wheather that be libirecovery or curl
+19. Select the dylib in xcode and hit the ```-``` button. 
+20. ![select](images/selection.png?raw=true)
+21. In finder, go to, for example ```/usr/local/Cellar/libirecovery/VERSION/lib/libirecovery-VERSION.dylib```, and drag that into the ```Frameworks, Libraries, and Embedded Content``` section.
+22. Repeat this for all the things grayed out.
+23. Finally go to Signing & Capabilities and change the Development team to yours, and you should now be able to compile!
 
 
 # Issues
