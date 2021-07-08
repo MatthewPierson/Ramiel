@@ -452,6 +452,7 @@ FirmwareKeys *userKeys;
                                                                      @"Please enter it now.",
                                                                      [userDevice getModel]]];
                 [pwnNotice addButtonWithTitle:@"Run checkm8"];
+                [pwnNotice addButtonWithTitle:@"Cancel"];
                 pwnNotice.window.titlebarAppearsTransparent = true;
                 NSModalResponse choice = [pwnNotice runModal];
                 if (choice == NSAlertFirstButtonReturn) {
@@ -468,6 +469,14 @@ FirmwareKeys *userKeys;
                         }
                         break;
                     }
+                } else if (choice == NSAlertSecondButtonReturn){
+                    stopBackground = 0;
+                    [self->_bootButton setHidden:FALSE];
+                    [self->_bootButton setEnabled:TRUE];
+                    [self->_settingsButton setHidden:FALSE];
+                    [self->_settingsButton setEnabled:TRUE];
+                    [pwnNotice.window orderOut:self];
+                    [pwnNotice.window close];
                 }
             }
         }
