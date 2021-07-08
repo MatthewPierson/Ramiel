@@ -26,7 +26,7 @@ See [Ramiel.app](https://ramiel.app) for a list of FAQs.
 4. Install libusb ```brew install libusb```
 5. Install curl ```brew install curl```
 6. Install libpng ```brew install libpng```
-7. Install libpng ```brew install usbmuxd```
+7. Install usbmuxd ```brew install usbmuxd```
 8. Install git ```brew install git```
 9. Clone the project ```git clone --recursive https://github.com/MatthewPierson/Ramiel```
 10. Change directory into Ramiel ```cd Ramiel```
